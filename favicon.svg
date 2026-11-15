@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Palabra Viva">
+  <rect width="64" height="64" rx="8" fill="#3d5b46"/>
+  <path d="M12 11h40v42H12z" fill="none" stroke="#d8e2d7" stroke-width="1"/>
+  <text x="17" y="45" fill="#fffefa" font-family="Georgia, serif" font-size="43">P</text>
+  <circle cx="45" cy="42" r="4.3" fill="#d19a84"/>
+</svg>
