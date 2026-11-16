@@ -107,7 +107,7 @@ function statistics() {
   const active = items.filter(x => itemStatus(x) === 'reading').length;
   const percentage = total ? 100 * done / total : 0;
   $('percent').textContent = percentage.toFixed(1).replace('.',',') + '%';
-  $('completion-fraction').textContent = done + ' / ' + total + ' unidades';
+  $('completion-fraction').textContent = done + ' / ' + total + ' obras';
   $('total-units').textContent = total;
   $('done-units').textContent = done;
   $('active-units').textContent = active;
@@ -191,7 +191,7 @@ function updateCategoryProgress() {
     const read=items.reduce((sum,item)=>sum+unitDone(item),0);
     const stat=section.querySelector('.category-count');
     const meter=section.querySelector('.category-fill');
-    if (stat) stat.textContent=read+' / '+all+' leídas';
+    if (stat) stat.textContent=read+' / '+all+' obras leídas';
     if (meter) meter.style.width=(all ? (read/all*100) : 0)+'%';
   }
 }
