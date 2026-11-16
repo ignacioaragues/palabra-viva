@@ -23,7 +23,7 @@ const make = (tag, cls, text) => {
   if (text !== undefined) el.textContent = text;
   return el;
 };
-const blank = () => ({ version: 1, status: {}, notes: {}, units: {}, custom: [] });
+const blank = () => ({ version: 1, status: {}, notes: {}, units: {}, priority: {}, custom: [] });
 const safeUrl = url => {
   if (typeof url !== 'string') return '';
   try { return new URL(url).protocol === 'https:' ? url.slice(0, 400) : ''; }
@@ -35,6 +35,10 @@ function normalize(v) {
   for (const [key, val] of Object.entries(v.status || {})) {
     if (/^(r\d{3}|custom-[a-z0-9-]{1,75})$/.test(key) &&
         ['pending','reading','done'].includes(val)) r.status[key] = val;
+  }
+  for (const [key, val] of Object.entries(v.priority || {})) {
+    if (/^(r\d{3}|custom-[a-z0-9-]{1,75})$/.test(key) &&
+        ['alta','media','baja'].includes(val)) r.priority[key] = val;
   }
   for (const [key, val] of Object.entries(v.notes || {})) {
     if (key.length <= 90 && typeof val === 'string') r.notes[key] = val.slice(0,20000);
@@ -77,18 +81,25 @@ function status(message) {
 }
 function allItems() { return [...base,...state.custom]; }
 function isSeries(item) { return Number.isInteger(item.series) && item.series > 0; }
-function unitCount(item) { return isSeries(item) ? item.series : 1; }
+// Cada referencia cuenta como una obra. Las dos colecciones de León suman
+// una obra cada una al porcentaje general, aunque se conserven sus casillas.
+function unitCount(item) { return 1; }
+function seriesReadCount(item) {
+  if (!isSeries(item)) return 0;
+  let count=0;
+  for (let n=1; n<=item.series; n++) if (state.units[item.id+':'+n]) count++;
+  return count;
+}
 function unitDone(item) {
-  if (!isSeries(item)) return state.status[item.id] === 'done' ? 1 : 0;
-  let n = 0;
-  for (let i = 1; i <= item.series; i++) if (state.units[item.id + ':' + i]) n++;
-  return n;
+  return isSeries(item) ? (seriesReadCount(item) === item.series ? 1 : 0)
+    : (state.status[item.id] === 'done' ? 1 : 0);
 }
 function itemStatus(item) {
   if (!isSeries(item)) return state.status[item.id] || 'pending';
-  const done = unitDone(item);
-  return done === item.series ? 'done' : done ? 'reading' : 'pending';
+  const done=seriesReadCount(item);
+  return done===item.series ? 'done' : done ? 'reading' : 'pending';
 }
+function priorityFor(item) { return state.priority[item.id] || item.priority || 'media'; }
 function statistics() {
   const items = allItems();
   const total = items.reduce((a, x) => a + unitCount(x), 0);
@@ -167,7 +178,7 @@ function filtered() {
   const chosen = $('state-filter').value, priority = $('priority-only').checked;
   return allItems().filter(item =>
     (chosen === 'all' || itemStatus(item) === chosen) &&
-    (!priority || item.priority === 'alta') &&
+    (!priority || priorityFor(item) === 'alta') &&
     (!term || norm([item.title,item.author,item.why,item.sub,...(item.tags||[])].join(' ')).includes(term))
   );
 }
@@ -214,7 +225,7 @@ function createCard(item) {
   card.dataset.status = itemStatus(item);
   const meta = make('div','card-meta');
   meta.append(make('span','',item.sub || CATS.find(c => c[0] === item.cat)?.[1] || ''),
-    make('span','card-priority',item.priority === 'alta' ? 'PRIORITARIA' : ''));
+    make('span','card-priority',item.id.startsWith('custom-') ? 'AGREGADA POR VOS' : ''));
   const titleRow = make('div','work-title-row');
   const check = make('input','work-check'); check.type = 'checkbox';
   check.setAttribute('aria-label','Marcar como leído: '+item.title);
@@ -224,6 +235,19 @@ function createCard(item) {
   titleRow.append(check, identity);
   card.append(meta,titleRow,make('p','work-why',item.why || 'Referencia personal.'));
   const bottom = make('div','card-bottom');
+  const priorityLabel=make('label','priority-label','Prioridad');
+  const prioritySelect=make('select','priority-select');
+  [['alta','Alta'],['media','Media'],['baja','Baja']].forEach(([value,label])=>{
+    const option=make('option','',label);option.value=value;prioritySelect.append(option);
+  });
+  prioritySelect.value=priorityFor(item);
+  prioritySelect.setAttribute('aria-label','Prioridad de '+item.title);
+  prioritySelect.addEventListener('change',()=>{
+    state.priority[item.id]=prioritySelect.value;
+    saveState(0);
+    if ($('priority-only').checked) render();
+  });
+  priorityLabel.append(prioritySelect);
   const statusBox = make('label','', 'Estado');
   const select = make('select');
   [['pending','Pendiente'],['reading','En curso'],['done','Leído']].forEach(([value,label]) => {
@@ -257,7 +281,7 @@ function createCard(item) {
     remove.addEventListener('click',()=>{
       if (!confirm('¿Quitar esta referencia personal?')) return;
       state.custom = state.custom.filter(x => x.id !== item.id);
-      delete state.status[item.id];delete state.notes[item.id];
+      delete state.status[item.id];delete state.notes[item.id];delete state.priority[item.id];
       saveState(0);render();
     });
     actions.append(remove);
@@ -275,7 +299,7 @@ function createCard(item) {
     const summary = make('summary','','Marcar textos individuales');
     const units = make('div','series-items');
     const refresh = () => {
-      const done = unitDone(item);
+      const done = seriesReadCount(item);
       counter.textContent = done+' / '+item.series+' textos leídos';
       const pct = 100 * done / item.series;
       percent.textContent = pct.toFixed(1).replace('.',',')+'%';
@@ -295,7 +319,7 @@ function createCard(item) {
       label.append(box,text);units.append(label);
     }
     details.append(summary,units);
-    bottom.append(actions);
+    bottom.append(priorityLabel,actions);
     card.append(overview,track,details,bottom,noteWrap);
     refresh();
   } else {
@@ -308,7 +332,7 @@ function createCard(item) {
     };
     check.addEventListener('change',()=>apply(check.checked?'done':'pending'));
     select.addEventListener('change',()=>apply(select.value));
-    bottom.append(statusBox,actions);
+    bottom.append(statusBox,priorityLabel,actions);
     card.append(bottom,noteWrap);
   }
   return card;
