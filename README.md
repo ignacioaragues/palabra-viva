@@ -8,7 +8,7 @@
 
 - **[Lengua Viva](https://ignacioaragues.github.io/lingua-viva/)** — plataforma de aprendizaje de idiomas. Su nombre visible es *Lengua Viva*, aunque la ruta pública existente sigue siendo `/lingua-viva/` para preservar enlaces y configuraciones de autenticación.
 - **[Edición Viva](https://ignacioaragues.github.io/edicion-viva/)** — biblioteca de ediciones bilingües y anotadas.
-- **Investigación Viva** — proyecto en preparación para publicaciones, cuadernos de investigación, dossiers y otras actividades de investigación. No se anuncia todavía como disponible.
+- **Investigación Viva** — archivo personal con acceso condicionado a la cuenta autorizada de Edición Viva. La portada pública solo activa el enlace para esa cuenta; el catálogo y el progreso se leen de Supabase con políticas RLS y no se publican en GitHub.
 
 Cada proyecto conserva su repositorio, sitio, estructura y herramientas. Palabra Viva no traslada datos personales ni modifica los sistemas de cuentas, seguimiento o lectura.
 
