@@ -144,6 +144,13 @@ function fillCategories() {
       make('span','jump-arrow','↘'));
     link.addEventListener('click',()=>{
       openGroups.add(id);
+      // Si un filtro ocultó la sección, restablecer el índice antes de navegar.
+      if (!$('seccion-'+id)) {
+        $('search').value='';
+        $('state-filter').value='all';
+        $('priority-only').checked=false;
+        render();
+      }
       const section = $('seccion-'+id);
       if (section) section.open = true;
     });
@@ -196,6 +203,8 @@ function buildCategory(id,title,description,items,index,autoOpen) {
   items.forEach(item=>list.append(createCard(item)));
   group.append(summary,list);
   group.addEventListener('toggle',()=>{
+    // Abrir por una búsqueda no debe dejar todas las secciones abiertas luego.
+    if (autoOpen) return;
     if(group.open)openGroups.add(id);else openGroups.delete(id);
   });
   return group;
