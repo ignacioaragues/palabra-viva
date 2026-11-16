@@ -290,7 +290,6 @@ function createListRow(item,category) {
   handle.draggable=noFilters;
   handle.title=noFilters?'Arrastrar para cambiar el orden':'Desactivá los filtros para reordenar';
   handle.setAttribute('aria-hidden','true');
-  const number=make('span','ordered-number',String(index+1).padStart(2,'0'));
   const checkbox=make('input','ordered-checkbox');
   checkbox.type='checkbox';
   checkbox.checked=itemStatus(item)==='done';
@@ -298,10 +297,9 @@ function createListRow(item,category) {
   const title=make('div','ordered-work-info');
   title.append(make('strong','ordered-work-title',item.title),
     make('small','ordered-work-author',item.author||''));
-  const meta=make('span','ordered-read-state',
-    itemStatus(item)==='done'?'TERMINADA':itemStatus(item)==='reading'?'EN CURSO':'PENDIENTE');
   const controls=make('div','ordered-controls');
   const status=make('select','ordered-status');
+  status.title='Cambiar estado de lectura';
   status.setAttribute('aria-label','Estado de '+item.title);
   for(const [value,label] of [['pending','Pendiente'],['reading','En curso'],['done','Terminada']]){
     const option=make('option','',label);option.value=value;status.append(option);
@@ -328,11 +326,14 @@ function createListRow(item,category) {
   down.addEventListener('click',()=>moveOneStep(item,category,1));
   controls.append(up,down);
   if(safeUrl(item.url)){
-    const link=make('a','ordered-source','Fuente ↗');
+    const link=make('a','ordered-source','↗');
     link.href=safeUrl(item.url);link.target='_blank';link.rel='noopener noreferrer';
+    link.title='Abrir fuente';link.setAttribute('aria-label','Abrir fuente de '+item.title);
     controls.append(link);
   }
-  const notesToggle=make('button','ordered-notes-toggle','Nota');
+  const notesToggle=make('button','ordered-notes-toggle',state.notes[item.id]?'Notas ·':'Notas');
+  notesToggle.title='Mostrar u ocultar nota personal de '+item.title;
+  notesToggle.setAttribute('aria-label','Mostrar u ocultar nota personal de '+item.title);
   notesToggle.type='button';
   const noteWrap=make('div','ordered-note');noteWrap.hidden=true;
   const area=make('textarea');
@@ -344,7 +345,7 @@ function createListRow(item,category) {
   noteWrap.append(area);
   notesToggle.addEventListener('click',()=>{
     noteWrap.hidden=!noteWrap.hidden;
-    notesToggle.textContent=noteWrap.hidden?'Nota':'Ocultar nota';
+    notesToggle.textContent=noteWrap.hidden?(state.notes[item.id]?'Notas ·':'Notas'):'Cerrar';
   });
   controls.append(notesToggle);
   if(item.id.startsWith('custom-')){
@@ -391,7 +392,7 @@ function createListRow(item,category) {
     const after=event.clientY>bounds.top+bounds.height/2;
     reorderRelative(category,movedId,item.id,after);
   });
-  row.append(handle,number,checkbox,title,meta,controls,noteWrap);
+  row.append(handle,checkbox,title,controls,noteWrap);
   return row;
 }
 
