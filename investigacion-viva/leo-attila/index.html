@@ -5,8 +5,8 @@
 <meta name="theme-color" content="#f7f6f0"><meta name="robots" content="noindex,nofollow,noarchive">
 <title>Investigación Viva · Archivo personal</title>
 <meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
-<link rel="stylesheet" href="../styles.css?v=20261116-iconografia1">
-<script type="module" src="../app.js?v=20261116-iconografia1"></script>
+<link rel="stylesheet" href="../styles.css?v=20261116-reorder1">
+<script type="module" src="../app.js?v=20261116-reorder1"></script>
 </head>
 <body>
 <header class="masthead">
@@ -55,13 +55,19 @@
       <h3>Secciones del mapa</h3>
       <div class="list-head-tools">
         <span id="visible-count" aria-live="polite"></span>
-        <div class="sort-toggle" role="group" aria-label="Ordenar referencias dentro de cada categoría">
+        <div class="view-toggle" role="group" aria-label="Vista de la biblioteca">
+          <span class="sort-label">VISTA</span>
+          <button type="button" data-view="cards" aria-pressed="true">Tarjetas</button>
+          <button type="button" data-view="list" aria-pressed="false">Lista ordenable</button>
+        </div>
+        <div class="sort-toggle" id="sort-toggle" role="group" aria-label="Ordenar referencias dentro de cada categoría">
           <span class="sort-label">ORDENAR</span>
           <button type="button" data-sort="original" aria-pressed="false">Original</button>
           <button type="button" data-sort="priority" aria-pressed="true">Prioridad ↓</button>
         </div>
       </div>
     </div>
+    <p id="list-order-hint" class="list-order-hint" hidden>Arrastrá una obra desde <strong>⠿</strong> para reordenarla dentro de su categoría. En celular también podés usar ↑ y ↓. Las obras terminadas quedan siempre arriba. Para cambiar el orden, desactivá los filtros.</p>
     <div class="category-sections" id="work-grid"></div>
     <form id="custom-form" class="custom-form" hidden>
       <label>Título<input name="title" maxlength="180" required></label><label>Autor<input name="author" maxlength="120"></label>
