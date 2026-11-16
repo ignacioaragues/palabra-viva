@@ -231,6 +231,170 @@ function updateCategoryProgress() {
     if (meter) meter.style.width=(all ? (read/all*100) : 0)+'%';
   }
 }
+// La vista en lista es independiente de la prioridad por bolitas. Conserva
+// un orden manual por categoría; las obras terminadas siempre se anclan arriba.
+let draggedWork = null;
+function fullListForCategory(category) {
+  const base=allItems().filter(item=>item.cat===category);
+  if(state.sortOrder==='priority') {
+    base.sort((a,b)=>(PRIORITY_RANK[priorityFor(a)]??1)-(PRIORITY_RANK[priorityFor(b)]??1));
+  }
+  const initial=new Map(base.map((item,i)=>[item.id,i]));
+  const manual=new Map((state.manualOrder[category]||[]).map((id,i)=>[id,i]));
+  return base.sort((a,b)=>{
+    const aDone=itemStatus(a)==='done', bDone=itemStatus(b)==='done';
+    if(aDone!==bDone)return aDone?-1:1;
+    const aOrder=manual.has(a.id)?manual.get(a.id):100000+initial.get(a.id);
+    const bOrder=manual.has(b.id)?manual.get(b.id):100000+initial.get(b.id);
+    return aOrder-bOrder;
+  });
+}
+function reorderRelative(category,fromId,toId,after=false) {
+  if(filterIsActive() || fromId===toId)return false;
+  const ordered=fullListForCategory(category);
+  const from=ordered.findIndex(item=>item.id===fromId);
+  const to=ordered.findIndex(item=>item.id===toId);
+  if(from<0||to<0||((itemStatus(ordered[from])==='done')!==(itemStatus(ordered[to])==='done')))return false;
+  const original=ordered.map(item=>item.id);
+  const [item]=ordered.splice(from,1);
+  const targetIndex=ordered.findIndex(candidate=>candidate.id===toId);
+  ordered.splice(targetIndex+(after?1:0),0,item);
+  const result=ordered.map(item=>item.id);
+  if(result.every((id,i)=>id===original[i]))return false;
+  state.manualOrder[category]=result;
+  saveState(0);
+  render();
+  return true;
+}
+function moveOneStep(item,category,direction) {
+  const order=fullListForCategory(category);
+  const current=order.findIndex(candidate=>candidate.id===item.id);
+  const target=order[current+direction];
+  if(!target)return;
+  reorderRelative(category,item.id,target.id,direction>0);
+}
+function createListRow(item,category) {
+  const row=make('div','ordered-row');
+  row.dataset.status=itemStatus(item);
+  row.dataset.workId=item.id;
+  row.setAttribute('role','listitem');
+  const noFilters=!filterIsActive();
+  const ordered=fullListForCategory(category);
+  const index=ordered.findIndex(candidate=>candidate.id===item.id);
+  const canMoveUp=noFilters && index>0 &&
+    ((itemStatus(ordered[index-1])==='done')===(itemStatus(item)==='done'));
+  const canMoveDown=noFilters && index<ordered.length-1 &&
+    ((itemStatus(ordered[index+1])==='done')===(itemStatus(item)==='done'));
+
+  const handle=make('span','ordered-handle','⠿');
+  handle.draggable=noFilters;
+  handle.title=noFilters?'Arrastrar para cambiar el orden':'Desactivá los filtros para reordenar';
+  handle.setAttribute('aria-hidden','true');
+  const number=make('span','ordered-number',String(index+1).padStart(2,'0'));
+  const checkbox=make('input','ordered-checkbox');
+  checkbox.type='checkbox';
+  checkbox.checked=itemStatus(item)==='done';
+  checkbox.setAttribute('aria-label','Marcar como terminada: '+item.title);
+  const title=make('div','ordered-work-info');
+  title.append(make('strong','ordered-work-title',item.title),
+    make('small','ordered-work-author',item.author||''));
+  const meta=make('span','ordered-read-state',
+    itemStatus(item)==='done'?'TERMINADA':itemStatus(item)==='reading'?'EN CURSO':'PENDIENTE');
+  const controls=make('div','ordered-controls');
+  const status=make('select','ordered-status');
+  status.setAttribute('aria-label','Estado de '+item.title);
+  for(const [value,label] of [['pending','Pendiente'],['reading','En curso'],['done','Terminada']]){
+    const option=make('option','',label);option.value=value;status.append(option);
+  }
+  status.value=itemStatus(item);
+  const setStatus=value=>{
+    if(itemStatus(item)===value)return;
+    state.status[item.id]=value;
+    saveState(0);
+    render();  // Reubica automáticamente las obras terminadas arriba.
+  };
+  status.addEventListener('change',()=>setStatus(status.value));
+  checkbox.addEventListener('change',()=>setStatus(checkbox.checked?'done':'pending'));
+  controls.append(status);
+  const up=make('button','ordered-step','↑');
+  up.type='button';up.disabled=!canMoveUp;
+  up.setAttribute('aria-label','Subir '+item.title);
+  up.title='Subir una posición';
+  up.addEventListener('click',()=>moveOneStep(item,category,-1));
+  const down=make('button','ordered-step','↓');
+  down.type='button';down.disabled=!canMoveDown;
+  down.setAttribute('aria-label','Bajar '+item.title);
+  down.title='Bajar una posición';
+  down.addEventListener('click',()=>moveOneStep(item,category,1));
+  controls.append(up,down);
+  if(safeUrl(item.url)){
+    const link=make('a','ordered-source','Fuente ↗');
+    link.href=safeUrl(item.url);link.target='_blank';link.rel='noopener noreferrer';
+    controls.append(link);
+  }
+  const notesToggle=make('button','ordered-notes-toggle','Nota');
+  notesToggle.type='button';
+  const noteWrap=make('div','ordered-note');noteWrap.hidden=true;
+  const area=make('textarea');
+  area.rows=2;area.maxLength=20000;
+  area.value=state.notes[item.id]||'';
+  area.placeholder='Tus notas sobre esta obra…';
+  area.setAttribute('aria-label','Notas sobre '+item.title);
+  area.addEventListener('input',()=>{state.notes[item.id]=area.value;saveState(650);});
+  noteWrap.append(area);
+  notesToggle.addEventListener('click',()=>{
+    noteWrap.hidden=!noteWrap.hidden;
+    notesToggle.textContent=noteWrap.hidden?'Nota':'Ocultar nota';
+  });
+  controls.append(notesToggle);
+  if(item.id.startsWith('custom-')){
+    const remove=make('button','ordered-remove','Quitar');
+    remove.type='button';
+    remove.addEventListener('click',()=>{
+      if(!confirm('¿Quitar esta referencia personal?'))return;
+      state.custom=state.custom.filter(x=>x.id!==item.id);
+      delete state.status[item.id];delete state.notes[item.id];delete state.priority[item.id];
+      for(const ids of Object.values(state.manualOrder)){
+        const i=ids.indexOf(item.id);if(i>=0)ids.splice(i,1);
+      }
+      saveState(0);render();
+    });
+    controls.append(remove);
+  }
+
+  handle.addEventListener('dragstart',event=>{
+    if(!noFilters){event.preventDefault();return;}
+    draggedWork={id:item.id,category};
+    event.dataTransfer?.setData('text/plain',item.id);
+    if(event.dataTransfer)event.dataTransfer.effectAllowed='move';
+    row.classList.add('is-dragging');
+  });
+  handle.addEventListener('dragend',()=>{
+    draggedWork=null;row.classList.remove('is-dragging');
+  });
+  row.addEventListener('dragover',event=>{
+    if(!draggedWork || draggedWork.category!==category || draggedWork.id===item.id || !noFilters)return;
+    const moving=allItems().find(x=>x.id===draggedWork.id);
+    if(!moving || ((itemStatus(moving)==='done')!==(itemStatus(item)==='done')))return;
+    event.preventDefault();
+    if(event.dataTransfer)event.dataTransfer.dropEffect='move';
+    row.classList.add('is-drag-over');
+  });
+  row.addEventListener('dragleave',()=>row.classList.remove('is-drag-over'));
+  row.addEventListener('drop',event=>{
+    row.classList.remove('is-drag-over');
+    if(!draggedWork || draggedWork.category!==category)return;
+    event.preventDefault();
+    const movedId=draggedWork.id;
+    draggedWork=null;
+    const bounds=row.getBoundingClientRect();
+    const after=event.clientY>bounds.top+bounds.height/2;
+    reorderRelative(category,movedId,item.id,after);
+  });
+  row.append(handle,number,checkbox,title,meta,controls,noteWrap);
+  return row;
+}
+
 function buildCategory(id,title,description,items,index,autoOpen) {
   const group=make('details','category-group');
   group.id='seccion-'+id;
