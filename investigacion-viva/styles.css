@@ -229,3 +229,65 @@
   .list-head-tools{align-items:flex-start;gap:11px}
   .sort-label{margin-right:6px}
 }
+
+/* Encuentro: un único grabado monocromo, sin caja ni colaje. */
+.hero:has(.encounter-engraving){grid-template-columns:minmax(0,1.25fr) minmax(320px,.9fr);gap:clamp(18px,4vw,65px)}
+.encounter-engraving{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
+.encounter-engraving img{display:block;width:100%;max-width:580px;height:auto;object-fit:contain;background:transparent}
+.encounter-engraving figcaption{color:#89938a;letter-spacing:.12em;font:500 9px/1.6 var(--sans);text-align:center;margin-top:4px}
+.hero-actions{gap:20px}
+
+/* Archivo iconográfico: separado de las obras leídas. */
+.visual-archive{background:#f1f0ea;border-top:1px solid var(--line);padding:85px 0}
+.visual-heading{margin-bottom:27px}
+.visual-heading em{color:var(--sage)}
+.visual-headline{display:flex;gap:35px;justify-content:space-between;align-items:center;padding-bottom:18px}
+.visual-headline>p{font:11px/1.85 var(--sans);color:var(--muted);max-width:470px}
+.visual-stats{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.visual-stats strong{font:400 25px var(--serif);color:var(--deep)}
+.visual-stats span{font:700 9px var(--sans);letter-spacing:.1em;color:#7f8a80;margin-right:17px}
+.visual-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 28px}
+.visual-tab{background:transparent;border:1px solid #c7cec3;color:#526758;padding:9px 14px;border-radius:22px;font:600 11px var(--sans)}
+.visual-tab:hover{background:#e7ece3}
+.visual-tab[aria-pressed=true]{background:var(--deep);color:#fff;border-color:var(--deep)}
+.visual-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;align-items:stretch}
+.visual-card{background:var(--white);border:1px solid #d7d9d0;padding:13px;display:flex;flex-direction:column;min-width:0}
+.visual-card[data-state=clave]{border-color:#a99c74}
+.visual-card[data-state=util]{border-color:#aec2ad}
+.visual-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:1px 4px 10px}
+.visual-card-kind{font:700 9px/1.45 var(--sans);color:var(--rust);letter-spacing:.1em;text-transform:uppercase}
+.visual-card-priority{display:flex;gap:0;flex:none;align-items:center}
+.visual-card-priority .priority-dot{width:24px;height:24px}
+.visual-media{height:200px;background:#ebeae3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.visual-media img{display:block;width:100%;height:100%;object-fit:contain}
+.visual-fallback{font:italic 12px/1.8 var(--serif);color:#869186;text-align:center;max-width:200px;padding:20px}
+.visual-card-body{padding:18px 5px 10px;flex:1}
+.visual-card-body h3{font:400 clamp(16px,1.6vw,20px)/1.45 var(--serif);letter-spacing:-.03em;margin:0 0 7px}
+.visual-author{font:600 10px/1.8 var(--sans);color:#748277;margin:0 0 5px}
+.visual-place{font:10px/1.6 var(--sans);color:#949b92;margin:0 0 12px}
+.visual-curator-note{font:12px/1.75 var(--sans);color:#626f63;margin:11px 0 0}
+.visual-card-foot{border-top:1px solid var(--line);padding:12px 4px 4px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.visual-status-label{display:flex;align-items:center;gap:8px;color:#79867b;font:600 10px var(--sans)}
+.visual-status-select{border:1px solid #d0d6cf;background:#fff;padding:7px 8px;font:11px var(--sans);color:var(--ink)}
+.visual-card-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.visual-card-actions a,.visual-card-actions button{font:700 10px var(--sans);background:none;border:0;text-decoration:none;color:var(--deep);padding:5px 0}
+.visual-card-actions a:hover,.visual-card-actions button:hover{text-decoration:underline}
+.visual-personal-note{padding:15px 5px 5px;border-top:1px solid var(--line)}
+.visual-personal-note label{display:block;font:600 10px/1.7 var(--sans);color:#6d7e70}
+.visual-personal-note textarea{display:block;width:100%;min-height:90px;margin-top:8px;resize:vertical;font:12px/1.7 var(--sans)}
+.visual-footnote{font:italic 11px/1.8 var(--serif);color:#7c867d;margin:25px 0 0}
+.visual-empty{grid-column:1/-1;font:italic 14px var(--serif);color:#788579}
+@media(max-width:1100px){.visual-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){
+  .hero:has(.encounter-engraving){grid-template-columns:1fr}
+  .encounter-engraving img{max-width:620px}
+  .visual-archive{padding:58px 0}
+  .visual-headline{display:block}
+}
+@media(max-width:590px){
+  .visual-gallery{grid-template-columns:1fr}
+  .visual-media{height:230px}
+  .visual-tabs{gap:6px}
+  .visual-tab{font-size:10px;padding:9px 12px}
+  .encounter-engraving figcaption{font-size:8px}
+}
