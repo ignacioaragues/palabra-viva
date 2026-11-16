@@ -152,3 +152,29 @@
 .research-illustration-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:25px auto 45px;padding:15px 0;border-top:1px solid #dce1d8;border-bottom:1px solid #dce1d8}
 .research-illustration-row img{max-height:250px;display:block;width:100%;height:auto;object-fit:contain}
 @media(max-width:780px){.landing-header{grid-template-columns:1fr}.landing-insignia{display:none}.research-projects{grid-template-columns:1fr}.research-illustration-row{grid-template-columns:1fr}.hero-illustration{min-height:180px}}
+
+/* Grabados procedentes de las ilustraciones originales del dossier */
+.hero-illustration-pair{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+  align-self:center;
+  width:100%;
+  padding:8px 0;
+}
+.hero-illustration-pair figure{margin:0;display:flex;justify-content:center;align-items:center;min-height:147px}
+.hero-illustration-pair figure + figure{margin-top:-25px}
+.hero-illustration-pair img{
+  display:block;width:min(100%,350px);height:auto;max-height:185px;
+  object-fit:contain;mix-blend-mode:multiply;filter:grayscale(.25);
+}
+.research-project-card .project-engraving{
+  width:170px;height:94px;
+  object-fit:contain;mix-blend-mode:multiply;align-self:flex-end;
+  opacity:.78;margin:-15px 0 -5px;
+}
+@media (max-width:850px){
+  .hero-illustration-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .hero-illustration-pair figure + figure{margin-top:0}
+  .hero-illustration-pair img{max-height:165px}
+}
