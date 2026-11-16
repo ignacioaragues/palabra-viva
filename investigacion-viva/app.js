@@ -23,7 +23,7 @@ const make = (tag, cls, text) => {
   if (text !== undefined) el.textContent = text;
   return el;
 };
-const blank = () => ({ version: 1, status: {}, notes: {}, units: {}, priority: {}, custom: [] });
+const blank = () => ({ version: 1, status: {}, notes: {}, units: {}, priority: {}, sortOrder: 'priority', custom: [] });
 const safeUrl = url => {
   if (typeof url !== 'string') return '';
   try { return new URL(url).protocol === 'https:' ? url.slice(0, 400) : ''; }
@@ -32,6 +32,7 @@ const safeUrl = url => {
 function normalize(v) {
   const r = blank();
   if (!v || typeof v !== 'object' || v.version !== 1) return r;
+  if (['priority','original'].includes(v.sortOrder)) r.sortOrder = v.sortOrder;
   for (const [key, val] of Object.entries(v.status || {})) {
     if (/^(r\d{3}|custom-[a-z0-9-]{1,75})$/.test(key) &&
         ['pending','reading','done'].includes(val)) r.status[key] = val;
@@ -99,6 +100,8 @@ function itemStatus(item) {
   const done=seriesReadCount(item);
   return done===item.series ? 'done' : done ? 'reading' : 'pending';
 }
+const PRIORITIES = [['baja','Baja'],['media','Media'],['alta','Alta']];
+const PRIORITY_RANK = {alta:0,media:1,baja:2};
 function priorityFor(item) { return state.priority[item.id] || item.priority || 'media'; }
 function statistics() {
   const items = allItems();
@@ -224,8 +227,39 @@ function createCard(item) {
   const card = make('article','work-card');
   card.dataset.status = itemStatus(item);
   const meta = make('div','card-meta');
-  meta.append(make('span','',item.sub || CATS.find(c => c[0] === item.cat)?.[1] || ''),
-    make('span','card-priority',item.id.startsWith('custom-') ? 'AGREGADA POR VOS' : ''));
+  const caption = make('span','',item.sub || CATS.find(c => c[0] === item.cat)?.[1] || '');
+  const priorityGroup = make('div','priority-controls');
+  priorityGroup.setAttribute('role','group');
+  priorityGroup.setAttribute('aria-label','Prioridad de '+item.title);
+  const priorityCaption=make('span','priority-caption','PRIORIDAD');
+  const dots=make('span','priority-dots');
+  const dotButtons=[];
+  const currentPriority=priorityFor(item);
+  PRIORITIES.forEach(([value,label])=>{
+    const button=make('button','priority-dot priority-'+value);
+    button.type='button';
+    button.title='Prioridad '+label.toLowerCase();
+    button.setAttribute('aria-label',item.title+': prioridad '+label.toLowerCase());
+    button.setAttribute('aria-pressed',String(currentPriority===value));
+    button.dataset.value=value;
+    if(currentPriority===value)button.classList.add('is-active');
+    button.addEventListener('click',()=>{
+      if(priorityFor(item)===value)return;
+      state.priority[item.id]=value;
+      saveState(0);
+      dotButtons.forEach(b=>{
+        const active=b.dataset.value===value;
+        b.setAttribute('aria-pressed',String(active));
+        b.classList.toggle('is-active',active);
+      });
+      if($('priority-only').checked || state.sortOrder==='priority') {
+        render();
+      }
+    });
+    dotButtons.push(button);dots.append(button);
+  });
+  priorityGroup.append(priorityCaption,dots);
+  meta.append(caption,priorityGroup);
   const titleRow = make('div','work-title-row');
   const check = make('input','work-check'); check.type = 'checkbox';
   check.setAttribute('aria-label','Marcar como leído: '+item.title);
@@ -235,19 +269,6 @@ function createCard(item) {
   titleRow.append(check, identity);
   card.append(meta,titleRow,make('p','work-why',item.why || 'Referencia personal.'));
   const bottom = make('div','card-bottom');
-  const priorityLabel=make('label','priority-label','Prioridad');
-  const prioritySelect=make('select','priority-select');
-  [['alta','Alta'],['media','Media'],['baja','Baja']].forEach(([value,label])=>{
-    const option=make('option','',label);option.value=value;prioritySelect.append(option);
-  });
-  prioritySelect.value=priorityFor(item);
-  prioritySelect.setAttribute('aria-label','Prioridad de '+item.title);
-  prioritySelect.addEventListener('change',()=>{
-    state.priority[item.id]=prioritySelect.value;
-    saveState(0);
-    if ($('priority-only').checked) render();
-  });
-  priorityLabel.append(prioritySelect);
   const statusBox = make('label','', 'Estado');
   const select = make('select');
   [['pending','Pendiente'],['reading','En curso'],['done','Leído']].forEach(([value,label]) => {
@@ -319,7 +340,7 @@ function createCard(item) {
       label.append(box,text);units.append(label);
     }
     details.append(summary,units);
-    bottom.append(priorityLabel,actions);
+    bottom.append(actions);
     card.append(overview,track,details,bottom,noteWrap);
     refresh();
   } else {
@@ -332,7 +353,7 @@ function createCard(item) {
     };
     check.addEventListener('change',()=>apply(check.checked?'done':'pending'));
     select.addEventListener('change',()=>apply(select.value));
-    bottom.append(statusBox,priorityLabel,actions);
+    bottom.append(statusBox,actions);
     card.append(bottom,noteWrap);
   }
   return card;
@@ -347,11 +368,17 @@ function render() {
   const fragment=document.createDocumentFragment();
   CATS.forEach(([id,title,description],index)=>{
     const items=visible.filter(item=>item.cat===id);
+    if(state.sortOrder==='priority') {
+      items.sort((a,b)=>(PRIORITY_RANK[priorityFor(a)]??1)-(PRIORITY_RANK[priorityFor(b)]??1));
+    }
     if (showingFiltered && !items.length) return;
     fragment.append(buildCategory(id,title,description,items,index,showingFiltered));
   });
   list.append(fragment);
   $('visible-count').textContent=visible.length + (visible.length===1?' referencia':' referencias');
+  document.querySelectorAll('[data-sort]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.sort===state.sortOrder));
+  });
   fillCategories();
   updateCategoryProgress();
   if(!visible.length) {
@@ -400,6 +427,14 @@ $('login-form').addEventListener('submit',async event=>{
 $('search').addEventListener('input',()=>render());
 $('state-filter').addEventListener('change',()=>render());
 $('priority-only').addEventListener('change',()=>render());
+document.querySelectorAll('[data-sort]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    if(state.sortOrder===button.dataset.sort)return;
+    state.sortOrder=button.dataset.sort;
+    saveState(0);
+    render();
+  });
+});
 $('add-toggle').addEventListener('click',()=>{
   const form=$('custom-form');
   form.hidden=!form.hidden;
