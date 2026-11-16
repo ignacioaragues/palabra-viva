@@ -28,6 +28,15 @@ function showProjects(rows){
       ? 'Historia y fuentes del siglo V, lecturas teatrales y construcción de voces.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
+    if (item.slug==='leo-attila') {
+      const preview=document.createElement('img');
+      preview.className='project-engraving';
+      preview.src='./assets/steppe-engraving.svg';
+      preview.alt='';
+      preview.width=480;preview.height=384;
+      preview.loading='lazy';
+      info.append(preview);
+    }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
     action.href=item.slug==='leo-attila'?'./leo-attila/':'./';
