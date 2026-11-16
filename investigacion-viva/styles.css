@@ -178,3 +178,54 @@
   .hero-illustration-pair figure + figure{margin-top:0}
   .hero-illustration-pair img{max-height:165px}
 }
+
+
+/* Prioridades compactas en la esquina superior derecha de cada referencia. */
+.card-meta{align-items:center;gap:10px}
+.priority-controls{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex:none;white-space:nowrap}
+.priority-caption{font:700 8px/1.3 var(--sans);letter-spacing:.11em;color:#8a948a}
+.priority-dots{display:inline-flex;align-items:center;gap:1px}
+.priority-dot{
+  display:grid;place-items:center;position:relative;
+  width:27px;height:27px;padding:0;flex:none;
+  border:1px solid transparent;border-radius:50%;
+  background:transparent;cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.priority-dot::before{
+  content:"";display:block;width:9px;height:9px;
+  border:1.5px solid var(--dot-color);border-radius:50%;
+  background:transparent;transition:background .15s,transform .15s;
+}
+.priority-dot.priority-baja{--dot-color:#7d978b}
+.priority-dot.priority-media{--dot-color:#b39a64}
+.priority-dot.priority-alta{--dot-color:#a56652}
+.priority-dot:hover{background:#eef1e9}
+.priority-dot:hover::before{transform:scale(1.15)}
+.priority-dot.is-active{background:#edf0e8;border-color:#c5d0c4}
+.priority-dot.is-active::before{background:var(--dot-color);transform:scale(1.13)}
+.priority-dot:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+.priority-dot[aria-pressed="true"]{cursor:default}
+
+/* Dentro de cada categoría: orden original o prioridad alta → media → baja. */
+.list-head-tools{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:14px}
+.sort-toggle{display:flex;align-items:center;gap:3px}
+.sort-label{font:700 9px/1.5 var(--sans);letter-spacing:.12em;color:#8d968b;margin-right:9px}
+.sort-toggle button{
+  background:transparent;border:1px solid #d1d7cd;color:#67786b;
+  font:600 10px/1.5 var(--sans);padding:8px 12px;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.sort-toggle button:hover{background:#eef2eb}
+.sort-toggle button[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:#fff}
+.sort-toggle button[aria-pressed="true"]:hover{background:#405c4b}
+@media(max-width:800px){
+  .list-head{align-items:flex-start;flex-direction:column}
+  .list-head-tools{width:100%;justify-content:space-between}
+}
+@media(max-width:520px){
+  .priority-caption{display:none}
+  .priority-dot{width:29px;height:29px}
+  .list-head-tools{align-items:flex-start;gap:11px}
+  .sort-label{margin-right:6px}
+}
