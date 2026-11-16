@@ -28,21 +28,23 @@ function showProjects(rows){
       ? 'Historia y fuentes del siglo V, lecturas teatrales y construcción de voces.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
+    let preview=null;
     if (item.slug==='leo-attila') {
-      const preview=document.createElement('img');
+      preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/steppe-engraving.svg';
-      preview.alt='';
-      preview.width=480;preview.height=384;
+      preview.src='./assets/leo-attila-encuentro.svg';
+      preview.alt='Grabado en blanco y negro del encuentro diplomático de León y Atila';
+      preview.width=860;preview.height=645;
       preview.loading='lazy';
-      info.append(preview);
+      card.classList.add('research-project-with-art');
     }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
     action.href=item.slug==='leo-attila'?'./leo-attila/':'./';
     action.append('Abrir proyecto ');
     const icon=document.createElement('span');icon.textContent='→';action.append(icon);
-    card.append(info,action);
+    if(preview)card.append(info,preview,action);
+    else card.append(info,action);
     root.append(card);
   }
   const future=document.createElement('div');future.className='future-project';
