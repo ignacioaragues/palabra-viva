@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Palabra Viva · Lenguas, lecturas e investigación</title>
-  <link rel="stylesheet" href="./styles.css?v=1">
+  <link rel="stylesheet" href="./styles.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -26,11 +26,14 @@
         <span class="brand-mark" aria-hidden="true">P<span>·</span></span>
         <span class="brand-words"><strong>Palabra Viva</strong><small>LENGUAS, TEXTOS E IDEAS</small></span>
       </a>
-      <nav class="top-nav" aria-label="Navegación principal">
-        <a href="#proyectos"><span class="nav-index">01</span> Proyectos</a>
-        <a href="#vision"><span class="nav-index">02</span> La idea</a>
-        <a href="#futuro"><span class="nav-index">03</span> Lo que viene</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="top-nav" aria-label="Navegación principal">
+          <a href="#proyectos"><span class="nav-index">01</span> Proyectos</a>
+          <a href="#vision"><span class="nav-index">02</span> La idea</a>
+          <a href="#futuro"><span class="nav-index">03</span> Lo que viene</a>
+        </nav>
+        <button type="button" id="pv-auth-trigger" class="account-trigger" aria-haspopup="dialog" aria-controls="pv-auth-dialog">Iniciar sesión</button>
+      </div>
     </div>
   </header>
 
@@ -152,7 +155,38 @@
       <span class="footer-year">© <span id="year">2026</span></span>
     </div>
   </footer>
+  <dialog id="pv-auth-dialog" class="auth-dialog" aria-labelledby="pv-auth-title">
+    <div class="auth-panel">
+      <button type="button" id="pv-auth-close" class="auth-close" aria-label="Cerrar el cuadro de sesión">×</button>
+      <span class="section-number">PALABRA VIVA · TU CUENTA</span>
+      <h2 id="pv-auth-title">Un espacio <em>para vos.</em></h2>
+      <div id="pv-auth-guest">
+        <p class="auth-intro">Usá la misma cuenta que en Lengua Viva y Edición Viva.</p>
+        <form id="pv-login-form">
+          <label for="pv-login-email">Correo electrónico</label>
+          <input type="email" id="pv-login-email" name="email" autocomplete="email" placeholder="tu@email.com" required>
+          <label for="pv-login-password">Contraseña</label>
+          <input type="password" id="pv-login-password" name="password" autocomplete="current-password" required>
+          <button type="submit" id="pv-login-submit" class="auth-primary">Iniciar sesión <span aria-hidden="true">→</span></button>
+        </form>
+        <p id="pv-auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+        <div class="auth-links">
+          <a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Crear una cuenta</a>
+          <a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Recuperar contraseña</a>
+        </div>
+      </div>
+      <div id="pv-auth-user" hidden>
+        <p class="auth-intro">Tu sesión está activa en Palabra Viva y en los proyectos que utilizan esta cuenta.</p>
+        <p class="auth-email" id="pv-auth-email"></p>
+        <div class="auth-user-actions">
+          <a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Administrar mi cuenta ↗</a>
+          <button type="button" id="pv-auth-signout" class="auth-secondary">Cerrar sesión</button>
+        </div>
+        <p id="pv-auth-user-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </dialog>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script type="module" src="./investigacion-access.js?v=20261116-auth1"></script>
+  <script type="module" src="./investigacion-access.js?v=20261116-auth2"></script>
 </body>
 </html>
