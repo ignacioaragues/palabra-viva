@@ -30,7 +30,7 @@ const make = (tag, cls, text) => {
 const blank = () => ({
   version: 1, status: {}, notes: {}, units: {}, priority: {},
   visualStatus: {}, visualNotes: {}, visualPriority: {},
-  sortOrder: 'priority', custom: []
+  sortOrder: 'priority', viewMode: 'cards', manualOrder: {}, custom: []
 });
 const safeUrl = url => {
   if (typeof url !== 'string') return '';
@@ -41,6 +41,15 @@ function normalize(v) {
   const r = blank();
   if (!v || typeof v !== 'object' || v.version !== 1) return r;
   if (['priority','original'].includes(v.sortOrder)) r.sortOrder = v.sortOrder;
+  if (['cards','list'].includes(v.viewMode)) r.viewMode = v.viewMode;
+  if (v.manualOrder && typeof v.manualOrder === 'object' && !Array.isArray(v.manualOrder)) {
+    for (const [category,ids] of Object.entries(v.manualOrder)) {
+      if (!CATS.some(([id])=>id===category) || !Array.isArray(ids)) continue;
+      r.manualOrder[category]=[...new Set(ids.filter(id=>
+        typeof id==='string' && /^(?:r\d{3}|custom-[a-z0-9-]{1,75})$/.test(id)
+      ))].slice(0,600);
+    }
+  }
   for (const [key, val] of Object.entries(v.status || {})) {
     if (/^(r\d{3}|custom-[a-z0-9-]{1,75})$/.test(key) &&
         ['pending','reading','done'].includes(val)) r.status[key] = val;
@@ -237,8 +246,21 @@ function buildCategory(id,title,description,items,index,autoOpen) {
   const fill=make('i','category-fill');track.append(fill);
   metrics.append(refs,progress,track);
   summary.append(indexEl,info,metrics,make('span','category-chevron','⌄'));
-  const list=make('div','category-works');
-  items.forEach(item=>list.append(createCard(item)));
+  const list=make('div',state.viewMode==='list'?'category-list':'category-works');
+  if(state.viewMode==='list'){
+    const finished=items.filter(item=>itemStatus(item)==='done');
+    const unfinished=items.filter(item=>itemStatus(item)!=='done');
+    if(finished.length){
+      list.append(make('p','list-partition-label','TERMINADAS · '+finished.length));
+      finished.forEach(item=>list.append(createListRow(item,id)));
+    }
+    if(unfinished.length){
+      list.append(make('p','list-partition-label','POR LEER / EN CURSO · '+unfinished.length));
+      unfinished.forEach(item=>list.append(createListRow(item,id)));
+    }
+  }else {
+    items.forEach(item=>list.append(createCard(item)));
+  }
   group.append(summary,list);
   group.addEventListener('toggle',()=>{
     // Abrir por una búsqueda no debe dejar todas las secciones abiertas luego.
@@ -327,6 +349,10 @@ function createCard(item) {
       if (!confirm('¿Quitar esta referencia personal?')) return;
       state.custom = state.custom.filter(x => x.id !== item.id);
       delete state.status[item.id];delete state.notes[item.id];delete state.priority[item.id];
+      for(const ids of Object.values(state.manualOrder)) {
+        const index=ids.indexOf(item.id);
+        if(index>=0)ids.splice(index,1);
+      }
       saveState(0);render();
     });
     actions.append(remove);
