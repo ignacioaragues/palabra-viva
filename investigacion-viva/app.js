@@ -411,6 +411,7 @@ function buildCategory(id,title,description,items,index,autoOpen) {
   metrics.append(refs,progress,track);
   summary.append(indexEl,info,metrics,make('span','category-chevron','⌄'));
   const list=make('div',state.viewMode==='list'?'category-list':'category-works');
+  if(state.viewMode==='list')list.setAttribute('role','list');
   if(state.viewMode==='list'){
     const finished=items.filter(item=>itemStatus(item)==='done');
     const unfinished=items.filter(item=>itemStatus(item)!=='done');
