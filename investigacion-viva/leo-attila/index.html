@@ -5,8 +5,8 @@
 <meta name="theme-color" content="#f7f6f0"><meta name="robots" content="noindex,nofollow,noarchive">
 <title>Investigación Viva · Archivo personal</title>
 <meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
-<link rel="stylesheet" href="../styles.css?v=20261116-project3">
-<script type="module" src="../app.js?v=20261116-project4"></script>
+<link rel="stylesheet" href="../styles.css?v=20261116-priority-dots1">
+<script type="module" src="../app.js?v=20261116-priority-dots1"></script>
 </head>
 <body>
 <header class="masthead">
@@ -51,7 +51,17 @@
       <label class="check-option"><input id="priority-only" type="checkbox">Solo prioritarios</label>
     </div>
     <nav class="category-jump" id="categories" aria-label="Ir a una sección del mapa"></nav>
-    <div class="list-head"><h3>Secciones del mapa</h3><span id="visible-count" aria-live="polite"></span></div>
+    <div class="list-head">
+      <h3>Secciones del mapa</h3>
+      <div class="list-head-tools">
+        <span id="visible-count" aria-live="polite"></span>
+        <div class="sort-toggle" role="group" aria-label="Ordenar referencias dentro de cada categoría">
+          <span class="sort-label">ORDENAR</span>
+          <button type="button" data-sort="original" aria-pressed="false">Original</button>
+          <button type="button" data-sort="priority" aria-pressed="true">Prioridad ↓</button>
+        </div>
+      </div>
+    </div>
     <div class="category-sections" id="work-grid"></div>
     <form id="custom-form" class="custom-form" hidden>
       <label>Título<input name="title" maxlength="180" required></label><label>Autor<input name="author" maxlength="120"></label>
