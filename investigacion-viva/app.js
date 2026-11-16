@@ -9,9 +9,12 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
   });
 const DOSSIER = 'leo-attila';
 const CATS = [
-  ['all', 'Todas'], ['teatro', 'Mapa teatral'], ['fuentes','Contemporáneas'],
-  ['leon','León I'], ['posteriores','Testimonios posteriores'],
-  ['contexto','Contexto antiguo'], ['estudios','Estudios modernos']
+  ['fuentes','Fuentes contemporáneas','Prisco, Próspero, Hidacio y otros testimonios cercanos al siglo V'],
+  ['leon','León I · obra completa','Sermones y correspondencia, con seguimiento por texto'],
+  ['posteriores','Crónicas y testimonios posteriores','Jordanes, Gregorio de Tours y la memoria del período'],
+  ['contexto','Contexto tardorromano','Administración, leyes, guerra e imaginarios de la Antigüedad tardía'],
+  ['estudios','Estudios modernos','Historia política, cultura huna y estudios sobre León'],
+  ['teatro','Mapa de lecturas teatrales','Duelo, negociación, tono y construcción de personajes']
 ];
 const $ = id => document.getElementById(id);
 const make = (tag, cls, text) => {
@@ -52,7 +55,8 @@ function normalize(v) {
   }
   return r;
 }
-let user = null, base = [], state = blank(), category = 'all';
+let user = null, base = [], state = blank();
+const openGroups = new Set(['fuentes']);
 let saveTimer = null, saveSequence = Promise.resolve(), loadSequence = 0;
 let privateLoaded = false;
 
@@ -130,26 +134,71 @@ const roman = n => {
 function fillCategories() {
   const target = $('categories');
   target.replaceChildren();
-  for (const [id,title] of CATS) {
-    const btn = make('button','',title);
-    btn.type = 'button';
-    btn.setAttribute('aria-pressed',String(category === id));
-    btn.append(make('small','',String(id === 'all' ? allItems().length :
-      allItems().filter(item => item.cat === id).length)));
-    btn.addEventListener('click',()=>{ category = id; render(); });
-    target.append(btn);
-  }
+  CATS.forEach(([id,title], index) => {
+    const items = allItems().filter(item => item.cat === id);
+    const link = make('a','category-link');
+    link.href = '#seccion-' + id;
+    link.append(make('span','jump-number',String(index+1).padStart(2,'0')),
+      make('span','jump-title',title),
+      make('span','jump-count',items.length+' referencias'),
+      make('span','jump-arrow','↘'));
+    link.addEventListener('click',()=>{
+      openGroups.add(id);
+      const section = $('seccion-'+id);
+      if (section) section.open = true;
+    });
+    target.append(link);
+  });
+}
+function filterIsActive() {
+  return !!$('search').value.trim() ||
+    $('state-filter').value !== 'all' || $('priority-only').checked;
 }
 function filtered() {
   const norm = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const term = norm($('search').value.trim());
   const chosen = $('state-filter').value, priority = $('priority-only').checked;
   return allItems().filter(item =>
-    (category === 'all' || item.cat === category) &&
     (chosen === 'all' || itemStatus(item) === chosen) &&
     (!priority || item.priority === 'alta') &&
     (!term || norm([item.title,item.author,item.why,item.sub,...(item.tags||[])].join(' ')).includes(term))
   );
+}
+function updateCategoryProgress() {
+  for (const [id] of CATS) {
+    const section = $('seccion-'+id);
+    if (!section) continue;
+    const items=allItems().filter(item=>item.cat===id);
+    const all=items.reduce((sum,item)=>sum+unitCount(item),0);
+    const read=items.reduce((sum,item)=>sum+unitDone(item),0);
+    const stat=section.querySelector('.category-count');
+    const meter=section.querySelector('.category-fill');
+    if (stat) stat.textContent=read+' / '+all+' leídas';
+    if (meter) meter.style.width=(all ? (read/all*100) : 0)+'%';
+  }
+}
+function buildCategory(id,title,description,items,index,autoOpen) {
+  const group=make('details','category-group');
+  group.id='seccion-'+id;
+  group.open=autoOpen || openGroups.has(id);
+  const summary=make('summary','category-summary');
+  const indexEl=make('span','category-index',String(index+1).padStart(2,'0'));
+  const info=make('span','category-info');
+  info.append(make('strong','',title),make('small','',description));
+  const metrics=make('span','category-metrics');
+  const refs=make('small','',items.length+' '+(items.length===1?'referencia':'referencias'));
+  const progress=make('strong','category-count');
+  const track=make('span','category-track');
+  const fill=make('i','category-fill');track.append(fill);
+  metrics.append(refs,progress,track);
+  summary.append(indexEl,info,metrics,make('span','category-chevron','⌄'));
+  const list=make('div','category-works');
+  items.forEach(item=>list.append(createCard(item)));
+  group.append(summary,list);
+  group.addEventListener('toggle',()=>{
+    if(group.open)openGroups.add(id);else openGroups.delete(id);
+  });
+  return group;
 }
 function createCard(item) {
   const card = make('article','work-card');
@@ -232,7 +281,7 @@ function createCard(item) {
       box.addEventListener('change',()=>{
         const key=item.id+':'+n;
         if (box.checked) state.units[key]=true; else delete state.units[key];
-        saveState(0);refresh();statistics();
+        saveState(0);refresh();statistics();updateCategoryProgress();
       });
       label.append(box,text);units.append(label);
     }
@@ -244,7 +293,7 @@ function createCard(item) {
     check.checked = itemStatus(item) === 'done';
     const apply = value => {
       state.status[item.id]=value;
-      saveState(0);statistics();
+      saveState(0);statistics();updateCategoryProgress();
       if ($('state-filter').value !== 'all') render();
       else {card.dataset.status=value;check.checked=value==='done';select.value=value;}
     };
@@ -257,16 +306,24 @@ function createCard(item) {
 }
 function render() {
   if (!privateLoaded) return;
-  statistics();fillCategories();
-  const visible = filtered();
-  const name = CATS.find(c => c[0] === category)?.[1] || 'Todas las lecturas';
-  $('category-title').textContent = category === 'all' ? 'Todas las lecturas' : name;
-  $('visible-count').textContent = visible.length + (visible.length===1?' referencia':' referencias');
-  const list = $('work-grid');list.replaceChildren();
-  if (!visible.length) {list.append(make('p','no-results','No hay referencias que coincidan con estos filtros.'));return;}
+  statistics();
+  const visible=filtered();
+  const showingFiltered=filterIsActive();
+  const list=$('work-grid');
+  list.replaceChildren();
   const fragment=document.createDocumentFragment();
-  visible.forEach(item=>fragment.append(createCard(item)));
+  CATS.forEach(([id,title,description],index)=>{
+    const items=visible.filter(item=>item.cat===id);
+    if (showingFiltered && !items.length) return;
+    fragment.append(buildCategory(id,title,description,items,index,showingFiltered));
+  });
   list.append(fragment);
+  $('visible-count').textContent=visible.length + (visible.length===1?' referencia':' referencias');
+  fillCategories();
+  updateCategoryProgress();
+  if(!visible.length) {
+    list.append(make('p','no-results','No hay referencias que coincidan con los filtros.'));
+  }
 }
 async function openDossier() {
   const epoch=++loadSequence;
@@ -285,7 +342,7 @@ async function openDossier() {
   if (epoch !== loadSequence) return;
   if (progress.error) { displayGate('No se pudo recuperar tu progreso personal.'); return; }
   user=owner; base=Array.isArray(data.catalog)?data.catalog:[];state=normalize(progress.data?.data);
-  category='all'; privateLoaded=true;
+  privateLoaded=true;
   $('dossier-title').textContent=data.title;
   $('loading-state').hidden=true;$('gate').hidden=true;$('private-app').hidden=false;
   $('footer-state').textContent='Cuenta autorizada';
@@ -327,7 +384,7 @@ $('custom-form').addEventListener('submit',event=>{
   if (!row.title) return;
   state.custom.push(row);saveState(0);form.reset();form.hidden=true;
   $('add-toggle').textContent='+ Agregar referencia personal';
-  category=row.cat;
+  openGroups.add(row.cat);
   $('search').value='';$('state-filter').value='all';$('priority-only').checked=false;
   render();
 });
