@@ -691,13 +691,16 @@ function render() {
   if (!privateLoaded) return;
   statistics();
   const visible=filtered();
+  const visibleIds=new Set(visible.map(item=>item.id));
   const showingFiltered=filterIsActive();
   const list=$('work-grid');
   list.replaceChildren();
   const fragment=document.createDocumentFragment();
   CATS.forEach(([id,title,description],index)=>{
-    const items=visible.filter(item=>item.cat===id);
-    if(state.sortOrder==='priority') {
+    const items=state.viewMode==='list'
+      ? fullListForCategory(id).filter(item=>visibleIds.has(item.id))
+      : visible.filter(item=>item.cat===id);
+    if(state.viewMode==='cards' && state.sortOrder==='priority') {
       items.sort((a,b)=>(PRIORITY_RANK[priorityFor(a)]??1)-(PRIORITY_RANK[priorityFor(b)]??1));
     }
     if (showingFiltered && !items.length) return;
@@ -708,6 +711,11 @@ function render() {
   document.querySelectorAll('[data-sort]').forEach(button=>{
     button.setAttribute('aria-pressed',String(button.dataset.sort===state.sortOrder));
   });
+  document.querySelectorAll('[data-view]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.view===state.viewMode));
+  });
+  $('sort-toggle').hidden=state.viewMode==='list';
+  $('list-order-hint').hidden=state.viewMode!=='list';
   fillCategories();
   updateCategoryProgress();
   renderVisual();
@@ -763,6 +771,14 @@ document.querySelectorAll('[data-sort]').forEach(button=>{
   button.addEventListener('click',()=>{
     if(state.sortOrder===button.dataset.sort)return;
     state.sortOrder=button.dataset.sort;
+    saveState(0);
+    render();
+  });
+});
+document.querySelectorAll('[data-view]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    if(state.viewMode===button.dataset.view)return;
+    state.viewMode=button.dataset.view;
     saveState(0);
     render();
   });
