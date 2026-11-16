@@ -8,6 +8,10 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
 const DOSSIER = 'leo-attila';
+const VIS_GROUPS = [
+  ['all','Todas'], ['encuentro','El encuentro'], ['attila','Atila'],
+  ['leon','León I'], ['aecio','Aecio'], ['mincio','El Mincio']
+];
 const CATS = [
   ['fuentes','Fuentes contemporáneas','Prisco, Próspero, Hidacio y otros testimonios cercanos al siglo V'],
   ['leon','León I · obras completas','Dos obras: sermones y epístolas, cada colección con su propio estado y prioridad'],
@@ -23,7 +27,11 @@ const make = (tag, cls, text) => {
   if (text !== undefined) el.textContent = text;
   return el;
 };
-const blank = () => ({ version: 1, status: {}, notes: {}, units: {}, priority: {}, sortOrder: 'priority', custom: [] });
+const blank = () => ({
+  version: 1, status: {}, notes: {}, units: {}, priority: {},
+  visualStatus: {}, visualNotes: {}, visualPriority: {},
+  sortOrder: 'priority', custom: []
+});
 const safeUrl = url => {
   if (typeof url !== 'string') return '';
   try { return new URL(url).protocol === 'https:' ? url.slice(0, 400) : ''; }
@@ -44,6 +52,16 @@ function normalize(v) {
   for (const [key, val] of Object.entries(v.notes || {})) {
     if (key.length <= 90 && typeof val === 'string') r.notes[key] = val.slice(0,20000);
   }
+  for (const [key,val] of Object.entries(v.visualStatus || {})) {
+    if (/^v\d{3}$/.test(key) &&
+        ['pendiente','visto','util','clave'].includes(val)) r.visualStatus[key]=val;
+  }
+  for (const [key,val] of Object.entries(v.visualNotes || {})) {
+    if (/^v\d{3}$/.test(key) && typeof val === 'string') r.visualNotes[key]=val.slice(0,20000);
+  }
+  for (const [key,val] of Object.entries(v.visualPriority || {})) {
+    if (/^v\d{3}$/.test(key) && ['baja','media','alta'].includes(val)) r.visualPriority[key]=val;
+  }
   for (const [key, val] of Object.entries(v.units || {})) {
     if (/^r\d{3}:\d{1,3}$/.test(key) && val === true) r.units[key] = true;
   }
@@ -60,7 +78,8 @@ function normalize(v) {
   }
   return r;
 }
-let user = null, base = [], state = blank();
+let user = null, base = [], visualBase = [], state = blank();
+let visualGroup = 'all';
 const openGroups = new Set(['fuentes']);
 let saveTimer = null, saveSequence = Promise.resolve(), loadSequence = 0;
 let privateLoaded = false;
@@ -69,7 +88,12 @@ function displayGate(message = '') {
   privateLoaded = false;
   user = null;
   base = [];
+  visualBase = [];
   state = blank();
+  $('work-grid')?.replaceChildren();
+  $('visual-gallery')?.replaceChildren();
+  $('categories')?.replaceChildren();
+  $('visual-tabs')?.replaceChildren();
   $('private-app').hidden = true;
   $('loading-state').hidden = true;
   $('gate').hidden = false;
@@ -358,6 +382,121 @@ function createCard(item) {
   }
   return card;
 }
+
+function renderVisual() {
+  if(!privateLoaded)return;
+  const tabs=$('visual-tabs'),gallery=$('visual-gallery');
+  tabs.replaceChildren();gallery.replaceChildren();
+  for(const [id,label] of VIS_GROUPS){
+    const total=id==='all'?visualBase.length:visualBase.filter(item=>item.group===id).length;
+    const button=make('button','visual-tab',label+' · '+total);
+    button.type='button';
+    button.setAttribute('aria-pressed',String(visualGroup===id));
+    button.addEventListener('click',()=>{visualGroup=id;renderVisual();});
+    tabs.append(button);
+  }
+  const visible=visualGroup==='all'?visualBase:visualBase.filter(item=>item.group===visualGroup);
+  const fragment=document.createDocumentFragment();
+  for(const item of visible)fragment.append(visualCard(item));
+  gallery.append(fragment);
+  if(!visible.length)gallery.append(make('p','visual-empty','Todavía no hay imágenes incorporadas a este apartado.'));
+  visualStatistics();
+}
+function visualStatistics(){
+  $('visual-count').textContent=visualBase.length;
+  const seen=visualBase.filter(item=>
+    ['visto','util','clave'].includes(state.visualStatus[item.id])).length;
+  $('visual-reviewed').textContent=seen;
+}
+function visualCard(item){
+  const article=make('article','visual-card');
+  article.dataset.group=item.group;
+  article.dataset.state=state.visualStatus[item.id]||'pendiente';
+  const head=make('div','visual-card-head');
+  const meta=make('span','visual-card-kind',item.kind||'Imagen histórica');
+  const dotGroup=make('span','visual-card-priority');
+  dotGroup.setAttribute('role','group');
+  dotGroup.setAttribute('aria-label','Prioridad: '+item.title);
+  const active=state.visualPriority[item.id]||'media';
+  const allDots=[];
+  for(const [value,label] of PRIORITIES){
+    const button=make('button','priority-dot priority-'+value);
+    button.type='button';
+    button.title='Prioridad '+label.toLowerCase();
+    button.setAttribute('aria-label','Prioridad '+label.toLowerCase()+': '+item.title);
+    button.setAttribute('aria-pressed',String(active===value));
+    if(active===value)button.classList.add('is-active');
+    button.addEventListener('click',()=>{
+      state.visualPriority[item.id]=value;
+      allDots.forEach(el=>{
+        el.classList.toggle('is-active',el.dataset.value===value);
+        el.setAttribute('aria-pressed',String(el.dataset.value===value));
+      });
+      saveState(0);
+    });
+    button.dataset.value=value;allDots.push(button);dotGroup.append(button);
+  }
+  head.append(meta,dotGroup);
+  const media=make('div','visual-media');
+  const imageUrl=safeUrl(item.image);
+  if(imageUrl){
+    const img=make('img','');
+    img.src=imageUrl;
+    img.alt=item.title+' — '+(item.creator||'autor desconocido');
+    img.loading='lazy';img.decoding='async';
+    img.addEventListener('error',()=>{
+      media.replaceChildren(make('span','visual-fallback','Imagen disponible en la ficha de origen'));
+      media.classList.add('visual-missing');
+    });
+    media.append(img);
+  }else media.append(make('span','visual-fallback','Imagen disponible en la ficha de origen'));
+  const details=make('div','visual-card-body');
+  details.append(make('h3','',item.title),
+    make('p','visual-author',[item.creator,item.date].filter(Boolean).join(' · ')));
+  if(item.place)details.append(make('p','visual-place',item.place));
+  if(item.note)details.append(make('p','visual-curator-note',item.note));
+  const foot=make('div','visual-card-foot');
+  const statusLabel=make('label','visual-status-label','Estado');
+  const select=make('select','visual-status-select');
+  [['pendiente','Pendiente'],['visto','Visto'],['util','Útil'],['clave','Clave']].forEach(([value,label])=>{
+    const opt=make('option','',label);opt.value=value;select.append(opt);
+  });
+  select.value=state.visualStatus[item.id]||'pendiente';
+  select.setAttribute('aria-label','Estado de '+item.title);
+  select.addEventListener('change',()=>{
+    state.visualStatus[item.id]=select.value;
+    article.dataset.state=select.value;
+    saveState(0);visualStatistics();
+  });
+  statusLabel.append(select);
+  const actions=make('div','visual-card-actions');
+  const url=safeUrl(item.source);
+  if(url){
+    const anchor=make('a','','Ver obra y fuente ↗');
+    anchor.href=url;anchor.target='_blank';anchor.rel='noopener noreferrer';
+    actions.append(anchor);
+  }
+  const notesButton=make('button','','Mi nota ↓');
+  notesButton.type='button';
+  const notes=make('div','visual-personal-note');notes.hidden=true;
+  const label=make('label','','Apuntes sobre composición, gesto, espacio o utilidad dramática');
+  const area=make('textarea');area.rows=3;area.maxLength=20000;
+  area.value=state.visualNotes[item.id]||'';
+  area.placeholder='Qué te interesa de esta obra visual…';
+  area.addEventListener('input',()=>{
+    state.visualNotes[item.id]=area.value;
+    saveState(650);
+  });
+  label.append(area);notes.append(label);
+  notesButton.addEventListener('click',()=>{
+    notes.hidden=!notes.hidden;notesButton.textContent=notes.hidden?'Mi nota ↓':'Ocultar nota ↑';
+  });
+  actions.append(notesButton);
+  foot.append(statusLabel,actions);
+  article.append(head,media,details,foot,notes);
+  return article;
+}
+
 function render() {
   if (!privateLoaded) return;
   statistics();
@@ -381,6 +520,7 @@ function render() {
   });
   fillCategories();
   updateCategoryProgress();
+  renderVisual();
   if(!visible.length) {
     list.append(make('p','no-results','No hay referencias que coincidan con los filtros.'));
   }
@@ -393,7 +533,7 @@ async function openDossier() {
   if (auth.error || !auth.data.user) { displayGate(auth.error ? 'No se pudo verificar tu sesión.' : ''); return; }
   const owner=auth.data.user;
   const {data, error}=await client.from('iv_dossiers')
-    .select('slug,title,catalog').eq('slug',DOSSIER).maybeSingle();
+    .select('slug,title,catalog,visual_catalog').eq('slug',DOSSIER).maybeSingle();
   if (epoch !== loadSequence) return;
   if (error) { displayGate('No se pudo cargar el archivo privado. Revisá la conexión.'); return; }
   if (!data) { displayGate('La cuenta está conectada, pero no tiene acceso a este archivo.'); return; }
@@ -401,7 +541,9 @@ async function openDossier() {
     .eq('dossier_slug',DOSSIER).eq('owner_id',owner.id).maybeSingle();
   if (epoch !== loadSequence) return;
   if (progress.error) { displayGate('No se pudo recuperar tu progreso personal.'); return; }
-  user=owner; base=Array.isArray(data.catalog)?data.catalog:[];state=normalize(progress.data?.data);
+  user=owner; base=Array.isArray(data.catalog)?data.catalog:[];
+  visualBase=Array.isArray(data.visual_catalog)?data.visual_catalog:[];
+  state=normalize(progress.data?.data);
   privateLoaded=true;
   $('dossier-title').textContent=data.title;
   $('loading-state').hidden=true;$('gate').hidden=true;$('private-app').hidden=false;
