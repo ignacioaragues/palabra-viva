@@ -10,7 +10,7 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
 const DOSSIER = 'leo-attila';
 const CATS = [
   ['fuentes','Fuentes contemporáneas','Prisco, Próspero, Hidacio y otros testimonios cercanos al siglo V'],
-  ['leon','León I · obra completa','Sermones y correspondencia, con seguimiento por texto'],
+  ['leon','León I · obras completas','Dos obras: sermones y epístolas, cada colección con su propio estado y prioridad'],
   ['posteriores','Crónicas y testimonios posteriores','Jordanes, Gregorio de Tours y la memoria del período'],
   ['contexto','Contexto tardorromano','Administración, leyes, guerra e imaginarios de la Antigüedad tardía'],
   ['estudios','Estudios modernos','Historia política, cultura huna y estudios sobre León'],
@@ -81,8 +81,8 @@ function status(message) {
 }
 function allItems() { return [...base,...state.custom]; }
 function isSeries(item) { return Number.isInteger(item.series) && item.series > 0; }
-// Cada referencia cuenta como una obra. Las dos colecciones de León suman
-// una obra cada una al porcentaje general, aunque se conserven sus casillas.
+// Cada referencia cuenta como una obra. Las colecciones Sermones y Epístolas
+// se guardan como dos títulos únicos, con sus propios estados y prioridades.
 function unitCount(item) { return 1; }
 function seriesReadCount(item) {
   if (!isSeries(item)) return 0;
