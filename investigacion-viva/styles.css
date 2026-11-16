@@ -447,3 +447,97 @@
   .research-project-with-art .project-engraving{max-height:180px}
   .research-project-with-art .primary{padding:12px 10px;gap:11px}
 }
+
+/* Documento epigráfico: imagen de archivo y edición latina/española. */
+.visual-card-document{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  grid-template-areas:
+    "meta meta"
+    "photo body"
+    "edition edition"
+    "foot foot"
+    "personal personal";
+  align-items:start;
+  gap:0 22px;
+  padding:18px;
+}
+.visual-card-document .visual-card-head{grid-area:meta;padding:0 4px 15px}
+.visual-card-document .visual-media{
+  grid-area:photo;
+  height:auto;
+  min-height:245px;
+  max-height:345px;
+  background:#e9e6df;
+  padding:8px;
+  align-self:stretch;
+}
+.visual-card-document .visual-media img{height:100%;object-fit:contain}
+.visual-card-document .visual-card-body{
+  grid-area:body;
+  padding:12px 8px 16px;
+}
+.visual-card-document .visual-card-body h3{font-size:clamp(21px,2.5vw,31px)}
+.visual-card-document .visual-card-foot{grid-area:foot;padding:14px 5px 2px}
+.visual-card-document .visual-personal-note{grid-area:personal}
+.visual-edition{
+  grid-area:edition;
+  margin-top:24px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  min-width:0;
+}
+.visual-edition-toggle{
+  font:600 11px/1.6 var(--sans);
+  color:var(--deep);
+  cursor:pointer;
+  padding:17px 7px;
+  letter-spacing:.015em;
+}
+.visual-edition-toggle:hover{color:#658476}
+.visual-edition[open] .visual-edition-toggle{border-bottom:1px solid var(--line)}
+.visual-edition-body{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:28px 38px;
+  padding:24px 8px 30px;
+}
+.visual-text-section{min-width:0}
+.visual-text-section h4{
+  font:700 10px/1.6 var(--sans);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--rust);
+  margin:0 0 12px;
+}
+.visual-text-section.diplomatic,.visual-text-section.editorial{grid-column:1/-1}
+.visual-edition-text{
+  font:12px/1.9 var(--serif);
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  color:#344539;
+}
+.visual-text-section.diplomatic .visual-edition-text{
+  background:#f4f2ec;
+  border:1px solid #e3e1d9;
+  padding:20px 22px;
+  font-family:Georgia,serif;
+  font-size:13px;
+  letter-spacing:.035em;
+  line-height:2.05;
+}
+.visual-editorial-notes{padding-left:20px;margin:0;color:#68776a;font:12px/1.85 var(--sans)}
+.visual-editorial-notes li+li{margin-top:7px}
+.visual-edition-attribution{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px;margin:0;color:#90978e;font:10px/1.7 var(--sans)}
+@media(max-width:850px){
+  .visual-card-document{grid-template-columns:1fr;grid-template-areas:"meta" "photo" "body" "edition" "foot" "personal";}
+  .visual-card-document .visual-media{max-height:none;min-height:0;padding:8px}
+  .visual-card-document .visual-media img{max-height:320px}
+}
+@media(max-width:590px){
+  .visual-card-document{padding:13px}
+  .visual-edition-body{grid-template-columns:1fr;gap:25px;padding:20px 4px}
+  .visual-text-section.diplomatic,.visual-text-section.editorial{grid-column:1}
+  .visual-text-section.diplomatic .visual-edition-text{padding:14px 12px;font-size:11px}
+}
