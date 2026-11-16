@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f6f0"><meta name="robots" content="noindex,nofollow,noarchive">
+<title>Investigación Viva · Archivo personal</title>
+<meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
+<link rel="stylesheet" href="../styles.css?v=20261116-project2">
+<script type="module" src="../app.js?v=20261116-project2"></script>
+</head>
+<body>
+<header class="masthead">
+  <a class="identity" href="../" title="Volver a los proyectos"><span class="mark">I<span>·</span></span><span><strong>Investigación Viva</strong><small>CUADERNOS DE INVESTIGACIÓN</small></span></a>
+  <nav class="top-nav" aria-label="Navegación"><a href="../">Investigación Viva</a><a href="../../">Palabra Viva</a><a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Mi cuenta</a></nav>
+</header>
+<div class="loading-state" id="loading-state" role="status">Comprobando acceso…</div>
+<main id="gate" class="gate" hidden>
+  <div class="gate-card"><span class="overline">ACCESO PERSONAL</span>
+    <div class="lock-emblem" aria-hidden="true">I<span>·</span></div>
+    <h1>Tu archivo de investigación.</h1>
+    <p>Para abrir el cuaderno necesitás entrar con la misma cuenta que utilizás en Edición Viva.</p>
+    <form id="login-form"><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" required>
+      <label for="login-password">Contraseña</label><input id="login-password" type="password" autocomplete="current-password" required>
+      <button class="primary" type="submit">Iniciar sesión <span>→</span></button>
+    </form>
+    <p id="login-error" class="error" role="alert" aria-live="polite"></p>
+    <a class="gate-link" href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Entrar o recuperar el acceso desde Mi cuenta ↗</a>
+  </div>
+</main>
+<main id="private-app" hidden>
+  <section class="hero shell"><div class="hero-copy">
+    <span class="overline">INVESTIGACIÓN VIVA / DOSSIER 01</span><h1 id="dossier-title"></h1>
+    <p class="tagline">La voz, la historia, el teatro.</p>
+    <p class="hero-lead">Testimonios, dramaturgia y bibliografía de trabajo reunidos en una checklist que evoluciona con la lectura.</p>
+    <div class="hero-actions"><a href="#lecturas" class="primary">Abrir mapa <span>→</span></a><a class="text-link" href="#muestras">Muestras de estilo</a></div>
+  </div><div class="hero-plate" aria-hidden="true">
+    <div class="plate-top"><span>ARCHIVO PRIVADO</span><span>01 / SIGLO V</span></div>
+    <div class="plate-names"><span>LEO</span><i>et</i><span>ATTILA</span></div>
+    <div class="plate-rule"><span>✦</span></div>
+    <div class="plate-bottom"><span>FUENTES</span><span>·</span><span>LECTURAS</span><span>·</span><span>VOZ</span></div>
+  </div></section>
+  <section class="summary"><div class="shell overview">
+    <div class="main-stat"><span class="overline">PROGRESO GENERAL</span><div class="fraction"><strong id="percent">0%</strong><span id="completion-fraction">0 / 62 obras</span></div><div class="meter"><div id="progress-bar"></div></div><p>Los sermones y las epístolas cuentan como dos obras completas. Podés seguir marcando cada texto dentro de ellas.</p></div>
+    <div><strong id="total-units">329</strong><small>OBRAS</small></div>
+    <div><strong id="done-units">0</strong><small>LEÍDAS</small></div>
+    <div><strong id="active-units">0</strong><small>EN CURSO</small></div>
+  </div></section>
+  <section class="library shell" id="lecturas">
+    <header class="section-heading"><div><span class="overline">I. EL MAPA</span><h2>Biblioteca de trabajo<span class="stop">.</span></h2></div><p>Referencias teatrales, testimonios antiguos, obras de León, crónicas y estudios modernos.</p></header>
+    <div class="library-tools">
+      <label>Buscar en el mapa<input id="search" type="search" placeholder="Obra, autor o tema…"></label>
+      <label>Estado<select id="state-filter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="reading">En curso</option><option value="done">Leídos</option></select></label>
+      <label class="check-option"><input id="priority-only" type="checkbox">Solo prioritarios</label>
+    </div>
+    <nav class="category-jump" id="categories" aria-label="Ir a una sección del mapa"></nav>
+    <div class="list-head"><h3>Secciones del mapa</h3><span id="visible-count" aria-live="polite"></span></div>
+    <div class="category-sections" id="work-grid"></div>
+    <form id="custom-form" class="custom-form" hidden>
+      <label>Título<input name="title" maxlength="180" required></label><label>Autor<input name="author" maxlength="120"></label>
+      <label>Sección<select name="cat"><option value="teatro">Teatro</option><option value="fuentes">Fuentes contemporáneas</option><option value="leon">León I</option><option value="posteriores">Crónicas posteriores</option><option value="contexto">Contexto antiguo</option><option value="estudios">Estudios modernos</option></select></label>
+      <label>Enlace<input name="url" type="url"></label><label class="wide">Por qué lo agregás<textarea name="why" maxlength="600"></textarea></label>
+      <button type="submit" class="primary">Guardar referencia</button>
+    </form>
+    <button type="button" class="add-button" id="add-toggle">+ Agregar referencia personal</button>
+  </section>
+  <section class="style-section" id="muestras"><div class="shell style-grid">
+    <div><span class="overline">II. CUADERNO</span><h2>Muestras de <em>estilo</em><span class="stop">.</span></h2><p>Reservado para la selección de pasajes y el método que vamos a definir.</p></div>
+    <div class="style-placeholder"><span>II.</span><h3>Por construir</h3><p>Sin categorías ni ejemplos predefinidos.</p></div>
+  </div></section>
+  <section class="backup shell"><div><span class="overline">III. ARCHIVO PERSONAL</span><h2>Tu progreso, protegido.</h2><p>Las casillas y tus notas se guardan en la cuenta privada de Edición Viva. También podés exportarlas para conservar una copia.</p><p class="sync" id="storage-message" role="status">Sincronizado.</p></div><div class="backup-actions"><button type="button" id="export">Exportar JSON ↓</button><button type="button" id="import">Importar copia</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></section>
+</main>
+<footer class="footer"><span>INVESTIGACIÓN VIVA · ARCHIVO PERSONAL</span><span id="footer-state">Acceso restringido</span></footer>
+</body></html>
