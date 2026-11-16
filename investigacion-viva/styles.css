@@ -200,9 +200,9 @@
 .priority-dot.priority-baja{--dot-color:#7d978b}
 .priority-dot.priority-media{--dot-color:#b39a64}
 .priority-dot.priority-alta{--dot-color:#a56652}
-.priority-dot:hover{background:#eef1e9}
+.priority-dot:hover{background:transparent;border-color:transparent}
 .priority-dot:hover::before{transform:scale(1.15)}
-.priority-dot.is-active{background:#edf0e8;border-color:#c5d0c4}
+.priority-dot.is-active{background:transparent;border-color:transparent}
 .priority-dot.is-active::before{background:var(--dot-color);transform:scale(1.13)}
 .priority-dot:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
 .priority-dot[aria-pressed="true"]{cursor:default}
