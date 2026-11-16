@@ -10,7 +10,8 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
 const DOSSIER = 'leo-attila';
 const VIS_GROUPS = [
   ['all','Todas'], ['encuentro','El encuentro'], ['attila','Atila'],
-  ['leon','León I'], ['aecio','Aecio'], ['mincio','El Mincio']
+  ['leon','León I'], ['aecio','Aecio'], ['mincio','El Mincio'],
+  ['epigrafia','Epigrafía y memoria']
 ];
 const CATS = [
   ['fuentes','Fuentes contemporáneas','Prisco, Próspero, Hidacio y otros testimonios cercanos al siglo V'],
@@ -36,6 +37,14 @@ const safeUrl = url => {
   if (typeof url !== 'string') return '';
   try { return new URL(url).protocol === 'https:' ? url.slice(0, 400) : ''; }
   catch { return ''; }
+};
+// Las fotografías aportadas por el propietario pueden guardarse dentro del
+// catálogo privado (RLS) como datos JPEG. No se publican en GitHub.
+const safeVisualImageUrl = url => {
+  const prefix='data:image/jpeg;base64,';
+  if (typeof url === 'string' && url.startsWith(prefix) &&
+      url.length <= 450000 && /^[A-Za-z0-9+/=]+$/.test(url.slice(prefix.length))) return url;
+  return safeUrl(url);
 };
 function normalize(v) {
   const r = blank();
@@ -604,6 +613,7 @@ function visualCard(item){
   const article=make('article','visual-card');
   article.dataset.group=item.group;
   article.dataset.state=state.visualStatus[item.id]||'pendiente';
+  if(item.transcription || item.translation)article.classList.add('visual-card-document');
   const head=make('div','visual-card-head');
   const meta=make('span','visual-card-kind',item.kind||'Imagen histórica');
   const dotGroup=make('span','visual-card-priority');
@@ -630,7 +640,7 @@ function visualCard(item){
   }
   head.append(meta,dotGroup);
   const media=make('div','visual-media');
-  const imageUrl=safeUrl(item.image);
+  const imageUrl=safeVisualImageUrl(item.image);
   if(imageUrl){
     const img=make('img','');
     img.src=imageUrl;
@@ -647,6 +657,30 @@ function visualCard(item){
     make('p','visual-author',[item.creator,item.date].filter(Boolean).join(' · ')));
   if(item.place)details.append(make('p','visual-place',item.place));
   if(item.note)details.append(make('p','visual-curator-note',item.note));
+  let edition=null;
+  if(item.transcription || item.translation){
+    edition=make('details','visual-edition');
+    const heading=make('summary','visual-edition-toggle','Leer inscripción · transcripción y traducción');
+    const body=make('div','visual-edition-body');
+    const addSection=(label,content,cls)=>{
+      if(!content)return;
+      const section=make('section','visual-text-section '+cls);
+      section.append(make('h4','',label),make('div','visual-edition-text',content));
+      body.append(section);
+    };
+    addSection('Transcripción de la inscripción',item.transcription,'diplomatic');
+    addSection('Latín con abreviaturas desarrolladas',item.expandedLatin,'expanded');
+    addSection('Traducción al español',item.translation,'translation');
+    if(Array.isArray(item.editorialNotes)&&item.editorialNotes.length){
+      const notes=make('section','visual-text-section editorial');
+      notes.append(make('h4','','Observaciones editoriales'));
+      const list=make('ul','visual-editorial-notes');
+      item.editorialNotes.forEach(note=>list.append(make('li','',note)));
+      notes.append(list);body.append(notes);
+    }
+    if(item.attribution)body.append(make('p','visual-edition-attribution',item.attribution));
+    edition.append(heading,body);
+  }
   const foot=make('div','visual-card-foot');
   const statusLabel=make('label','visual-status-label','Estado');
   const select=make('select','visual-status-select');
@@ -685,7 +719,9 @@ function visualCard(item){
   });
   actions.append(notesButton);
   foot.append(statusLabel,actions);
-  article.append(head,media,details,foot,notes);
+  article.append(head,media,details);
+  if(edition)article.append(edition);
+  article.append(foot,notes);
   return article;
 }
 
