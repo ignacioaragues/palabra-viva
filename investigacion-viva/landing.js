@@ -165,7 +165,9 @@ function renderIndex(){
   root.replaceChildren();
   const done=projectItems.filter(p=>p.status==='done').length;
   const active=projectItems.filter(p=>p.status==='active').length;
-  $('index-count').textContent=projectItems.length+' proyectos · '+done+' terminados';
+  $('index-count').textContent=projectItems.length+
+    (projectItems.length===1?' proyecto':' proyectos')+' · '+done+
+    (done===1?' terminado':' terminados');
   if(!projectItems.length){
     root.append(el('p','index-empty','Todavía no hay proyectos. Agregá el primero desde el botón superior.'));
     return;
