@@ -688,3 +688,7 @@
   .project-tree-nested{margin-left:13px;padding-left:11px}
   .project-tree-nested>.project-tree-item::before{left:-11px;width:9px}
 }
+
+/* El espacio para proyectos futuros abre ahora el índice personal. */
+.future-project{text-decoration:none;cursor:pointer}
+.future-project:hover{background:#e8ece4;border-color:#a7b8a6}
