@@ -86,3 +86,15 @@
 .study-empty{padding:22px;font:italic 14px var(--serif);color:#87988b;text-align:center;border:1px dashed #ccd6ce}
 @media(max-width:980px){.study-reader-layout{grid-template-columns:180px minmax(0,1fr);gap:20px}.study-hero{gap:22px}.study-prose{padding:31px}}
 @media(max-width:700px){.study-hero{display:flex;flex-direction:column;align-items:stretch;padding-block:35px}.study-cover{min-height:0}.study-cover img{max-height:250px}.study-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.study-metrics>div{min-height:80px;padding:15px;border-bottom:1px solid var(--line)}.study-metrics>div:first-child{padding-left:15px}.study-tabs{gap:0;flex-wrap:nowrap;overflow-x:auto}.study-tabs button{white-space:nowrap;padding:15px 11px}.study-inventory,.study-time-grid{grid-template-columns:1fr}.study-reader-layout{display:flex;flex-direction:column}.study-toc{position:static;max-height:180px;width:100%;border-bottom:1px solid #d7dfd6;padding-bottom:15px}.study-prose{padding:24px;--reader-size:17px}.study-time-summary{grid-template-columns:1fr 1fr}.study-history-item{grid-template-columns:1fr auto;gap:7px}.study-history-item time{grid-column:1/-1}.study-controls{padding:14px}.study-cover figcaption{margin-top:0}}
+
+/* Cuaderno conceptual privado */
+.study-axes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.study-axis{border:1px solid #dbe4da;background:#fff;padding:26px 25px}
+.study-axis>span{font:700 9px var(--sans);letter-spacing:.13em;color:#a5745c}
+.study-axis h3{font:400 23px/1.32 var(--serif);letter-spacing:-.02em;color:#314f3c;margin:14px 0}
+.study-axis p{font:14px/1.83 var(--serif);color:#67796d}
+.study-project-notes{background:#f4f7f1;border:1px solid #d7dfd5;padding:25px;margin-top:24px}
+.study-project-notes label{display:block;font:700 11px var(--sans);color:#526654;margin-bottom:12px}
+.study-project-notes textarea{width:100%;box-sizing:border-box;border:1px solid #cad7cc;background:#fff;color:#394f3d;padding:17px;font:15px/1.65 var(--serif);resize:vertical}
+.study-project-notes small{display:block;font:11px/1.5 var(--sans);color:#889989;margin-top:10px}
+@media(max-width:700px){.study-axes{grid-template-columns:1fr}.study-axis{padding:22px}}
