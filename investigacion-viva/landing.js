@@ -69,7 +69,7 @@ function ensureDossiers(){
     const id='dossier:'+d.slug;
     if(!projectItems.some(item=>item.id===id)){
       projectItems.push({id,slug:d.slug,title:d.title,
-        summary:d.slug==='leo-attila'?'Fuentes históricas y dramaturgia · dossier activo':'Dossier disponible',
+        summary:d.slug==='leo-attila'?'Fuentes históricas y dramaturgia · dossier activo':d.slug==='universales-cosmicos'?'Semántica, extrapolación y xenolingüística':d.slug==='privilegio-actualidad'?'Mundos actuales, libertad y juicio escatológico':'Dossier disponible',
         parentId:null,status:'active'});
     }
   }
@@ -158,7 +158,8 @@ function shiftProject(id,delta){
 function linkFor(item){
   // Nunca abrir rutas creadas por usuarios: solo slugs permitidos por la app.
   if(!dossierRows.some(d=>d.slug===item.slug))return '';
-  return item.slug==='leo-attila'?'./leo-attila/':'';
+  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad'];
+  return allowed.includes(item.slug)?'./'+item.slug+'/':'';
 }
 function renderIndex(){
   const root=$('project-index-list');
@@ -340,21 +341,30 @@ function showProjects(rows){
     const caption=document.createElement('p');
     caption.textContent=item.slug==='leo-attila'
       ? 'Historia y fuentes del siglo V, lecturas teatrales y construcción de voces.'
+      : item.slug==='universales-cosmicos'
+      ? 'Semántica universal, cognición comparativa y comunicación más allá de la Tierra.'
+      : item.slug==='privilegio-actualidad'
+      ? 'Mundos posibles y actuales, salvación universal y justicia escatológica.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
     let preview=null;
-    if (item.slug==='leo-attila') {
+    const artwork={
+      'leo-attila':['leo-attila-encuentro.svg','Encuentro de León I y Atila'],
+      'universales-cosmicos':['universales-cosmicos.svg','Dos mundos enlazados por una esfera armilar'],
+      'privilegio-actualidad':['privilegio-actualidad.svg','Balanza y mundos actuales posibles']
+    };
+    if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/leo-attila-encuentro.svg';
-      preview.alt='Grabado en blanco y negro del encuentro diplomático de León y Atila';
+      preview.src='./assets/'+artwork[item.slug][0];
+      preview.alt=artwork[item.slug][1];
       preview.width=860;preview.height=645;
       preview.loading='lazy';
       card.classList.add('research-project-with-art');
     }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
-    action.href=item.slug==='leo-attila'?'./leo-attila/':'./';
+    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad'].includes(item.slug)?'./'+item.slug+'/':'./';
     action.append('Abrir proyecto ');
     const icon=document.createElement('span');icon.textContent='→';action.append(icon);
     if(preview)card.append(info,preview,action);
