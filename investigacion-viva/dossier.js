@@ -134,7 +134,8 @@ function showDocument(doc){
 function renderDocumentOptions(){
  const root=$('document-options');root.replaceChildren();
  for(const doc of docs){
-  const button=element('button','',doc.title+(docs.length>1?' · '+doc.document_id:''));
+  const names={'revision-v3':'Revisión v3 · principal','revision-v2-auditada':'Revisión auditada v2 · archivo','revision-identidad-juicio':'Revisión de identidad y juicio · principal','borrador-reformulado-noviembre':'Borrador reformulado · archivo','borrador-octubre':'Borrador inicial · archivo'};
+  const button=element('button','',names[doc.document_id]||doc.title);
   button.dataset.documentId=doc.document_id;button.type='button';
   button.addEventListener('click',()=>{showDocument(doc);startTimer('dossier:'+doc.document_id,doc.title,false)});
   root.append(button);
@@ -264,7 +265,12 @@ async function load(){
  ]);
  if(request!==generation)return;
  if(docRes.error||progressRes.error||sessionsRes.error){console.warn(docRes.error,progressRes.error,sessionsRes.error);showGate('Error al recuperar los datos privados.');return}
- docs=docRes.data||[];sessions=sessionsRes.data||[];
+ docs=docRes.data||[];docs.sort((a,b)=>{
+   const primary=slug==='universales-cosmicos'?'revision-v3':'revision-identidad-juicio';
+   if(a.document_id===primary)return -1;if(b.document_id===primary)return 1;
+   return String(b.document_id).localeCompare(String(a.document_id));
+  });
+ sessions=sessionsRes.data||[];
  const state=progressRes.data?.data||{};progress={version:1,status:state.status||{},notes:state.notes||{},priority:state.priority||{}};
  $('study-title').textContent=res.data.title;$('private-app').hidden=false;$('gate').hidden=true;$('loading-state').hidden=true;
  $('footer-state').textContent='Cuenta autorizada';
