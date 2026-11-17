@@ -541,3 +541,150 @@
   .visual-text-section.diplomatic,.visual-text-section.editorial{grid-column:1}
   .visual-text-section.diplomatic .visual-edition-text{padding:14px 12px;font-size:11px}
 }
+
+/* Índice personal de proyectos · solo se renderiza tras autorizar la cuenta. */
+.project-index{
+  margin-top:85px;
+  padding-top:44px;
+  border-top:1px solid var(--line);
+}
+.project-index-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:22px}
+.project-index-heading h2{font:400 clamp(30px,3.8vw,48px)/1.2 var(--serif);letter-spacing:-.055em;margin:14px 0}
+.project-index-heading p{font:12px/1.9 var(--serif);color:var(--muted);max-width:660px;margin:0}
+.index-head-actions{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex:none}
+#index-count{font:600 10px/1.6 var(--sans);color:#6a816d}
+.index-primary{
+  background:var(--deep);color:#fff;border:1px solid var(--deep);
+  padding:10px 16px;font:700 11px/1.5 var(--sans);cursor:pointer;
+}
+.index-primary:hover{background:#476451}
+.index-secondary{
+  background:transparent;border:1px solid #c8d1c5;color:#627969;
+  padding:10px 14px;font:600 11px/1.5 var(--sans);cursor:pointer;
+}
+.index-secondary:hover{background:#ecf0e9}
+.index-help{color:#879286;font:11px/1.8 var(--sans);margin:10px 0 22px}
+.index-help strong{color:#6c836e;font-size:16px;vertical-align:middle}
+.project-index-list{display:block;border-top:1px solid #d9ded4}
+.project-tree-level{list-style:none;margin:0;padding:0}
+.project-tree-nested{
+  margin-left:46px;
+  border-left:1px solid #ccd5ca;
+  padding-left:20px;
+}
+.project-tree-item{position:relative;margin:0}
+.project-tree-nested>.project-tree-item::before{
+  content:"";position:absolute;left:-20px;top:27px;width:18px;height:1px;background:#ccd5ca;
+}
+.project-index-row{
+  display:grid;
+  grid-template-columns:25px 23px minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  min-height:76px;padding:12px 16px;
+  border-bottom:1px solid #e0e4dc;
+  background:rgba(255,254,250,.5);
+  transition:background .15s,border-color .15s;
+}
+.project-index-row:hover{background:var(--white)}
+.project-index-row.dragging{opacity:.42}
+.project-index-row.drop-target{box-shadow:inset 0 3px 0 #7d9e86;background:#f3f6f0}
+.project-index-row[data-status=done]{background:#f0f5ee}
+.project-index-handle{
+  font:22px/1 var(--sans);color:#8c9b8f;
+  cursor:grab;text-align:center;user-select:none;
+}
+.project-index-handle:active{cursor:grabbing}
+.project-index-checkbox{width:18px;height:18px;margin:0;accent-color:var(--sage);cursor:pointer}
+.project-index-main{min-width:0;display:flex;flex-direction:column;align-items:start;gap:4px}
+.project-index-title{
+  font:400 clamp(15px,1.5vw,18px)/1.45 var(--serif);
+  color:var(--ink);
+  overflow-wrap:anywhere;
+}
+.project-index-row[data-status=done] .project-index-title{color:#637a66;text-decoration:line-through;text-decoration-color:#bac9b9}
+.project-index-summary{font:11px/1.65 var(--sans);color:#8c968b;overflow-wrap:anywhere}
+.index-project-link{
+  color:#5a7961;font:700 10px/1.5 var(--sans);text-decoration:none;
+}
+.index-project-link:hover{text-decoration:underline}
+.project-index-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:nowrap}
+.project-index-status{
+  color:#637768;
+  background:transparent;
+  border:1px solid transparent;
+  border-bottom-color:#cbd6ca;
+  border-radius:0;
+  padding:6px 7px;
+  min-width:99px;
+  font:600 10px/1.5 var(--sans);
+  cursor:pointer;
+}
+.project-index-status:hover{border-color:#cad7c9}
+.project-index-move{
+  background:transparent;border:1px solid #d4ddd1;
+  width:28px;height:28px;
+  color:#6e8974;font:16px/1 var(--sans);cursor:pointer;
+}
+.project-index-move:hover:not(:disabled){background:#e8efe6}
+.project-index-move:disabled{opacity:.28;cursor:default}
+.project-index-edit{
+  padding:7px 9px;border:0;background:transparent;
+  color:#54745d;font:700 10px var(--sans);cursor:pointer;
+}
+.project-index-edit:hover{text-decoration:underline}
+.project-index-editor{
+  background:#f2f4ee;
+  border-bottom:1px solid #d8ded5;
+  padding:20px 25px 22px 72px;
+  display:grid;grid-template-columns:1fr 1fr;gap:15px 18px;
+}
+.project-index-editor label,.project-add-form label{
+  display:block;color:#6d7c71;font:700 10px/1.8 var(--sans);
+}
+.project-index-editor input,.project-index-editor textarea,.project-index-editor select,
+.project-add-form input,.project-add-form textarea,.project-add-form select{
+  display:block;width:100%;margin-top:6px;border:1px solid #c9d3c7;
+  color:var(--ink);background:var(--white);
+  padding:10px 12px;font:12px/1.7 var(--sans);
+}
+.project-index-editor label:has(textarea){grid-column:1/-1}
+.project-editor-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.project-index-delete{
+  background:none;border:0;color:#9d695a;font:600 10px var(--sans);
+  padding:8px;cursor:pointer;margin-left:auto;
+}
+.project-index-delete:hover:not(:disabled){text-decoration:underline}
+.project-index-delete:disabled{opacity:.3;cursor:default}
+.project-add-form{
+  padding:24px;
+  margin:20px 0 25px;
+  border:1px solid #d9dfd6;
+  background:#fbfcf8;
+}
+.project-form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:16px}
+.project-form-actions{display:flex;gap:10px;margin-top:16px}
+.index-empty{font:italic 14px/1.9 var(--serif);padding:20px;color:#849183}
+.index-sync{font:10px/1.8 var(--sans);min-height:20px;color:#7f9784;margin:13px 0 0}
+@media(max-width:1050px){
+  .project-index-actions{gap:5px}
+  .project-index-row{gap:9px;padding:12px 11px}
+  .project-tree-nested{margin-left:25px;padding-left:15px}
+  .project-tree-nested>.project-tree-item::before{left:-15px;width:13px}
+}
+@media(max-width:740px){
+  .project-index-heading{align-items:start;flex-direction:column}
+  .index-head-actions{flex-direction:row;align-items:center;flex-wrap:wrap}
+  .project-index-row{
+    grid-template-columns:23px 21px minmax(0,1fr);
+    gap:8px;min-height:74px;
+  }
+  .project-index-main{grid-column:3}
+  .project-index-actions{grid-column:3;justify-content:flex-start;flex-wrap:wrap}
+  .project-index-status{min-width:95px}
+  .project-index-editor{padding:17px;grid-template-columns:1fr}
+  .project-index-editor label:has(textarea),.project-editor-actions{grid-column:1}
+  .project-form-row{grid-template-columns:1fr}
+  .project-tree-nested{margin-left:13px;padding-left:11px}
+  .project-tree-nested>.project-tree-item::before{left:-11px;width:9px}
+}
