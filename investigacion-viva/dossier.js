@@ -8,7 +8,7 @@ const headingSets={
  'universales-cosmicos':['Resumen','Referencias','1. La pregunta','2. Generalidad, extrapolación y reconocimiento','3. Del dominio humano a la comparación terrestre y xenolingüística','4. Método: auditoría exploratoria y casos diagnósticos','5. Casos diagnósticos','5.1. ONE y GOOD: capacidad relacionada no equivale a contenido','5.2. BODY, PART y LIVE/DIE: el problema de la individuación','5.3. ABOVE/BELOW: compartir el espacio no fija su parametrización','5.4. NOT: continuidad operacional sin identidad semántica demostrada','6. Qué produce la comparación','7. De anclaje a evidencia discriminante','8. Qué cambia al pasar al dominio xenolingüístico','9. Garantías de traducibilidad','10. Cuatro escenarios de interpretación','11. Consecuencias para SETI, METI y primer contacto','12. Por qué reaparecen algunas regularidades','13. Limitaciones','14. Conclusión'],
  'privilegio-actualidad':['Resumen','Referencias','1 Introducción','2 Salvabilidad individual y elección divina','El amor perfecto y las posibilidades de salvación','Mundos posibles y mundos factibles','La decisión de crear a quien se perdería necesariamente','La selección providencial de circunstancias','El mejor mundo y el bien de cada criatura','3 Los sentidos del privilegio de la actualidad','Actualidad indicial y realidad efectiva','Responsabilidad por los actos y exclusividad del juicio','4 La hipótesis de varios mundos actuales completos','Mundos independientes y universos dentro de un mundo','La respuesta de las múltiples actualidades','La pluralidad actual y la relevancia salvífica','5 Identidad personal y juicio entre mundos actuales','El problema: identidad modal e identidad de una persona efectivamente creada','Tres modelos de identidad y su alcance escatológico','De la identidad numérica a la unidad del sujeto moral','Dos historias efectivas: conflicto aparente y conflicto genuino','Un juicio global: jurisdicción, verdad y reparación','La prioridad de la reconciliación como presunción, no como regla demostrada','El juicio puede considerar posibilidades sin hacerlas actuales','Alcance de la prueba y resultado condicional','6 Prioridad temporal y suerte de las circunstancias','El orden de las actualizaciones y la autoridad del juicio','Muerte y posibilidad de arrepentimiento','Cercanía modal y suerte salvífica','7 Objeciones al juicio transmundano','La imputación de acciones ajenas o contrafácticas','La elección divina y la responsabilidad de la criatura','Las restricciones de realizabilidad conjunta','La libertad de un resultado universal','El problema del mal y los bienes de las víctimas','8 Conclusiones']
 };
-let user=null, catalog=[], docs=[],progress={version:1,status:{},notes:{},priority:{}},sessions=[],timer=null,chosenDoc=null;
+let user=null, catalog=[], docs=[], axes=[],progress={version:1,status:{},notes:{},priority:{}},sessions=[],timer=null,chosenDoc=null;
 let saveQueue=Promise.resolve(),saveDebounce=null,generation=0,lastInteraction=Date.now(),currentTab='biblioteca',lastNoteId=null;
 const formatTime=sec=>{const n=Math.max(0,Math.floor(sec)),h=Math.floor(n/3600),m=Math.floor(n%3600/60),s=n%60;return h?String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'):String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')};
 const fmtClock=ms=>{let n=Math.floor(ms/1000);return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(v=>String(v).padStart(2,'0')).join(':')};
@@ -42,7 +42,7 @@ function persistProgress(delay=300){
 function openDoc(entry){
  const target=docs.find(doc=>doc.document_id===entry.doc_id);
  if(!target)return;
- switchTab('dossier');showDocument(target);
+ showDocument(target);switchTab('dossier');
  startTimer('dossier:'+target.document_id,target.title,false);
 }
 function createItem(entry){
@@ -139,6 +139,21 @@ function showDocument(doc){
  chosenDoc=doc;renderDocument(doc);
  for(const btn of document.querySelectorAll('[data-document-id]'))btn.setAttribute('aria-pressed',String(btn.dataset.documentId===doc.document_id));
 }
+
+function renderAxes(){
+ const root=$('research-axes');root.replaceChildren();
+ for(const axis of axes){
+  const card=element('article','study-axis');
+  card.append(element('span','',axis.stage||'EJE DE TRABAJO'),element('h3','',axis.title||''),element('p','',axis.detail||''));
+  root.append(card);
+ }
+ if(!axes.length)root.append(element('p','study-empty','Todavía no hay ejes de investigación cargados.'));
+ $('project-note').value=progress.projectNote||'';
+}
+$('project-note').addEventListener('input',()=>{
+ progress.projectNote=$('project-note').value;
+ persistProgress(700);
+});
 function renderDocumentOptions(){
  const root=$('document-options');root.replaceChildren();
  for(const doc of docs){
@@ -160,6 +175,7 @@ function switchTab(name){
  for(const tab of document.querySelectorAll('[data-tab]'))tab.setAttribute('aria-selected',String(tab.dataset.tab===name));
  for(const panel of document.querySelectorAll('[data-panel]'))panel.hidden=panel.dataset.panel!==name;
  if(name==='tiempo')refreshTimerUI();
+ if(name==='dossier'&&!timer&&chosenDoc)startTimer('dossier:'+chosenDoc.document_id,chosenDoc.title,false);
 }
 document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.tab)));
 document.querySelectorAll('[data-open-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.openTab)));
@@ -262,10 +278,10 @@ async function load(){
  const request=++generation;$('loading-state').hidden=false;
  const {data:auth,error:authError}=await client.auth.getUser();if(request!==generation)return;
  if(authError||!auth.user){showGate();return}
- const res=await client.from('iv_dossiers').select('slug,title,catalog').eq('slug',slug).maybeSingle();
+ const res=await client.from('iv_dossiers').select('slug,title,catalog,visual_catalog').eq('slug',slug).maybeSingle();
  if(request!==generation)return;
  if(res.error||!res.data){showGate('Esta cuenta no puede abrir el proyecto.');return}
- user=auth.user;catalog=Array.isArray(res.data.catalog)?res.data.catalog:[];
+ user=auth.user;catalog=Array.isArray(res.data.catalog)?res.data.catalog:[];axes=Array.isArray(res.data.visual_catalog)?res.data.visual_catalog:[];
  const [docRes,progressRes,sessionsRes]=await Promise.all([
   client.from('iv_documents').select('document_id,title,subtitle,body_text,source_label').eq('dossier_slug',slug).order('updated_at',{ascending:false}),
   client.from('iv_progress').select('data').eq('owner_id',user.id).eq('dossier_slug',slug).maybeSingle(),
@@ -279,10 +295,10 @@ async function load(){
    return String(b.document_id).localeCompare(String(a.document_id));
   });
  sessions=sessionsRes.data||[];
- const state=progressRes.data?.data||{};progress={version:1,status:state.status||{},notes:state.notes||{},priority:state.priority||{}};
+ const state=progressRes.data?.data||{};progress={version:1,status:state.status||{},notes:state.notes||{},priority:state.priority||{},projectNote:state.projectNote||''};
  $('study-title').textContent=res.data.title;$('private-app').hidden=false;$('gate').hidden=true;$('loading-state').hidden=true;
  $('footer-state').textContent='Cuenta autorizada';
- renderInventory();renderDocumentOptions();sourceChoices();renderMetrics();renderTimeSummary();renderHistory();refreshTimerUI();sync('Archivo privado sincronizado.');
+ renderInventory();renderDocumentOptions();renderAxes();sourceChoices();renderMetrics();renderTimeSummary();renderHistory();refreshTimerUI();sync('Archivo privado sincronizado.');
 }
 $('login-form').addEventListener('submit',async e=>{
  e.preventDefault();const form=e.currentTarget,button=form.querySelector('button');button.disabled=true;
