@@ -117,11 +117,19 @@ function renderDocument(doc){
  if(isReferences){
   const h=element('h2','','Referencias');h.id='section-'+(++headingCount);root.append(h);
   const a=element('a','','Referencias');a.href='#'+h.id;toc.append(a);
-  for(const item of catalog.filter(e=>e.kind==='referencia')){
-   const p=element('p','reference-paragraph',item.label||'');
-   if(item.url && /^https:\/\//.test(item.url)){
-    const link=element('a','',' Abrir referencia ↗');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';p.append(link);
-   }
+  // Cada borrador archivado muestra su bibliografía original, sin sustituirla por la del artículo vigente.
+  const rawReferences=(doc.body_text||'').split(/\nReferencias\s*\n/).pop()||'';
+  const found=[];
+  for(const line of rawReferences.split(/\n/)){
+   const part=line.trim();if(!part)continue;
+   if(/^[A-ZÁÉÍÓÚÑ][A-Za-zÀ-ÿ’'\-]{2,45}(?:\s[A-Z][A-Za-z]+)?(?:,| y )/.test(part)&&/\(\d{4}\)/.test(part))found.push(part);
+   else if(found.length)found[found.length-1]+=' '+part;
+  }
+  const bibliography=found.length>2?found:catalog.filter(e=>e.kind==='referencia').map(e=>e.label);
+  for(const reference of bibliography){
+   const p=element('p','reference-paragraph',reference.trim());
+   const url=reference.match(/https:\/\/[^\s]+/)?.[0]?.replace(/[.,]+$/,'');
+   if(url){const link=element('a','',' Abrir referencia ↗');link.href=url;link.target='_blank';link.rel='noopener noreferrer';p.append(link)}
    root.append(p);
   }
  }
