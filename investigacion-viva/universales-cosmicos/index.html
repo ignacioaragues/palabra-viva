@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es" data-research-slug="universales-cosmicos">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#f7f6f0">
+<title>Universales cósmicos · Investigación Viva</title>
+<link rel="stylesheet" href="../styles.css?v=20261118-research">
+<link rel="stylesheet" href="../dossier.css?v=20261118-research">
+<script type="module" src="../dossier.js?v=20261118-research"></script>
+</head>
+<body>
+<header class="masthead">
+ <a class="identity" href="../"><span class="mark">I<span>·</span></span><span><strong>Investigación Viva</strong><small>CUADERNOS DE INVESTIGACIÓN</small></span></a>
+ <nav class="top-nav" aria-label="Navegación"><a href="../">Proyectos</a><a href="../../">Palabra Viva</a><a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Mi cuenta</a></nav>
+</header>
+<div class="loading-state" id="loading-state">Comprobando acceso al archivo privado…</div>
+<main id="gate" class="gate" hidden><div class="gate-card"><span class="overline">ACCESO PERSONAL</span>
+<div class="lock-emblem" aria-hidden="true">I<span>·</span></div><h1>Cuaderno privado.</h1>
+<p>Iniciá sesión con tu cuenta de Palabra Viva para consultar los textos y registrar tus lecturas.</p>
+<form id="login-form"><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" required>
+<label for="login-password">Contraseña</label><input id="login-password" type="password" autocomplete="current-password" required>
+<button class="primary" type="submit">Iniciar sesión <span>→</span></button></form>
+<p id="login-error" class="error" role="alert" aria-live="polite"></p>
+<a class="gate-link" href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Recuperar acceso desde Mi cuenta ↗</a>
+</div></main>
+<main id="private-app" hidden>
+<section class="study-hero shell">
+ <div class="study-hero-copy"><span class="overline">INVESTIGACIÓN VIVA / DOSSIER 02</span>
+ <h1 id="study-title">Universales cósmicos</h1><p class="study-topic">UNIVERSALES SEMÁNTICOS · XENOLINGÜÍSTICA</p><p class="study-intro">Universales semánticos, extrapolación, primer contacto y garantías de traducibilidad.</p>
+ <div class="study-hero-actions"><button class="primary" type="button" data-open-tab="dossier">Leer el dosier <span>→</span></button>
+ <button type="button" class="study-text-button" data-open-tab="biblioteca">Explorar fuentes</button></div>
+ </div>
+ <figure class="study-cover"><img src="../assets/universales-cosmicos.svg" alt="Grabado original monocromo para el proyecto Universales cósmicos" width="900" height="640">
+ <figcaption>Ilustración original · Investigación Viva</figcaption></figure>
+</section>
+<div class="study-stat-band"><div class="shell study-metrics">
+ <div><strong id="metric-references">—</strong><span>TEXTOS EN INVENTARIO</span></div>
+ <div><strong id="metric-read">—</strong><span>LECTURAS COMPLETADAS</span></div>
+ <div><strong id="metric-today">00:00</strong><span>LEÍDO HOY</span></div>
+ <div><strong id="metric-week">00:00</strong><span>ESTA SEMANA · DOM–SÁB</span></div>
+ <div><strong id="metric-all">00:00</strong><span>TIEMPO ACUMULADO</span></div>
+</div></div>
+<div class="shell study-body">
+<nav class="study-tabs" role="tablist" aria-label="Secciones del proyecto">
+<button type="button" role="tab" aria-selected="true" data-tab="biblioteca">Inventario de textos</button>
+<button type="button" role="tab" aria-selected="false" data-tab="dossier">Dosier web</button>
+<button type="button" role="tab" aria-selected="false" data-tab="tiempo">Lecturas y tiempo</button>
+</nav>
+<section class="study-panel" data-panel="biblioteca" role="tabpanel">
+ <header class="study-section-heading"><span class="overline">I · MAPA DE LECTURAS</span><h2>Inventario de textos<span class="stop">.</span></h2>
+ <p>Textos de trabajo y referencias documentadas en el borrador. El estado y las notas son personales y se sincronizan.</p></header>
+ <div class="study-controls"><label>Buscar<input type="search" id="inventory-search" placeholder="Autor, obra, concepto…"></label>
+ <label>Estado<select id="inventory-state"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="reading">En curso</option><option value="done">Leídos</option></select></label>
+ <label class="study-small-check"><input type="checkbox" id="inventory-priority">Solo prioritarios</label></div>
+ <p id="inventory-count" class="study-count"></p><div id="inventory" class="study-inventory"></div>
+</section>
+<section class="study-panel" data-panel="dossier" role="tabpanel" hidden>
+ <header class="study-section-heading"><span class="overline">II · TEXTO DE TRABAJO</span><h2>Dosier web<span class="stop">.</span></h2>
+ <p>Versión íntegra del borrador en lectura continua, con índice de secciones. El texto se recupera desde el archivo privado.</p></header>
+ <div id="document-options" class="study-document-options"></div>
+ <div class="study-reader-layout">
+ <aside class="study-toc"><span class="overline">EN ESTE TEXTO</span><nav id="document-toc" aria-label="Índice de secciones"></nav></aside>
+ <div class="study-reader-main">
+ <div class="study-reader-toolbar"><span id="reading-document-title">Dosier</span>
+ <div class="study-reader-tools"><button type="button" id="font-down" aria-label="Reducir tipografía">A−</button><button type="button" id="font-up" aria-label="Aumentar tipografía">A+</button></div></div>
+ <div id="document-body" class="study-prose" tabindex="0"></div>
+ </div></div>
+</section>
+<section class="study-panel" data-panel="tiempo" role="tabpanel" hidden>
+ <header class="study-section-heading"><span class="overline">III · REGISTRO PERSONAL</span><h2>Lecturas y tiempo<span class="stop">.</span></h2><p>Sesiones por texto, día y semana. La semana empieza el domingo y termina el sábado.</p></header>
+ <div class="study-time-grid"><div class="study-time-card">
+  <span class="overline">CRONÓMETRO DE LECTURA</span><label>Qué estás leyendo<select id="timer-source"></select></label>
+  <div class="study-clock" id="timer-clock" aria-live="off">00:00:00</div>
+  <p class="study-time-hint" id="timer-status">Seleccioná un texto para empezar.</p>
+  <div class="study-time-actions"><button type="button" class="primary" id="timer-toggle">Empezar lectura</button><button type="button" id="timer-stop">Terminar sesión</button></div>
+  <p class="study-timer-note">El contador se pausa si dejás inactiva la pestaña. Durante una lectura externa podés dejarlo corriendo y detenerlo manualmente.</p>
+ </div><div class="study-time-card">
+  <span class="overline">ESTADÍSTICAS DE LECTURA</span>
+  <div id="time-summary" class="study-time-summary"></div>
+  <h3>Últimos siete días</h3><div id="daily-bars" class="study-daily-bars"></div>
+ </div></div>
+ <h3 class="study-history-heading">Sesiones recientes</h3><div id="session-history" class="study-history"></div>
+</section>
+<div id="study-sync" class="study-sync" role="status" aria-live="polite"></div>
+</div>
+</main>
+<footer class="footer"><span>INVESTIGACIÓN VIVA · ARCHIVO PERSONAL</span><span id="footer-state">Acceso restringido</span></footer>
+</body></html>
