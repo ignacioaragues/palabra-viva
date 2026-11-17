@@ -6,7 +6,9 @@
 <title>Investigación Viva · Archivo personal</title>
 <meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
 <link rel="stylesheet" href="../styles.css?v=20261116-governolo1">
+<link rel="stylesheet" href="../dossier.css?v=20261118-leotimer">
 <script type="module" src="../app.js?v=20261116-governolo1"></script>
+<script type="module" src="../leo-timer.js?v=20261118-leotimer"></script>
 </head>
 <body>
 <header class="masthead">
@@ -32,7 +34,7 @@
     <span class="overline">INVESTIGACIÓN VIVA / DOSSIER 01</span><h1 id="dossier-title"></h1>
     <p class="tagline">La voz, la historia, el teatro.</p>
     <p class="hero-lead">Testimonios, dramaturgia y bibliografía de trabajo reunidos en una checklist que evoluciona con la lectura.</p>
-    <div class="hero-actions"><a href="#lecturas" class="primary">Abrir mapa <span>→</span></a><a class="text-link" href="#iconografia">Archivo iconográfico</a><a class="text-link" href="#muestras">Muestras de estilo</a></div>
+    <div class="hero-actions"><a href="#lecturas" class="primary">Abrir mapa <span>→</span></a><a class="text-link" href="#iconografia">Archivo iconográfico</a><a class="text-link" href="#muestras">Muestras de estilo</a><a class="text-link" href="#leo-cronometro">Tiempo de lectura</a></div>
   </div><figure class="encounter-engraving">
     <img src="../assets/leo-attila-encuentro.svg" alt="Grabado original en blanco y negro: León I y Atila se observan con cautela frente a sus séquitos, separados por una distancia diplomática" width="860" height="645" loading="eager" decoding="async">
     <figcaption>León y Atila · interpretación gráfica contemporánea</figcaption>
@@ -96,7 +98,28 @@
     <div><span class="overline">III. CUADERNO</span><h2>Muestras de <em>estilo</em><span class="stop">.</span></h2><p>Reservado para la selección de pasajes y el método que vamos a definir.</p></div>
     <div class="style-placeholder"><span>II.</span><h3>Por construir</h3><p>Sin categorías ni ejemplos predefinidos.</p></div>
   </div></section>
-  <section class="backup shell"><div><span class="overline">IV. ARCHIVO PERSONAL</span><h2>Tu progreso, protegido.</h2><p>Las casillas y tus notas se guardan en la cuenta privada de Edición Viva. También podés exportarlas para conservar una copia.</p><p class="sync" id="storage-message" role="status">Sincronizado.</p></div><div class="backup-actions"><button type="button" id="export">Exportar JSON ↓</button><button type="button" id="import">Importar copia</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></section>
+  <section class="library shell" id="leo-cronometro" style="padding-top:65px;padding-bottom:70px">
+  <header class="section-heading"><div><span class="overline">IV. REGISTRO DE LECTURA</span><h2>Tiempo de lectura<span class="stop">.</span></h2></div>
+  <p>Un cronómetro por obra del inventario. Tus sesiones quedan guardadas en el mismo registro privado que los otros proyectos de Investigación Viva.</p></header>
+  <div class="study-time-grid">
+    <div class="study-time-card"><span class="overline">SESIÓN ACTIVA</span>
+      <label>Obra que estás leyendo<select id="leo-timer-source"><option value="">Cargando lecturas…</option></select></label>
+      <div class="study-clock" id="leo-timer-clock">00:00:00</div>
+      <p class="study-time-hint" id="leo-timer-hint">Seleccioná una obra para comenzar.</p>
+      <label style="display:flex;flex-direction:row;align-items:center;font-size:11px;letter-spacing:0">
+       <input type="checkbox" id="leo-timer-external"> Lectura externa (continuar cuando cambiás de pestaña)</label>
+      <div class="study-time-actions"><button class="primary" type="button" id="leo-timer-toggle" disabled>Empezar lectura</button>
+      <button type="button" id="leo-timer-stop" disabled>Terminar sesión</button></div>
+    </div>
+    <div class="study-time-card"><span class="overline">TIEMPO REGISTRADO</span>
+      <div class="study-time-summary"><div><strong id="leo-time-today">00:00</strong><small>HOY</small></div>
+      <div><strong id="leo-time-week">00:00</strong><small>ESTA SEMANA · DOM–SÁB</small></div>
+      <div><strong id="leo-time-total">00:00</strong><small>TOTAL</small></div>
+      <div><strong id="leo-time-sessions">0</strong><small>SESIONES</small></div></div>
+      <p id="leo-timer-sync" class="study-sync" role="status" aria-live="polite"></p>
+    </div></div>
+</section>
+<section class="backup shell"><div><span class="overline">IV. ARCHIVO PERSONAL</span><h2>Tu progreso, protegido.</h2><p>Las casillas y tus notas se guardan en la cuenta privada de Edición Viva. También podés exportarlas para conservar una copia.</p><p class="sync" id="storage-message" role="status">Sincronizado.</p></div><div class="backup-actions"><button type="button" id="export">Exportar JSON ↓</button><button type="button" id="import">Importar copia</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></section>
 </main>
 <footer class="footer"><span>INVESTIGACIÓN VIVA · ARCHIVO PERSONAL</span><span id="footer-state">Acceso restringido</span></footer>
 </body></html>
