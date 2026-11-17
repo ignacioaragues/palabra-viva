@@ -5,8 +5,8 @@
 <meta name="theme-color" content="#f7f6f0"><meta name="robots" content="noindex,nofollow,noarchive">
 <title>Investigación Viva · Mis proyectos</title>
 <meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
-<link rel="stylesheet" href="./styles.css?v=20261116-cleanrows3">
-<script type="module" src="./landing.js?v=20261116-encounter3"></script>
+<link rel="stylesheet" href="./styles.css?v=20261117-projectindex1">
+<script type="module" src="./landing.js?v=20261117-projectindex1"></script>
 </head>
 <body>
 <header class="masthead">
@@ -38,6 +38,33 @@
     </div>
     <div class="landing-divider"><span>01 · MIS PROYECTOS</span><span id="project-count">—</span></div>
     <div class="research-projects" id="research-projects" aria-live="polite"></div>
+    <section class="project-index" id="indice-proyectos" aria-labelledby="project-index-heading">
+      <div class="project-index-heading">
+        <div>
+          <span class="overline">02 · PLAN DE INVESTIGACIÓN</span>
+          <h2 id="project-index-heading">Índice de proyectos<span class="stop">.</span></h2>
+          <p>Tu checklist personal. Ordená los proyectos por importancia, agrupá subproyectos y marcá lo que vas terminando.</p>
+        </div>
+        <div class="index-head-actions">
+          <span id="index-count" aria-live="polite">—</span>
+          <button type="button" id="index-add" class="index-primary">+ Nuevo proyecto</button>
+        </div>
+      </div>
+      <form id="project-add-form" class="project-add-form" hidden>
+        <div class="project-form-row">
+          <label>Nombre del proyecto <input id="project-add-title" name="title" maxlength="160" required placeholder="Título del nuevo proyecto"></label>
+          <label>Dentro de <select id="project-add-parent" name="parent"></select></label>
+        </div>
+        <label>Descripción breve (opcional) <textarea id="project-add-summary" name="summary" maxlength="500" rows="2" placeholder="Tema, objetivo o próximo paso"></textarea></label>
+        <div class="project-form-actions">
+          <button type="submit" class="index-primary">Guardar proyecto</button>
+          <button type="button" id="project-add-cancel" class="index-secondary">Cancelar</button>
+        </div>
+      </form>
+      <p class="index-help">Usá <strong>⠿</strong> para arrastrar un proyecto entre otros del mismo nivel, o las flechas para moverlo. La opción «Jerarquía» permite crear subproyectos.</p>
+      <div id="project-index-list" class="project-index-list"></div>
+      <p id="index-sync" class="index-sync" role="status" aria-live="polite"></p>
+    </section>
     <p class="landing-note">Este espacio es personal. Las investigaciones y su progreso solo se cargan con tu cuenta.</p>
   </section>
 </main>
