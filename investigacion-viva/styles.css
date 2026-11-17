@@ -692,3 +692,15 @@
 /* El espacio para proyectos futuros abre ahora el índice personal. */
 .future-project{text-decoration:none;cursor:pointer}
 .future-project:hover{background:#e8ece4;border-color:#a7b8a6}
+
+/* Registro unificado de lectura en la portada privada de Investigación Viva */
+.research-reading-overview{margin:48px 0 57px;background:#fff;border:1px solid #dce3d9;padding:30px clamp(18px,4vw,46px)}
+.research-reading-overview .project-index-heading{margin-bottom:20px}
+.research-reading-overview .project-index-heading h2{font:400 clamp(27px,3vw,39px) var(--serif);letter-spacing:-.04em;margin:10px 0}
+.research-reading-overview .project-index-heading p{font:13px/1.8 var(--serif);color:var(--muted);max-width:650px}
+.reading-overview-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);padding-top:17px}
+.reading-overview-stats>div{display:flex;flex-direction:column;gap:8px;padding:9px 25px;border-right:1px solid var(--line)}
+.reading-overview-stats>div:first-child{padding-left:0}.reading-overview-stats>div:last-child{border-right:none}
+.reading-overview-stats strong{font:400 clamp(25px,3vw,35px) var(--serif);font-variant-numeric:tabular-nums;color:#36513c}
+.reading-overview-stats small{font:700 9px var(--sans);letter-spacing:.12em;color:#829186}
+@media(max-width:660px){.reading-overview-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.reading-overview-stats>div{min-height:90px;border-bottom:1px solid var(--line)}.reading-overview-stats>div:first-child{padding-left:25px}}
