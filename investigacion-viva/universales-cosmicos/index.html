@@ -46,6 +46,7 @@
 <button type="button" role="tab" aria-selected="true" data-tab="biblioteca">Inventario de textos</button>
 <button type="button" role="tab" aria-selected="false" data-tab="dossier">Dosier web</button>
 <button type="button" role="tab" aria-selected="false" data-tab="tiempo">Lecturas y tiempo</button>
+<button type="button" role="tab" aria-selected="false" data-tab="mapa">Mapa de investigación</button>
 </nav>
 <section class="study-panel" data-panel="biblioteca" role="tabpanel">
  <header class="study-section-heading"><span class="overline">I · MAPA DE LECTURAS</span><h2>Inventario de textos<span class="stop">.</span></h2>
@@ -81,6 +82,14 @@
   <h3>Últimos siete días</h3><div id="daily-bars" class="study-daily-bars"></div>
  </div></div>
  <h3 class="study-history-heading">Sesiones recientes</h3><div id="session-history" class="study-history"></div>
+</section>
+<section class="study-panel" data-panel="mapa" role="tabpanel" hidden>
+ <header class="study-section-heading"><span class="overline">IV · CUADERNO DE INVESTIGACIÓN</span><h2>Preguntas y líneas de trabajo<span class="stop">.</span></h2>
+ <p>Mapa conceptual del proyecto, con distinciones, hipótesis y problemas abiertos. El contenido solo se carga con tu sesión.</p></header>
+ <div class="study-axes" id="research-axes"></div>
+ <div class="study-project-notes"><label for="project-note">Mis notas y próximos pasos</label>
+ <textarea id="project-note" rows="7" placeholder="Nuevas preguntas, cambios de tesis, bibliografía por revisar…"></textarea>
+ <small>Se guardan automáticamente en tu cuenta privada.</small></div>
 </section>
 <div id="study-sync" class="study-sync" role="status" aria-live="polite"></div>
 </div>
