@@ -361,8 +361,10 @@ function showProjects(rows){
     else card.append(info,action);
     root.append(card);
   }
-  const future=document.createElement('div');future.className='future-project';
-  future.innerHTML='<span class="future-project-mark">+</span><strong>Próximos proyectos</strong><small>Un lugar para nuevas investigaciones.</small>';
+  const future=document.createElement('a');
+  future.className='future-project';
+  future.href='#indice-proyectos';
+  future.innerHTML='<span class="future-project-mark">+</span><strong>Mis próximos proyectos</strong><small>Ver el índice privado y agregar nuevas ideas</small>';
   root.append(future);
 }
 async function loadProjects(){
