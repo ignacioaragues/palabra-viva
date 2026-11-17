@@ -377,6 +377,20 @@ function showProjects(rows){
   future.innerHTML='<span class="future-project-mark">+</span><strong>Mis próximos proyectos</strong><small>Ver el índice privado y agregar nuevas ideas</small>';
   root.append(future);
 }
+
+function renderReadingOverview(rows){
+  const entries=Array.isArray(rows)?rows:[];
+  const today=new Date();today.setHours(0,0,0,0);
+  const sunday=new Date(today);sunday.setDate(sunday.getDate()-sunday.getDay());
+  const sum=items=>items.reduce((acc,item)=>acc+(Number(item.duration_seconds)||0),0);
+  const format=n=>{const h=Math.floor(n/3600),m=Math.floor(n%3600/60),sec=n%60;return h?String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'):String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')};
+  $('reading-overview-today').textContent=format(sum(entries.filter(r=>new Date(r.started_at)>=today)));
+  $('reading-overview-week').textContent=format(sum(entries.filter(r=>new Date(r.started_at)>=sunday)));
+  $('reading-overview-total').textContent=format(sum(entries));
+  $('reading-overview-sessions').textContent=String(entries.length);
+  $('reading-overview-status').textContent=entries.length?'Registro sincronizado con tu cuenta.':'El contador empezará con tu primera sesión registrada.';
+}
+
 async function loadProjects(){
   const gen=++generation;
   $('loading-state').hidden=false;$('gate').hidden=true;$('private-app').hidden=true;
@@ -396,6 +410,10 @@ async function loadProjects(){
   ensureDossiers();
   showProjects(result.data);
   renderIndex();
+  const reading=await client.from('iv_reading_sessions').select('duration_seconds,started_at,dossier_slug').eq('owner_id',owner.id).order('started_at',{ascending:false}).limit(3000);
+  if(gen!==generation)return;
+  if(reading.error){$('reading-overview-status').textContent='No se pudo consultar el registro de lectura.';}
+  else renderReadingOverview(reading.data);
   setIndexMessage('Índice sincronizado con tu cuenta.');
   $('private-app').hidden=false;
   $('loading-state').hidden=true;
