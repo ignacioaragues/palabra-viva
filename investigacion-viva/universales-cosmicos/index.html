@@ -50,15 +50,26 @@
 </nav>
 <section class="study-panel" data-panel="biblioteca" role="tabpanel">
  <header class="study-section-heading"><span class="overline">I · MAPA DE LECTURAS</span><h2>Inventario de textos<span class="stop">.</span></h2>
- <p>Textos de trabajo y referencias documentadas en el borrador. El estado y las notas son personales y se sincronizan.</p></header>
+ <p>Manuscritos, dosieres de investigación y lecturas agrupados por tipo. Estados, notas y prioridades se sincronizan con tu cuenta.</p></header>
  <div class="study-controls"><label>Buscar<input type="search" id="inventory-search" placeholder="Autor, obra, concepto…"></label>
  <label>Estado<select id="inventory-state"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="reading">En curso</option><option value="done">Leídos</option></select></label>
- <label class="study-small-check"><input type="checkbox" id="inventory-priority">Solo prioritarios</label></div>
- <p id="inventory-count" class="study-count"></p><div id="inventory" class="study-inventory"></div>
+ <label class="study-small-check"><input type="checkbox" id="inventory-priority">Prioridad alta</label></div>
+ <div class="study-inventory-head">
+  <p id="inventory-count" class="study-count"></p>
+  <div class="study-viewbar">
+   <span>VISTA</span><button type="button" data-inventory-view="cards" aria-pressed="true">Tarjetas</button>
+   <button type="button" data-inventory-view="list" aria-pressed="false">Lista ordenable</button>
+   <span>ORDENAR</span><button type="button" data-inventory-sort="priority" aria-pressed="true">Prioridad ↓</button>
+   <button type="button" data-inventory-sort="original" aria-pressed="false">Original</button>
+  </div>
+ </div>
+ <p id="inventory-hint" class="study-list-hint" hidden>Arrastrá cada referencia dentro de su categoría para reordenarla. Los textos terminados quedan siempre arriba; también podés usar ↑ y ↓.</p>
+ <nav id="inventory-categories" class="study-category-nav" aria-label="Categorías de lectura"></nav>
+ <div id="inventory" class="study-inventory-groups"></div>
 </section>
 <section class="study-panel" data-panel="dossier" role="tabpanel" hidden>
  <header class="study-section-heading"><span class="overline">II · TEXTO DE TRABAJO</span><h2>Dosier web<span class="stop">.</span></h2>
- <p>Versión íntegra del borrador en lectura continua, con índice de secciones. El texto se recupera desde el archivo privado.</p></header>
+ <p>Manuscritos y dosieres de investigación en su versión web, organizados por colección. Incluyen índice y tiempo de lectura.</p></header>
  <div id="document-options" class="study-document-options"></div>
  <div class="study-reader-layout">
  <aside class="study-toc"><span class="overline">EN ESTE TEXTO</span><nav id="document-toc" aria-label="Índice de secciones"></nav></aside>
