@@ -3,7 +3,7 @@ const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co','sb_publish
 const SLUG='estados-con-aura';
 const $=id=>document.getElementById(id);
 const view=document.documentElement.dataset.atlasView;
-let owner=null,records=[],progress={version:1,status:{},notes:{}},saveTimer=null,saveQueue=Promise.resolve();
+let owner=null,records=[],progress={version:1,status:{},notes:{}},saveTimer=null,saveQueue=Promise.resolve(),loadGeneration=0;
 const TYPES=[['all','Todas las entidades'],['Imperio','Imperios'],['Otro','Reinos, repúblicas y órdenes'],['País singular','Países singulares'],['Entidad singular adicional','Otras entidades']];
 let activeType='all';
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
@@ -14,7 +14,7 @@ const urlFor=(r)=>'./ficha.html?e='+encodeURIComponent(r.n);
 const value=v=>(v===null||v===undefined||String(v).trim()===''?'No indicado en el canon':String(v).replace(/\s+/g,' ').trim());
 const canonText=(r,k)=>value(r[k]).replace(/\*/g,'');
 const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-function showGate(msg=''){owner=null;$('loading').hidden=true;$('app').hidden=true;$('gate').hidden=false;$('login-error').textContent=msg}
+function showGate(msg=''){++loadGeneration;owner=null;$('loading').hidden=true;$('app').hidden=true;$('gate').hidden=false;$('login-error').textContent=msg}
 function showApp(){$('loading').hidden=true;$('gate').hidden=true;$('app').hidden=false}
 function attachLogin(){
  const form=$('login-form');if(!form)return;
@@ -58,15 +58,20 @@ function persistProgress(){
  },500);
 }
 async function boot(){
+ const generation=++loadGeneration;
  $('loading').hidden=false;$('gate').hidden=true;$('app').hidden=true;
  try{
   const {data:auth,error:authError}=await client.auth.getUser();
+  if(generation!==loadGeneration)return;
   if(authError||!auth.user){showGate();return}
   owner=auth.user;
   const {data,error}=await client.from('iv_dossiers').select('catalog').eq('slug',SLUG).maybeSingle();
+  if(generation!==loadGeneration)return;
   if(error||!data){showGate('Esta cuenta no tiene acceso al atlas histórico.');return}
   records=await decodeCatalog(data);
+  if(generation!==loadGeneration)return;
   await loadProgress();
+  if(generation!==loadGeneration)return;
   if(view==='entity')renderEntity();
   else renderIndex();
   showApp();
@@ -176,7 +181,7 @@ function resource(title,subtitle,url){
 async function loadWikiImage(r){
  // Mostrar solamente una miniatura asociada a una entrada enciclopédica buscada por nombre;
  // nunca presentar una imagen parecida como retrato histórico auténtico.
- const params=new URLSearchParams({action:'query',generator:'search',gsrsearch:r.entidad,gsrnamespace:'0',gsrlimit:'3',prop:'pageimages|info',piprop:'thumbnail',pithumbsize:'900',inprop:'url',format:'json',origin:'*'});
+ const params=new URLSearchParams({action:'query',generator:'search',gsrsearch:r.entidad,gsrnamespace:'0',gsrlimit:'3',prop:'pageimages|info',piprop:'name|thumbnail',pithumbsize:'900',inprop:'url',format:'json',origin:'*'});
  const response=await fetch('https://es.wikipedia.org/w/api.php?'+params.toString(),{mode:'cors'});
  if(!response.ok)return;
  const data=await response.json();
@@ -188,12 +193,29 @@ async function loadWikiImage(r){
   return p.thumbnail?.source&&common.length>=Math.max(1,Math.ceil(original.length/2));
  });
  if(!match)return;
+ if(match.fullurl)$('wikipedia-main').href=match.fullurl;
  const picture=$('entity-image'),img=node('img');
  img.src=match.thumbnail.source;img.alt='Imagen asociada con el artículo «'+match.title+'» en Wikipedia';img.loading='lazy';img.referrerPolicy='no-referrer';
  img.addEventListener('error',()=>{picture.replaceChildren(node('div','image-fallback','Imagen no disponible; consultá Wikimedia Commons'))});
  picture.replaceChildren(img);
  const credit=$('entity-image-credit');credit.replaceChildren();
- credit.append('Imagen procedente del artículo ',link('«'+match.title+'» ↗',match.fullurl||wikiSearch('es',match.title)),'. Consultá allí los créditos y la licencia de la imagen.');
+ credit.append('Imagen del artículo ',link('«'+match.title+'» ↗',match.fullurl||wikiSearch('es',match.title)),'. Consultá los créditos en su fuente.');
+ if(match.pageimage){
+  try{
+   const p=new URLSearchParams({action:'query',titles:'File:'+match.pageimage,prop:'imageinfo',iiprop:'extmetadata|url',format:'json',origin:'*'});
+   const res=await fetch('https://commons.wikimedia.org/w/api.php?'+p.toString());
+   const body=await res.json();
+   const file=Object.values(body?.query?.pages||{})[0]?.imageinfo?.[0];
+   if(file?.descriptionurl){
+    const info=file.extmetadata||{};
+    const author=new DOMParser().parseFromString(String(info.Artist?.value||''),'text/html').body.textContent.trim().slice(0,120);
+    credit.replaceChildren();
+    credit.append('Procedencia: ',link('Wikimedia Commons · ficha de archivo ↗',file.descriptionurl));
+    if(author)credit.append(' · Autor: '+author);
+    if(info.LicenseShortName?.value)credit.append(' · Licencia: '+info.LicenseShortName.value);
+   }
+  }catch(e){console.warn('Metadatos de imagen no disponibles',e)}
+ }
 }
 $('search')?.addEventListener('input',renderIndex);
 $('sort')?.addEventListener('change',renderIndex);
