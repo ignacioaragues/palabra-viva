@@ -356,7 +356,7 @@ function showProjects(rows){
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0];
+      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261118-engraving-rich';
       preview.alt=artwork[item.slug][1];
       preview.width=860;preview.height=645;
       preview.loading='lazy';
