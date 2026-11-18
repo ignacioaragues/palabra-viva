@@ -325,13 +325,22 @@ document.querySelectorAll('[data-inventory-view]').forEach(button=>button.addEve
 document.querySelectorAll('[data-inventory-sort]').forEach(button=>button.addEventListener('click',()=>{progress.sortOrder=button.dataset.inventorySort;persistProgress();renderInventory()}));
 document.querySelectorAll('[data-open-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.openTab)));
 $('inventory-search').addEventListener('input',renderInventory);$('inventory-state').addEventListener('change',renderInventory);$('inventory-priority').addEventListener('change',renderInventory);
+
 function sourceChoices(){
- const pick=$('timer-source');const choice=pick.value;pick.replaceChildren();
- for(const item of catalog){
-  const opt=element('option','',item.doc_id?'Dosier: '+itemTitle(item):itemTitle(item));
-  opt.value=item.doc_id?'dossier:'+item.doc_id:item.id;pick.append(opt);
+ const pick=$('timer-source'),choice=pick.value;pick.replaceChildren();
+ const filter=$('session-category');filter.replaceChildren();
+ const all=element('option','','Todos los tipos');all.value='all';filter.append(all);
+ for(const group of groupedItems(catalog)){
+  const option=element('option','',group.title);option.value=group.id;filter.append(option);
+  const optgroup=element('optgroup');optgroup.label=group.title;
+  for(const item of sortedCategoryItems(group.items,group.id)){
+   const opt=element('option','',itemTitle(item));
+   opt.value=item.doc_id?'dossier:'+item.doc_id:item.id;
+   optgroup.append(opt);
+  }
+  pick.append(optgroup);
  }
- if(choice && [...pick.options].some(x=>x.value===choice))pick.value=choice;
+ if(choice && [...pick.querySelectorAll('option')].some(x=>x.value===choice))pick.value=choice;
 }
 function timeInSession(){return timer?timer.totalMs+(timer.active?Math.max(0,Date.now()-timer.segmentStart):0):0}
 let writeQueue=Promise.resolve();
@@ -399,14 +408,25 @@ function renderTimeSummary(){
  for(const {d,n} of days){const col=element('div');col.append(element('strong','',n?Math.round(n/60)+'m':'–'));
  const bar=element('span','bar');bar.style.height=Math.max(3,Math.round(n/max*82))+'px';col.append(bar,element('small','',new Intl.DateTimeFormat('es-AR',{weekday:'short'}).format(d)));bars.append(col)}
 }
+
 function renderHistory(){
- const history=$('session-history');history.replaceChildren();const items=sessions.filter(s=>s.dossier_slug===slug).slice(0,30);
- if(!items.length){history.append(element('p','study-empty','Todavía no hay sesiones registradas.'));return}
+ const history=$('session-history');history.replaceChildren();
+ const selected=$('session-category')?.value||'all';
+ const items=sessions.filter(s=>{
+  if(s.dossier_slug!==slug)return false;
+  if(selected==='all')return true;
+  const entry=catalog.find(x=>x.id===s.source_id||x.doc_id&&'dossier:'+x.doc_id===s.source_id);
+  return entry&&categoryOf(entry)===selected;
+ }).slice(0,40);
+ if(!items.length){history.append(element('p','study-empty','No hay sesiones registradas para este tipo de lectura.'));return}
  for(const s of items){
   const row=element('div','study-history-item'),date=element('time','',fmtDate(new Date(s.started_at)));
-  date.dateTime=s.started_at;row.append(date,element('span','',s.source_title||s.source_id),element('strong','',formatTime(sec(s))));history.append(row);
+  date.dateTime=s.started_at;
+  row.append(date,element('span','',s.source_title||s.source_id),element('strong','',formatTime(sec(s))));
+  history.append(row);
  }
 }
+$('session-category').addEventListener('change',renderHistory);
 function startTicker(){
  setInterval(()=>{
   if(!timer?.active)return;
