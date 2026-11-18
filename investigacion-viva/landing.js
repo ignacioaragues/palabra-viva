@@ -350,13 +350,13 @@ function showProjects(rows){
     let preview=null;
     const artwork={
       'leo-attila':['leo-attila-encuentro.svg','Encuentro de León I y Atila'],
-      'universales-cosmicos':['universales-cosmicos.svg','Dos mundos enlazados por una esfera armilar'],
-      'privilegio-actualidad':['privilegio-actualidad.svg','Balanza y mundos actuales posibles']
+      'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
+      'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles']
     };
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261118-engraving-light';
+      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261118-final-webp-v1';
       preview.alt=artwork[item.slug][1];
       preview.width=860;preview.height=645;
       preview.loading='lazy';
