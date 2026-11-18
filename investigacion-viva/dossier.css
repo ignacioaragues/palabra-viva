@@ -162,3 +162,7 @@
 .study-reader-layout{margin-top:25px}
 @media(max-width:800px){.study-category-items{grid-template-columns:1fr}.study-category-summary{grid-template-columns:29px minmax(0,1fr) 18px;gap:12px}.study-category-metrics{grid-column:2;grid-row:2}.study-category-chevron{grid-column:3;grid-row:1}.study-category-content{padding:6px 12px 17px}}
 @media(max-width:560px){.study-doc-list{grid-template-columns:1fr}.study-category-summary{padding:16px 12px}.study-item-top .study-inventory-kind{max-width:43%}.study-inventory-item .priority-caption{display:none}.study-category-nav a{font-size:9px}.study-viewbar{justify-content:flex-start}.study-viewbar>span{margin-left:4px}}
+
+.study-history-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px}
+.study-history-head label{display:flex;align-items:center;gap:8px;color:#748879;font:700 10px var(--sans)}
+.study-history-head select{border:1px solid #d3dfd3;padding:8px 10px;background:#fff;color:#405d47;font:12px var(--sans)}
