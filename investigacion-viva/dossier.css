@@ -98,3 +98,67 @@
 .study-project-notes textarea{width:100%;box-sizing:border-box;border:1px solid #cad7cc;background:#fff;color:#394f3d;padding:17px;font:15px/1.65 var(--serif);resize:vertical}
 .study-project-notes small{display:block;font:11px/1.5 var(--sans);color:#889989;margin-top:10px}
 @media(max-width:700px){.study-axes{grid-template-columns:1fr}.study-axis{padding:22px}}
+
+/* Investigación Viva · Biblioteca tipológica y prioridades compartidas con León / Atila */
+.study-inventory-head{display:flex;justify-content:space-between;align-items:center;gap:14px 22px;flex-wrap:wrap;margin:22px 0 15px}
+.study-inventory-head .study-count{margin:0}
+.study-viewbar{display:flex;align-items:center;justify-content:flex-end;gap:3px;flex-wrap:wrap}
+.study-viewbar>span{font:700 9px/1.4 var(--sans);letter-spacing:.11em;color:#8b968a;margin:0 5px 0 12px}
+.study-viewbar button{font:600 10px/1.4 var(--sans);border:1px solid #d1d7ce;color:#637569;background:#fff;padding:8px 11px;cursor:pointer}
+.study-viewbar button[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:#fff}
+.study-list-hint{background:#f5f7f1;border-left:2px solid #a5b6a5;padding:10px 14px;font:11px/1.8 var(--sans);color:#6e8272;margin:10px 0 16px}
+.study-category-nav{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 23px}
+.study-category-nav a{font:600 10px/1.5 var(--sans);color:#526c57;text-decoration:none;background:#fff;border:1px solid #d4dfd2;padding:8px 11px}
+.study-category-nav a:hover{background:#e9eee8}
+.study-inventory-groups{display:flex;flex-direction:column;gap:12px}
+.study-category-group{background:#fbfaf6;border:1px solid #d9ddd3;scroll-margin-top:18px}
+.study-category-group[open]{border-color:#adbcad}
+.study-category-summary{display:grid;grid-template-columns:42px minmax(0,1fr) minmax(130px,175px) 17px;align-items:center;gap:12px 18px;padding:20px 24px;cursor:pointer;list-style:none}
+.study-category-summary:hover{background:#f2f4ec}
+.study-category-summary::-webkit-details-marker{display:none}
+.study-category-summary::marker{content:""}
+.study-category-index{font:400 19px var(--serif);color:#a36e59}
+.study-category-info{display:flex;flex-direction:column;gap:6px}
+.study-category-info strong{font:400 clamp(17px,2vw,23px)/1.3 var(--serif);color:#314b3a}
+.study-category-info small{font:11px/1.6 var(--sans);color:#7a8a7d}
+.study-category-metrics{display:flex;flex-direction:column;gap:3px}
+.study-category-metrics strong{font:600 11px var(--sans);color:#506654}
+.study-category-metrics small{font:10px var(--sans);color:#8b998e}
+.study-category-track{height:4px;background:#e1e8de;width:100%;display:block;margin-top:6px}
+.study-category-fill{display:block;height:100%;background:#829e85}
+.study-category-chevron{color:#849786;font:26px Georgia,serif;transition:transform .15s}
+.study-category-group[open]>.study-category-summary>.study-category-chevron{transform:rotate(180deg)}
+.study-category-content{padding:6px 22px 24px;background:#f8faf6}
+.study-category-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.study-category-items[data-view="list"]{display:flex;flex-direction:column;gap:6px}
+.study-category-items[data-view="list"] .study-inventory-item{display:grid;grid-template-columns:1fr;gap:8px;padding:17px 20px}
+.study-category-items[data-view="list"] .study-inventory-item h3{font-size:17px}
+.study-category-items[data-view="list"] .study-inventory-item p{font-size:11px}
+.study-item-top{display:flex;gap:14px;align-items:center;justify-content:space-between;min-height:25px}
+.study-item-top .study-inventory-kind{max-width:65%;font-size:9px}
+.study-inventory-item .priority-controls{display:flex;align-items:center;gap:3px}
+.study-inventory-item .priority-caption{font:700 8px var(--sans);letter-spacing:.09em;color:#899789}
+.study-inventory-item .priority-dots{display:flex;gap:1px}
+.study-inventory-item .priority-dot{display:grid;place-items:center;width:25px;height:25px;border:1px solid transparent;border-radius:50%;background:none;cursor:pointer;padding:0}
+.study-inventory-item .priority-dot::before{display:block;content:"";width:9px;height:9px;border:1.5px solid var(--dot-color);border-radius:50%;background:transparent}
+.study-inventory-item .priority-dot.priority-baja{--dot-color:#7d978b}
+.study-inventory-item .priority-dot.priority-media{--dot-color:#b39a64}
+.study-inventory-item .priority-dot.priority-alta{--dot-color:#a56652}
+.study-inventory-item .priority-dot.is-active::before{background:var(--dot-color)}
+.study-inventory-item .priority-dot:hover::before{transform:scale(1.2)}
+.study-inventory-item .priority-dot:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+.study-drag-handle{cursor:grab;color:#8b9e8e;font:20px var(--sans);padding:0 4px}
+.study-category-items[data-view="list"] .study-inventory-actions{flex-wrap:wrap}
+.study-inventory-actions .study-move{padding:6px 9px;font-size:14px}
+.study-document-options{display:flex;flex-direction:column;gap:11px}
+.study-doc-collection{background:#fff;border:1px solid #d9e2d6}
+.study-doc-collection>summary{font:500 17px/1.5 var(--serif);color:#35513c;cursor:pointer;padding:16px 18px;list-style:none}
+.study-doc-collection>summary::-webkit-details-marker{display:none}
+.study-doc-collection[open]>summary{border-bottom:1px solid #e2e8df;background:#f7f9f5}
+.study-doc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:15px}
+.study-doc-list>button{display:block;text-align:left;font:12px/1.6 var(--serif);padding:10px 12px;border:1px solid #dfe7db;background:#fff;color:#516554;cursor:pointer}
+.study-doc-list>button[aria-pressed="true"]{background:#e5eee4;border-color:#819d85;color:#2d5237}
+.study-doc-list>button:hover{border-color:#9eb19f}
+.study-reader-layout{margin-top:25px}
+@media(max-width:800px){.study-category-items{grid-template-columns:1fr}.study-category-summary{grid-template-columns:29px minmax(0,1fr) 18px;gap:12px}.study-category-metrics{grid-column:2;grid-row:2}.study-category-chevron{grid-column:3;grid-row:1}.study-category-content{padding:6px 12px 17px}}
+@media(max-width:560px){.study-doc-list{grid-template-columns:1fr}.study-category-summary{padding:16px 12px}.study-item-top .study-inventory-kind{max-width:43%}.study-inventory-item .priority-caption{display:none}.study-category-nav a{font-size:9px}.study-viewbar{justify-content:flex-start}.study-viewbar>span{margin-left:4px}}
