@@ -69,7 +69,7 @@ function ensureDossiers(){
     const id='dossier:'+d.slug;
     if(!projectItems.some(item=>item.id===id)){
       projectItems.push({id,slug:d.slug,title:d.title,
-        summary:d.slug==='leo-attila'?'Fuentes históricas y dramaturgia · dossier activo':d.slug==='universales-cosmicos'?'Semántica, extrapolación y xenolingüística':d.slug==='privilegio-actualidad'?'Mundos actuales, libertad y juicio escatológico':'Dossier disponible',
+        summary:d.slug==='leo-attila'?'Fuentes históricas y dramaturgia · dossier activo':d.slug==='universales-cosmicos'?'Semántica, extrapolación y xenolingüística':d.slug==='privilegio-actualidad'?'Mundos actuales, libertad y juicio escatológico':d.slug==='estados-con-aura'?'Canon histórico de ochenta formaciones políticas singulares':'Dossier disponible',
         parentId:null,status:'active'});
     }
   }
@@ -158,7 +158,7 @@ function shiftProject(id,delta){
 function linkFor(item){
   // Nunca abrir rutas creadas por usuarios: solo slugs permitidos por la app.
   if(!dossierRows.some(d=>d.slug===item.slug))return '';
-  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad'];
+  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura'];
   return allowed.includes(item.slug)?'./'+item.slug+'/':'';
 }
 function renderIndex(){
@@ -345,13 +345,16 @@ function showProjects(rows){
       ? 'Semántica universal, cognición comparativa y comunicación más allá de la Tierra.'
       : item.slug==='privilegio-actualidad'
       ? 'Mundos posibles y actuales, salvación universal y justicia escatológica.'
+      : item.slug==='estados-con-aura'
+      ? 'Un atlas de 80 imperios, reinos, repúblicas, ciudades y proyectos políticos singulares.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
     let preview=null;
     const artwork={
       'leo-attila':['leo-attila-encuentro.svg','Encuentro de León I y Atila'],
       'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
-      'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles']
+      'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles'],
+      'estados-con-aura':['estados-con-aura.svg','Grabado minimalista de una ciudad histórica imaginaria']
     };
     if (artwork[item.slug]) {
       preview=document.createElement('img');
@@ -364,7 +367,7 @@ function showProjects(rows){
     }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
-    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad'].includes(item.slug)?'./'+item.slug+'/':'./';
+    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura'].includes(item.slug)?'./'+item.slug+'/':'./';
     action.append('Abrir proyecto ');
     const icon=document.createElement('span');icon.textContent='→';action.append(icon);
     if(preview)card.append(info,preview,action);
