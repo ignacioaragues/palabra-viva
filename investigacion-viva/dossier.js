@@ -265,9 +265,27 @@ function renderDocument(doc){
  }
  $('reading-document-title').textContent=doc.title;
 }
-function showDocument(doc){
- chosenDoc=doc;renderDocument(doc);
- for(const btn of document.querySelectorAll('[data-document-id]'))btn.setAttribute('aria-pressed',String(btn.dataset.documentId===doc.document_id));
+let documentLoadToken=0;
+async function showDocument(doc){
+ const token=++documentLoadToken;
+ chosenDoc=doc;
+ for(const btn of document.querySelectorAll('[data-document-id]')){
+  btn.setAttribute('aria-pressed',String(btn.dataset.documentId===doc.document_id));
+ }
+ if(typeof doc.body_text!=='string'){
+  $('document-body').replaceChildren(element('p','study-empty','Cargando el texto privado…'));
+  $('document-toc').replaceChildren();
+  const {data,error}=await client.from('iv_documents').select('body_text')
+   .eq('dossier_slug',slug).eq('document_id',doc.document_id).maybeSingle();
+  if(token!==documentLoadToken)return;
+  if(error||!data){
+   $('document-body').replaceChildren(element('p','study-empty','No se pudo recuperar el texto completo. Intentá abrirlo otra vez.'));
+   return;
+  }
+  doc.body_text=data.body_text||'';
+ }
+ if(token!==documentLoadToken)return;
+ renderDocument(doc);
 }
 
 function renderAxes(){
@@ -448,7 +466,7 @@ async function load(){
  if(res.error||!res.data){showGate('Esta cuenta no puede abrir el proyecto.');return}
  user=auth.user;catalog=Array.isArray(res.data.catalog)?res.data.catalog:[];axes=Array.isArray(res.data.visual_catalog)?res.data.visual_catalog:[];
  const [docRes,progressRes,sessionsRes]=await Promise.all([
-  client.from('iv_documents').select('document_id,title,subtitle,body_text,source_label').eq('dossier_slug',slug).order('updated_at',{ascending:false}),
+  client.from('iv_documents').select('document_id,title,subtitle,source_label').eq('dossier_slug',slug).order('updated_at',{ascending:false}),
   client.from('iv_progress').select('data').eq('owner_id',user.id).eq('dossier_slug',slug).maybeSingle(),
   client.from('iv_reading_sessions').select('id,dossier_slug,source_id,source_title,duration_seconds,started_at').eq('owner_id',user.id).order('started_at',{ascending:false}).limit(2000)
  ]);
