@@ -35,6 +35,9 @@ function showList() {
     grid.append(card);
   }
   $('reader-content').replaceChildren(grid, buildPendingInventory());
+  const jump=anchor('#pendientes','Ver inventario pendiente ↓','iv-reader-jump');
+  document.querySelector('.iv-reader-top')?.append(jump);
+  if(location.hash==='#pendientes')requestAnimationFrame(()=>document.getElementById('pendientes')?.scrollIntoView({block:'start'}));
 }
 function buildPendingInventory(){
   const section=document.createElement('section');
