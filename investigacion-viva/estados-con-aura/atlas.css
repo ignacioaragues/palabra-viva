@@ -32,3 +32,7 @@
 .study-total span{font-size:9px;letter-spacing:.14em;color:var(--mute);font-weight:700}
 @media(max-width:900px){.curator-grid,.study-section{grid-template-columns:1fr;gap:28px}}
 @media(max-width:600px){.curator-grid{gap:20px}.study-section{padding:54px 0}.study-panel{padding:16px}.study-actions{flex-direction:column}.curator-focus{font-size:18px}.hero-art img{max-height:340px}}
+
+/* Título largo de la nueva identidad del atlas. */
+.hero h1{font-size:clamp(47px,5.2vw,76px)}
+@media(max-width:600px){.hero h1{font-size:clamp(40px,9.8vw,54px)}}
