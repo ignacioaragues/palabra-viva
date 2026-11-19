@@ -63,6 +63,58 @@ export const passages = [
     ],
     note: 'La fórmula «se decía» (ferebatur) indica una noticia transmitida, no una comprobación directa. La última frase es una censura moral de Jordanes, por eso la traducción separa explícitamente el juicio del narrador de la información sobre la iniciativa de Honoria.'
   }
+  ,
+  {
+    id: 'priscus-embassy-banquet', reference: 'r027', period: 'c. 448–449 · Corte de Atila',
+    title: 'El banquete: la sobriedad de Atila',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; relato de la embajada)',
+    source: 'https://tianmu.org/good-work-library/scythian/greek-and-roman-sources/priscus-fragments-on-attila-and-the-steppe-court',
+    sourceLabel: 'Griego · Prisco, fr. 8 (FHG IV)',
+    originalLang: 'grc',
+    original: [
+      'Καὶ πρῶτος εἰσῄει ὁ τοῦ Ἀττήλα ὑπηρέτης, κρεῶν πλήρη πίνακα φέρων, καὶ οἱ πᾶσι διακονούμενοι μετ ̓ αὐτὸν σῖτον καὶ ὄψα ταῖς τραπέζαις ἐπέθεσαν. Ἀλλὰ τοῖς μὲν ἄλλοις βαρβάροις καὶ ἡμῖν πολυτελῆ δεῖπνα κατεσκεύαστο, κύκλοις ἐπικείμενα ἀργυροῖς· τῷ δὲ Ἀττήλᾳ ἐπὶ τοῦ ξυλίνου πίνακος ἦν οὐδὲν πλέον κρεῶν. Μέτριον δὲ ἑαυτὸν καὶ ἐν τοῖς ἄλλος ἅπασιν ἐδείκνυ.',
+      'Τοῖς γὰρ τῆς εὐωχίας ἀνδράσι κύλικες χρυσαῖ τε καὶ ἀργυραῖ ἐπεδίδοντο, τὸ δὲ αὐτοῦ ἔκπωμα ξύλινον ἦν. Λιτὴ δὲ αὐτῷ καὶ ἡ ἐσθὴς ἐτύγχανεν οὖσα, μηδὲν τῶν ἄλλων πλὴν τοῦ καθαρὰ εἶναι διαφυλάττουσα· καὶ οὔτε τὸ παρῃωρημένον αὐτῷ ξίφος, οὔτε οἱ τῶν βαρβαρικῶν ὑποδημάτων δεσμοὶ, οὔτε τοῦ ἵππου ὁ χαλινὸς, ὥσπερ τῶν ἄλλων Σκυθῶν, χρυσῷ ἢ λίθοις ἤ τινι τῶν τιμίων ἐκοσμεῖτο.'
+    ],
+    spanish: [
+      'Primero entró un servidor de Atila con una fuente llena de carne; tras él, los demás sirvientes colocaron en las mesas pan y otros alimentos. Para los otros bárbaros y para nosotros se habían preparado banquetes suntuosos, servidos en bandejas de plata; Atila, en cambio, no tenía en su plato de madera más que carne. También en todo lo demás se mostraba sobrio.',
+      'A los invitados se les ofrecían copas de oro y plata, mientras que el recipiente del que bebía Atila era de madera. También vestía con sencillez: su ropa no se distinguía de la de los demás salvo por estar limpia. Ni la espada que llevaba colgada, ni las correas de su calzado, ni las riendas de su caballo estaban adornadas con oro, piedras preciosas u otros objetos valiosos, como las de los demás hunos.'
+    ],
+    note: 'El contraste entre la riqueza ceremonial y la sobriedad personal es un recurso característico del retrato de un gobernante. Prisco habla desde una observación presencial en la corte, aunque el episodio ha llegado a nosotros como fragmento transmitido por compilaciones posteriores. «Escitas» es la denominación literaria que emplea habitualmente para los hunos.'
+  },
+  {
+    id: 'priscus-naissus', reference: 'r027', period: 'c. 448–449 · Naissus',
+    title: 'Una ciudad devastada en el camino a Atila',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; itinerario de la embajada)',
+    source: 'https://tianmu.org/good-work-library/scythian/greek-and-roman-sources/priscus-fragments-on-attila-and-the-steppe-court',
+    sourceLabel: 'Griego · Prisco, fr. 8 (FHG IV)',
+    originalLang: 'grc',
+    original: [
+      'Ἀφικόμενοι δὲ ἐς Ναῖσσὸν ἔρημον μὲν εὕρομεν ἀνθρώπων τὴν πόλιν, ὡς ὑπὸ τῶν πολεμίων ἀνατραπεῖσαν· ἐν δὲ τοῖς ἱεροῖς καταλύμασι τῶν ὑπὸ νόσων κατεχομένων τινὲς ἐτύγχανον ὄντες.',
+      'Μικρὸν δὲ ἄνω τοῦ ποταμοῦ ἐν καθαρῷ καταλύσαντες (σύμπαντα γὰρ τὰ ἐπὶ τὴν ὄχθην ὀστέων ἦν πλέα τῶν ἐν πολέμῳ ἀναιρεθέντων), τῇ ἐπαύριον πρὸς Ἀγίνθεον τῶν ἐν Ἰλλυριοῖς ταγμάτων ἡγούμενον ἀφικόμεθα, οὐ πόρρω ὄντα τῆς Ναϊσσοῦ, ἐφ’ ᾧ τὰ παρὰ βασιλέως ἀγγεῖλαι καὶ τοὺς φυγάδας παραλαβεῖν.'
+    ],
+    spanish: [
+      'Al llegar a Naissus, encontramos la ciudad desierta, pues había sido destruida por los enemigos. En los edificios religiosos permanecían algunas personas aquejadas de enfermedades.',
+      'Acampamos un poco río arriba, en un lugar despejado, porque toda la ribera estaba llena de huesos de hombres muertos durante la guerra. Al día siguiente acudimos a ver a Aginteo, comandante de las tropas de Ilírico, que se encontraba no lejos de Naissus, para comunicarle el mensaje del emperador y recibir a los fugitivos.'
+    ],
+    note: 'El pasaje sirve para contrastar la actividad diplomática con las consecuencias materiales de las campañas hunas. Naissus corresponde a la actual Niš. El texto describe lo que la embajada vio durante su recorrido, no una escena del encuentro personal con Atila.'
+  },
+  {
+    id: 'priscus-theodosius', reference: 'r027', period: 'c. 448–449 · Sardica',
+    title: '¿Un hombre o un dios? Una imprudencia diplomática',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; episodio de Sardica)',
+    source: 'https://tianmu.org/good-work-library/scythian/greek-and-roman-sources/priscus-fragments-on-attila-and-the-steppe-court',
+    sourceLabel: 'Griego · Prisco, fr. 8 (FHG IV)',
+    originalLang: 'grc',
+    original: [
+      'Καὶ παρὰ τὸν τοῦ συμποσίου καιρὸν τῶν μὲν βαρβάρων τὸν Ἀττήλαν, ἡμῶν δὲ τὸν βασιλέα θαυμαζόντων, ὁ Βιγίλας ἔφη, ὡς οὐκ εἴη θεὸν καὶ ἄνθρωπον δίκαια συγκρίνειν, ἄνθρωπον μὲν τὸν Ἀττήλαν,θεὸν δὲ τὸν Θεοδόσιον λέγων. Ἤσχαλλον οὖν οἱ Οὖννοι, καὶ κατὰ μικρὸν ὑποθερμαινόμενοι ἐχαλέπαινον.',
+      'Ἡμῶν δὲ ἐς ἕτερα τρεψάντων τὸν λόγον καὶ φιλοφροσύνῃ τὸν σφῶν αὐτῶν καταπραϋνόντων θυμὸν, μετὰ τὸ δεῖπνον ὡς διανέστημεν, δώροις ὁ Μαξιμῖνος Ἐδέκωνα καὶ Ὀρέστην ἐθεράπευσε, σηρικοῖς ἐσθήμασι καὶ λίθοις Ἰνδικοῖς.'
+    ],
+    spanish: [
+      'Durante el banquete, mientras los bárbaros ensalzaban a Atila y nosotros al emperador, Bigilas dijo que no era justo comparar a un dios con un hombre: llamaba hombre a Atila y dios a Teodosio. Los hunos se indignaron y, encendiéndose poco a poco, comenzaron a enfurecerse.',
+      'Nosotros desviamos la conversación hacia otros asuntos y aplacamos su irritación con palabras corteses. Después de la comida, cuando nos levantamos, Maximino obsequió a Edecón y a Orestes con presentes: vestidos de seda y piedras preciosas de la India.'
+    ],
+    note: 'Una escena de alto valor para entender la negociación como ejercicio de lenguaje y etiqueta. La divinización retórica del emperador, formulada por el intérprete Bigilas, resulta insultante para los seguidores de Atila; Prisco muestra la necesidad de reconducir la conversación.'
+  }
 ];
 
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
@@ -79,7 +131,7 @@ export function renderPassage(p) {
     <p class="iv-fragment-work">${esc(p.work)}</p>
     <div class="iv-translation"><span class="overline">TRADUCCIÓN PROPIA · ESPAÑOL</span>${p.spanish.map(s=>`<p>${esc(s)}</p>`).join('')}</div>
     <details class="iv-original"><summary>Mostrar / ocultar original latino</summary>
-      <div lang="la">${p.latin.map(s=>`<p>${esc(s)}</p>`).join('')}</div>
+      <div lang="${esc(p.originalLang || 'la')}">${(p.original || p.latin).map(s=>`<p>${esc(s)}</p>`).join('')}</div>
     </details>
     <div class="iv-fragment-note"><strong>Nota de lectura</strong><p>${esc(p.note)}</p></div>
     <div class="iv-fragment-foot"><a href="${esc(p.source)}" target="_blank" rel="noopener noreferrer">${esc(p.sourceLabel)} ↗</a><span>Referencia del inventario: ${esc(p.reference)}</span></div>
