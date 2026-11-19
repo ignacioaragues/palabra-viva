@@ -129,7 +129,7 @@ function renderEntity(){
  const n=Number(new URLSearchParams(location.search).get('e'));
  const r=records.find(e=>e.n===n);
  if(!r){$('entity-article').replaceChildren(node('p','empty','No existe esa ficha. Volvé al índice del atlas.'));return}
- document.title=r.entidad+' · Atlas de Estados con aura';
+ document.title=r.entidad+' · Atlas de las soberanías';
  $('crumb').textContent=r.entidad;
  $('entity-number').textContent='ENTIDAD '+String(r.n).padStart(2,'0')+' DE 80 · '+value(r.grupo).toUpperCase();
  $('entity-title').textContent=r.entidad;
