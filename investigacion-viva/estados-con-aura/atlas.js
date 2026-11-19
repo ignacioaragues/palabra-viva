@@ -153,12 +153,18 @@ function headingLink(label,base,query){
 }
 function bibliographicCard(type,text){
  const c=node('div','reading-card'),h=node('h3','',value(text)),links=node('div','external-links');
- links.append(
-  headingLink('Google Books ↗','https://books.google.com/books?q=',text),
-  headingLink('WorldCat ↗','https://search.worldcat.org/search?q=',text),
-  headingLink('Open Library ↗','https://openlibrary.org/search?q=',text)
- );
- c.append(node('span','reading-type',type),h,links);return c;
+ const uncatalogued=/^No se (?:conoce|conserva)/i.test(String(text||''));
+ if(!uncatalogued){
+  links.append(
+   headingLink('Google Books ↗','https://books.google.com/books?q=',text),
+   headingLink('WorldCat ↗','https://search.worldcat.org/search?q=',text),
+   headingLink('Open Library ↗','https://openlibrary.org/search?q=',text)
+  );
+ }
+ c.append(node('span','reading-type',type),h);
+ if(uncatalogued)c.append(node('small','no-source-message','No hay una obra literaria conservada que pueda citarse aquí.'));
+ else c.append(links);
+ return c;
 }
 function renderEntity(){
  const n=Number(new URLSearchParams(location.search).get('e'));
@@ -192,10 +198,14 @@ function renderEntity(){
   headingLink('Google Books ↗','https://books.google.com/books?q=',r.texto)
  );
  $('film-title').textContent=value(r.audiovisual);
- $('film-links').replaceChildren(
+ const audiovisualIsSearch=/^(?:Documentales|Documental no|Sin documental)/i.test(String(r.audiovisual||''));
+ $('film-links').replaceChildren(...(audiovisualIsSearch?[
+  headingLink('Buscar documentales ↗','https://www.youtube.com/results?search_query=',r.entidad+' historia documental'),
+  headingLink('Archivo audiovisual ↗','https://archive.org/search?query=',r.entidad+' documentary')
+ ]:[
   headingLink('IMDb ↗','https://www.imdb.com/find/?q=',r.audiovisual),
   headingLink('Ver otros registros ↗','https://www.themoviedb.org/search?query=',r.audiovisual)
- );
+ ]));
  $('resource-links').replaceChildren(
   resource('Wikipedia (español)','Artículo o resultados de búsqueda',wikiSearch('es',r.entidad)),
   resource('Wikipedia (English)','Lecturas y referencias complementarias',wikiSearch('en',r.entidad)),
@@ -330,5 +340,10 @@ async function loadWikiImage(r){
 }
 $('search')?.addEventListener('input',renderIndex);
 $('sort')?.addEventListener('change',renderIndex);
+for(const anchor of document.querySelectorAll('.new-collection-card')){
+ anchor.addEventListener('click',()=>{
+  if(activeType!=='all'||$('search').value){activeType='all';$('search').value='';renderIndex()}
+ });
+}
 attachLogin();
 boot();
