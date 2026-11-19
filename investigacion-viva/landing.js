@@ -26,7 +26,7 @@ function gate(message=''){
 const PROJECT_STATUSES=[
   ['pending','Pendiente'],['active','En curso'],['done','Terminado']
 ];
-let owner=null, dossierRows=[], projectItems=[], saveTimer=null;
+let owner=null, dossierRows=[], projectItems=[], saveTimer=null, recentReading=[];
 let saveQueue=Promise.resolve(), draggingId=null, editingId=null;
 const newId=()=>('iv-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8));
 const el=(tag,cls,contents)=>{
@@ -394,6 +394,11 @@ function renderReadingOverview(rows){
   $('reading-overview-status').textContent=entries.length?'Registro sincronizado con tu cuenta.':'El contador empezará con tu primera sesión registrada.';
 }
 
+window.addEventListener('iv:auto-segment-saved',event=>{
+ if(!owner||!event.detail)return;
+ recentReading.unshift(event.detail);
+ renderReadingOverview(recentReading);
+});
 async function loadProjects(){
   const gen=++generation;
   $('loading-state').hidden=false;$('gate').hidden=true;$('private-app').hidden=true;
@@ -411,12 +416,12 @@ async function loadProjects(){
   owner=auth.data.user;dossierRows=(result.data||[]).filter(d=>d.slug!=='investigacion-viva');
   projectItems=normaliseProjects(index.data?.data);
   ensureDossiers();
-  showProjects(result.data);
+  showProjects(dossierRows);
   renderIndex();
   const reading=await client.from('iv_reading_sessions').select('duration_seconds,started_at,dossier_slug').eq('owner_id',owner.id).order('started_at',{ascending:false}).limit(3000);
   if(gen!==generation)return;
   if(reading.error){$('reading-overview-status').textContent='No se pudo consultar el registro de lectura.';}
-  else renderReadingOverview(reading.data);
+  else {recentReading=reading.data||[];renderReadingOverview(recentReading);}
   setIndexMessage('Índice sincronizado con tu cuenta.');
   $('private-app').hidden=false;
   $('loading-state').hidden=true;
