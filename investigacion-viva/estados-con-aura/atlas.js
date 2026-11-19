@@ -5,7 +5,17 @@ const SLUG='estados-con-aura';
 const $=id=>document.getElementById(id);
 const view=document.documentElement.dataset.atlasView;
 let owner=null,records=[],progress={version:1,status:{},notes:{}},saveTimer=null,saveQueue=Promise.resolve(),loadGeneration=0;
-const TYPES=[['all','Todas las entidades'],['Imperio','Imperios'],['Otro','Reinos, repúblicas y órdenes'],['País singular','Países singulares'],['Entidad singular adicional','Otras entidades']];
+const TYPES=[['all','Todas las entidades'],['Imperio','Imperios'],['Otro','Reinos, repúblicas y órdenes'],['País singular','Países singulares'],['Entidad singular adicional','Otras entidades'],['Imperio nómada','Imperios nómadas'],['País casi desconocido','Países casi desconocidos'],['Civilización perdida','Civilizaciones perdidas']];
+const GROUP_DESCRIPTIONS={
+ 'Imperio':'Grandes imperios del canon original.',
+ 'Otro':'Reinos, repúblicas, órdenes y soberanías de la selección inicial.',
+ 'País singular':'Estados pequeños, liminales o insólitos.',
+ 'Entidad singular adicional':'Más formas extraordinarias de poder, autonomía y supervivencia.',
+ 'Imperio nómada':'Cortes itinerantes, kaganatos y confederaciones: desde la estepa de Mongolia hasta el Danubio. Incluye ocho nuevas fichas; los imperios mongol, jázaro y dzungar permanecen en su ubicación original.',
+ 'País casi desconocido':'Reinos y sultanatos que rara vez aparecen en la historia general: pequeños en superficie, pero conectados a inmensos mundos culturales y comerciales.',
+ 'Civilización perdida':'Culturas y complejos arqueológicos desaparecidos como sistemas políticos, no pueblos necesariamente extinguidos. Algunas no fueron estados unificados.'
+};
+const GROUP_IDS={'Imperio':'imperios-originales','Otro':'reinos-originales','País singular':'paises-originales','Entidad singular adicional':'otras-entidades-originales','Imperio nómada':'imperios-nomadas','País casi desconocido':'paises-desconocidos','Civilización perdida':'civilizaciones-perdidas'};
 let activeType='all';
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
 const link=(txt,url,cls='')=>{const a=node('a',cls,txt);a.href=url; if(/^https:\/\//.test(url)){a.target='_blank';a.rel='noopener noreferrer'}return a};
@@ -36,8 +46,12 @@ async function decodeCatalog(row){
  const data=Uint8Array.from(atob(pack.data),c=>c.charCodeAt(0));
  const stream=new Blob([data]).stream().pipeThrough(new DecompressionStream('gzip'));
  const decoded=JSON.parse(await new Response(stream).text());
- if(!Array.isArray(decoded.items)||decoded.items.length!==80)throw new Error('El inventario no está completo.');
- return decoded.items.sort((a,b)=>Number(a.n)-Number(b.n));
+ if(!Array.isArray(decoded.items)||decoded.items.length!==80)throw new Error('El canon original no está completo.');
+ const extension=row.catalog?.[1];
+ const extra=extension?.kind==='curated-additions'&&Array.isArray(extension.items)?extension.items:[];
+ const combined=decoded.items.concat(extra);
+ if(new Set(combined.map(x=>Number(x.n))).size!==combined.length)throw new Error('Se han detectado números duplicados en el atlas.');
+ return combined.sort((a,b)=>Number(a.n)-Number(b.n));
 }
 async function loadProgress(){
  const {data,error}=await client.from('iv_progress').select('data').eq('owner_id',owner.id).eq('dossier_slug',SLUG).maybeSingle();
@@ -76,6 +90,7 @@ async function boot(){
   if(view==='entity')renderEntity();
   else renderIndex();
   showApp();
+  if(view==='index'&&location.hash&&/^#(?:imperios-nomadas|paises-desconocidos|civilizaciones-perdidas)$/.test(location.hash))requestAnimationFrame(()=>document.querySelector(location.hash)?.scrollIntoView());
  }catch(err){console.error(err);showGate('No se pudo abrir el archivo: '+(err.message||'error de lectura'))}
 }
 function yearNumber(r){
@@ -85,33 +100,53 @@ function yearNumber(r){
  const cent=t.match(/siglo\s+([ivxlcdm]+)/i);if(!cent)return 100000;
  const roman=cent[1].toUpperCase();const map={I:1,V:5,X:10,L:50,C:100,D:500,M:1000};let n=0;for(let i=0;i<roman.length;i++)n+=(map[roman[i]]||0)*(map[roman[i+1]]>map[roman[i]]?-1:1);return n*100;
 }
+
+function cardForEntity(r){
+ const card=link('',urlFor(r),'entity-card');
+ const top=node('div','card-top');
+ top.append(node('small','',String(r.n).padStart(2,'0')+' / '+records.length),node('span','classification',value(r.tipo)));
+ const heading=node('h3','',r.entidad);
+ const why=node('p','',r.aura||'');
+ const bottom=node('div','card-footer');
+ bottom.append(node('span','',value(r.fechas)),node('strong','',progress.status?.['entity:'+r.n]==='done'?'✓ Leída':'Abrir ficha ↗'));
+ card.append(top,heading,why,bottom);
+ return card;
+}
 function renderIndex(){
  const wrap=$('entity-grid'),filters=$('filters');
  filters.replaceChildren();
  for(const [id,label] of TYPES){
   const btn=node('button','',label+' · '+(id==='all'?records.length:records.filter(r=>r.grupo===id).length));
   btn.type='button';btn.setAttribute('aria-pressed',String(activeType===id));
-  btn.addEventListener('click',()=>{activeType=id;renderIndex()});
+  btn.addEventListener('click',()=>{activeType=id;renderIndex();$('catalogo')?.scrollIntoView({behavior:'smooth',block:'start'})});
   filters.append(btn);
  }
- const q=fold($('search').value.trim());
- const sort=$('sort').value;
+ const q=fold($('search').value.trim()),sort=$('sort').value;
  const filtered=records.filter(r=>(activeType==='all'||r.grupo===activeType)&&(!q||fold([r.entidad,r.fechas,r.geografia,r.tipo,r.aura,r.observaciones].join(' ')).includes(q)));
  if(sort==='name')filtered.sort((a,b)=>a.entidad.localeCompare(b.entidad,'es'));
  else if(sort==='old')filtered.sort((a,b)=>yearNumber(a)-yearNumber(b)||a.n-b.n);
  wrap.replaceChildren();
- for(const r of filtered){
-  const a=link('',urlFor(r),'entity-card');
-  const top=node('div','card-top');
-  top.append(node('small','',String(r.n).padStart(2,'0')+' / 80'),node('span','classification',value(r.tipo)));
-  const heading=node('h3','',r.entidad);
-  const why=node('p','',r.aura||'');
-  const bottom=node('div','card-footer');
-  bottom.append(node('span','',value(r.fechas)),node('strong','',progress.status?.['entity:'+r.n]==='done'?'✓ Leída':'Abrir ficha ↗'));
-  a.append(top,heading,why,bottom);wrap.append(a);
+ for(const [id,label] of TYPES.slice(1)){
+  const group=filtered.filter(r=>r.grupo===id);
+  if(!group.length)continue;
+  const section=node('section','entity-collection');
+  section.id=GROUP_IDS[id];
+  const heading=node('div','entity-collection-heading');
+  const text=node('div','entity-collection-title');
+  text.append(node('span','eyebrow',String(group.length).padStart(2,'0')+' FICHAS · '+(group[0].n>80?'NUEVA COLECCIÓN':'CANON ORIGINAL')),node('h3','',label));
+  heading.append(text,node('p','',GROUP_DESCRIPTIONS[id]||''));
+  section.append(heading);
+  const grid=node('div','entity-subgrid');
+  for(const r of group)grid.append(cardForEntity(r));
+  section.append(grid);
+  wrap.append(section);
  }
  $('result-count').textContent=filtered.length+' '+(filtered.length===1?'entidad':'entidades')+' · '+records.filter(r=>progress.status?.['entity:'+r.n]==='done').length+' marcadas como leídas';
  $('empty').hidden=filtered.length!==0;
+ for(const [id] of TYPES.slice(-3)){
+  const e=document.querySelector('[data-collection-count="'+GROUP_IDS[id]+'"]');
+  if(e)e.textContent=records.filter(r=>r.grupo===id).length+' fichas';
+ }
 }
 function headingLink(label,base,query){
  return link(label,searchUrl(base,query));
@@ -131,7 +166,7 @@ function renderEntity(){
  if(!r){$('entity-article').replaceChildren(node('p','empty','No existe esa ficha. Volvé al índice del atlas.'));return}
  document.title=r.entidad+' · Atlas de las soberanías';
  $('crumb').textContent=r.entidad;
- $('entity-number').textContent='ENTIDAD '+String(r.n).padStart(2,'0')+' DE 80 · '+value(r.grupo).toUpperCase();
+ $('entity-number').textContent='ENTIDAD '+String(r.n).padStart(2,'0')+' DE '+records.length+' · '+value(r.grupo).toUpperCase();
  $('entity-title').textContent=r.entidad;
  $('entity-deck').textContent=value(r.tipo);
  const meta=$('entity-meta');meta.replaceChildren();
@@ -183,7 +218,7 @@ function renderEntity(){
 }
 
 function renderCuratorialGuide(r){
- const guide=GUIAS[r.n],section=$('curator-section');
+ const guide=GUIAS[r.n]||r.guia,section=$('curator-section');
  if(!section)return;
  section.hidden=!guide;if(!guide)return;
  $('curator-focus').textContent=guide.foco;
