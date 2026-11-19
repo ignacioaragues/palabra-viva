@@ -362,7 +362,7 @@ function showProjects(rows){
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261119-grabado-atlas';
+      preview.src='./assets/'+artwork[item.slug][0]+'?v='+(item.slug==='garay'?'20261119-imagen-original':'20261119-grabado-atlas');
       preview.alt=artwork[item.slug][1];
       preview.width=860;preview.height=645;
       preview.loading='lazy';
