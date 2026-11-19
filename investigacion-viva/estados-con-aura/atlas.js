@@ -167,7 +167,10 @@ function renderEntity(){
   resource('Wikimedia Commons','Fotografías, mapas y documentos visuales',searchUrl('https://commons.wikimedia.org/w/index.php?search=',r.entidad)),
   resource('Wikidata','Identificadores, nombres y cronologías',searchUrl('https://www.wikidata.org/w/index.php?search=',r.entidad)),
   resource('Google Scholar','Investigación académica',searchUrl('https://scholar.google.com/scholar?q=',r.entidad)),
-  resource('Internet Archive','Libros digitalizados y documentos',searchUrl('https://archive.org/search?query=',r.entidad))
+  resource('Internet Archive','Libros digitalizados y documentos',searchUrl('https://archive.org/search?query=',r.entidad)),
+  resource('Mapas en Wikimedia Commons','Búsqueda de mapas antiguos y cartografía del territorio',searchUrl('https://commons.wikimedia.org/w/index.php?search=',r.entidad+' historical map')),
+  resource('Library of Congress · mapas','Búsqueda de mapas y atlas históricos',searchUrl('https://www.loc.gov/maps/?q=',r.entidad)),
+  resource('Europeana','Objetos, imágenes y documentos de colecciones europeas',searchUrl('https://www.europeana.eu/en/search?query=',r.entidad))
  );
  const note=$('my-note');note.value=progress.notes?.[statusKey]||'';
  note.addEventListener('input',()=>{progress.notes[statusKey]=note.value;persistProgress()});
