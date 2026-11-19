@@ -408,7 +408,7 @@ async function loadProjects(){
     .eq('owner_id',auth.data.user.id).maybeSingle();
   if(gen!==generation)return;
   if(index.error){gate('No se pudo recuperar el índice privado de proyectos.');return;}
-  owner=auth.data.user;dossierRows=result.data;
+  owner=auth.data.user;dossierRows=(result.data||[]).filter(d=>d.slug!=='investigacion-viva');
   projectItems=normaliseProjects(index.data?.data);
   ensureDossiers();
   showProjects(result.data);
