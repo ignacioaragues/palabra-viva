@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es" data-research-slug="garay">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#f7f6f0">
+<title>Garay · Corrección de la novela · Investigación Viva</title>
+<meta name="description" content="Cuaderno privado de corrección de Garay: 117 capítulos y cuatro etapas editoriales.">
+<link rel="stylesheet" href="../styles.css?v=20261119-garay">
+<link rel="stylesheet" href="./garay.css?v=20261119-garay">
+<script type="module" src="./garay.js?v=20261119-garay"></script>
+<script type="module" src="../auto-reading.js?v=20261119-auto2"></script>
+</head>
+<body>
+<header class="masthead">
+ <a class="identity" href="../"><span class="mark">I<span>·</span></span><span><strong>Investigación Viva</strong><small>CUADERNOS DE INVESTIGACIÓN</small></span></a>
+ <nav class="top-nav" aria-label="Navegación"><a href="../">Proyectos</a><a href="../../">Palabra Viva</a><a href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Mi cuenta</a></nav>
+</header>
+<div class="loading-state" id="loading-state" role="status">Comprobando acceso al proyecto…</div>
+<main id="gate" class="gate" hidden>
+ <div class="gate-card"><span class="overline">ACCESO PERSONAL</span>
+ <div class="lock-emblem" aria-hidden="true">G<span>·</span></div><h1>Cuaderno privado.</h1>
+ <p>Iniciá sesión con tu cuenta de Palabra Viva para consultar el avance de la novela.</p>
+ <form id="login-form"><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="email" required>
+ <label for="login-password">Contraseña</label><input id="login-password" type="password" autocomplete="current-password" required>
+ <button class="primary" type="submit">Iniciar sesión <span>→</span></button></form>
+ <p id="login-error" class="error" role="alert" aria-live="polite"></p>
+ <a class="gate-link" href="https://ignacioaragues.github.io/edicion-viva/cuenta.html">Recuperar acceso desde Mi cuenta ↗</a></div>
+</main>
+<main id="private-app" hidden>
+ <section class="garay-hero shell">
+  <div class="garay-hero-text"><span class="overline">INVESTIGACIÓN VIVA / PROYECTO EDITORIAL</span>
+   <h1>Garay<span class="stop">.</span></h1><p class="garay-kicker">CUADERNO DE CORRECCIÓN DE LA NOVELA</p>
+   <p class="garay-intro">Un seguimiento capítulo por capítulo de las revisiones, la limpieza del texto y el cierre de la versión definitiva.</p>
+   <div class="garay-hero-actions"><a href="#capitulos" class="primary">Ver los 117 capítulos <span>→</span></a>
+   <span class="garay-hint">Cuatro estados · guardado privado</span></div>
+  </div>
+  <figure class="garay-cover"><img src="../assets/garay-portada.svg?v=20261119" alt="Retrato del protagonista de Garay, con abrigo oscuro en un paisaje nevado" width="420" height="420">
+   <figcaption>Imagen de referencia para la novela</figcaption></figure>
+ </section>
+ <div class="garay-stats-band"><section class="shell garay-stats" aria-label="Progreso editorial">
+  <div class="garay-feature-stat"><span>CAPÍTULOS CORREGIDOS O FINALES</span><strong id="ready-count">0 <small>/ 117</small></strong><div class="garay-meter"><div id="ready-fill"></div></div><small id="ready-percent">0 % del total</small></div>
+  <div><strong id="count-review">117</strong><span>POR REVISAR</span></div>
+  <div><strong id="count-clean">0</strong><span>POR LIMPIAR</span></div>
+  <div><strong id="count-corrected">0</strong><span>CORREGIDO</span></div>
+  <div><strong id="count-final">0</strong><span>FINAL</span></div>
+ </section></div>
+ <section id="capitulos" class="garay-work shell">
+  <div class="garay-section-head"><div><span class="overline">I · REVISIÓN DE LA NOVELA</span>
+   <h2>Los 117 capítulos<span class="stop">.</span></h2>
+   <p>Marcá el estado de cada capítulo y anotá lo que queda pendiente. «Final» indica que ya no requiere nuevas correcciones.</p></div>
+   <div class="garay-secondary-progress"><strong id="final-count">0 / 117</strong><span>CAPÍTULOS FINALES</span><div class="garay-meter"><div id="final-fill"></div></div></div>
+  </div>
+  <div class="garay-filterbar"><label>Buscar capítulo<input id="chapter-search" type="search" placeholder="Número o nota…"></label>
+   <label>Filtrar por estado<select id="chapter-filter">
+    <option value="all">Todos los estados</option><option value="por-revisar">Por revisar</option>
+    <option value="por-limpiar">Por limpiar</option><option value="corregido">Corregido</option>
+    <option value="final">Final</option></select></label>
+   <button type="button" id="next-review" class="garay-outline">Ir al próximo por revisar</button></div>
+  <div class="garay-list-head"><span id="chapter-results">117 capítulos</span><span>Estado editable · notas por capítulo</span></div>
+  <div id="chapter-list" class="garay-chapter-list" aria-live="polite"></div>
+  <p id="garay-sync" class="garay-sync" role="status" aria-live="polite"></p>
+  <p class="garay-footer-note">Los estados y las notas se guardan en el archivo privado de Investigación Viva. El texto de la novela no se publica en este tablero.</p>
+ </section>
+</main>
+<footer class="footer"><span>INVESTIGACIÓN VIVA · GARAY</span><span id="footer-state">Acceso restringido</span></footer>
+</body>
+</html>
