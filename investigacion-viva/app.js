@@ -9,8 +9,8 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
   });
 const DOSSIER = 'leo-attila';
 const PARTIAL_TRANSLATIONS = {
-  r029: { anchor: 'fragmento-prosper-451', count: 2 },
-  r041: { anchor: 'fragmento-getica-222-223', count: 2 }
+  r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
+  r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
 };
 
 const VIS_GROUPS = [
@@ -346,11 +346,12 @@ function createListRow(item,category) {
     controls.append(link);
   }
   if(PARTIAL_TRANSLATIONS[item.id]){
-    const info=PARTIAL_TRANSLATIONS[item.id];
-    const passage=make('a','ordered-source','Pasajes ('+info.count+')');
-    passage.href='#'+info.anchor;
-    passage.title='Ir a las traducciones de '+item.title;
-    controls.append(passage);
+    for(const info of PARTIAL_TRANSLATIONS[item.id]){
+      const passage=make('a','ordered-source','Leer '+info.label);
+      passage.href=info.href;
+      passage.title='Leer pasaje '+info.label+' de '+item.title;
+      controls.append(passage);
+    }
   }
   const notesToggle=make('button','ordered-notes-toggle',state.notes[item.id]?'Notas ·':'Notas');
   notesToggle.title='Mostrar u ocultar nota personal de '+item.title;
@@ -517,11 +518,12 @@ function createCard(item) {
     actions.append(link);
   }
   if(PARTIAL_TRANSLATIONS[item.id]){
-    const info=PARTIAL_TRANSLATIONS[item.id];
-    const passage=make('a','','Leer pasajes ('+info.count+')');
-    passage.href='#'+info.anchor;
-    passage.title='Abrir traducciones propias';
-    actions.append(passage);
+    for(const info of PARTIAL_TRANSLATIONS[item.id]){
+      const passage=make('a','','Leer '+info.label);
+      passage.href=info.href;
+      passage.title='Abrir pasaje '+info.label+' en página de lectura';
+      actions.append(passage);
+    }
   }
   const noteBtn = make('button','','Mi nota ↓'); noteBtn.type='button';
   const noteWrap = make('div','note-area'); noteWrap.hidden = true;
