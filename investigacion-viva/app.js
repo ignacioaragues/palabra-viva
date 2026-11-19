@@ -8,6 +8,11 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
 const DOSSIER = 'leo-attila';
+const PARTIAL_TRANSLATIONS = {
+  r029: { anchor: 'fragmento-prosper-451', count: 2 },
+  r041: { anchor: 'fragmento-getica-222-223', count: 2 }
+};
+
 const VIS_GROUPS = [
   ['all','Todas'], ['encuentro','El encuentro'], ['attila','Atila'],
   ['leon','León I'], ['aecio','Aecio'], ['mincio','El Mincio'],
@@ -340,6 +345,13 @@ function createListRow(item,category) {
     link.title='Abrir fuente';link.setAttribute('aria-label','Abrir fuente de '+item.title);
     controls.append(link);
   }
+  if(PARTIAL_TRANSLATIONS[item.id]){
+    const info=PARTIAL_TRANSLATIONS[item.id];
+    const passage=make('a','ordered-source','Pasajes ('+info.count+')');
+    passage.href='#'+info.anchor;
+    passage.title='Ir a las traducciones de '+item.title;
+    controls.append(passage);
+  }
   const notesToggle=make('button','ordered-notes-toggle',state.notes[item.id]?'Notas ·':'Notas');
   notesToggle.title='Mostrar u ocultar nota personal de '+item.title;
   notesToggle.setAttribute('aria-label','Mostrar u ocultar nota personal de '+item.title);
@@ -503,6 +515,13 @@ function createCard(item) {
     link.href = safeUrl(item.url);
     link.target = '_blank'; link.rel = 'noopener noreferrer';
     actions.append(link);
+  }
+  if(PARTIAL_TRANSLATIONS[item.id]){
+    const info=PARTIAL_TRANSLATIONS[item.id];
+    const passage=make('a','','Leer pasajes ('+info.count+')');
+    passage.href='#'+info.anchor;
+    passage.title='Abrir traducciones propias';
+    actions.append(passage);
   }
   const noteBtn = make('button','','Mi nota ↓'); noteBtn.type='button';
   const noteWrap = make('div','note-area'); noteWrap.hidden = true;
