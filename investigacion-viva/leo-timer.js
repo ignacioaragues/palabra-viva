@@ -3,6 +3,7 @@ import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co','sb_publishable_be96IsfN-3skQErkZtOtQQ_pK0OT1Y9',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id),SLUG='leo-attila';
 let user=null,timer=null,sessions=[],catalog=[],lastActivity=Date.now(),queue=Promise.resolve();
+function markManual(value){window.__ivManualTimerActive=value;window.dispatchEvent(new Event('iv:manual-state'));}
 const clock=ms=>[Math.floor(ms/3600000),Math.floor(ms/60000)%60,Math.floor(ms/1000)%60].map(n=>String(n).padStart(2,'0')).join(':');
 const short=secs=>{const h=Math.floor(secs/3600),m=Math.floor(secs%3600/60);return h?String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'):String(m).padStart(2,'0')+':'+String(secs%60).padStart(2,'0')};
 const startOfDay=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
@@ -33,8 +34,8 @@ function flush(){
    if(error)throw error;sessions.unshift(data);stats();
  }).catch(err=>{console.warn(err);$('leo-timer-sync').textContent='Error de sincronización. Revisá la conexión.'});
 }
-function stop(){if(timer?.active)flush();timer=null;ui();$('leo-timer-sync').textContent='Sesión terminada y guardada.'}
-function pause(){if(timer?.active){flush();timer.active=false;ui()}}
+function stop(){if(timer?.active)flush();timer=null;markManual(false);ui();$('leo-timer-sync').textContent='Sesión terminada y guardada.'}
+function pause(){if(timer?.active){flush();timer.active=false;markManual(false);ui()}}
 function toggle(){
  if(!user)return;
  if(timer?.active){pause();return}
@@ -42,7 +43,7 @@ function toggle(){
  const item=catalog.find(x=>x.id===id);if(!item)return;
  if(timer && timer.id===id){timer.active=true;timer.segment=Date.now()}
  else timer={id,title:[item.author,item.title].filter(Boolean).join(' · '),active:true,segment:Date.now(),total:0};
- lastActivity=Date.now();ui();$('leo-timer-sync').textContent='Sesión iniciada. Guardado automático durante la lectura.';
+ lastActivity=Date.now();markManual(true);ui();$('leo-timer-sync').textContent='Sesión iniciada. Guardado automático durante la lectura.';
 }
 async function initialise(){
  const auth=await client.auth.getUser();
@@ -72,4 +73,9 @@ setInterval(()=>{
  ui();
 },1000);
 client.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){pause();user=null;timer=null;$('leo-timer-toggle').disabled=true;}});
+window.addEventListener('iv:auto-segment-saved',event=>{
+ const row=event.detail;
+ if(!row||row.dossier_slug!==SLUG||!user)return;
+ sessions.unshift(row);stats();
+});
 initialise().catch(console.warn);
