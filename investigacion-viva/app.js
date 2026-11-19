@@ -9,6 +9,11 @@ const client = createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
   });
 const DOSSIER = 'leo-attila';
 const PARTIAL_TRANSLATIONS = {
+  r027: [
+    {href:'fragmentos/priscus-naissus.html',label:'Naissus'},
+    {href:'fragmentos/priscus-theodosius.html',label:'Banquete de Sardica'},
+    {href:'fragmentos/priscus-embassy-banquet.html',label:'Corte de Atila'}
+  ],
   r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
   r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
 };
