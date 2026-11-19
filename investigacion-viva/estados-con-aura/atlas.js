@@ -1,4 +1,5 @@
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
+import {GUIAS} from './guias.js';
 const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co','sb_publishable_be96IsfN-3skQErkZtOtQQ_pK0OT1Y9',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const SLUG='estados-con-aura';
 const $=id=>document.getElementById(id);
@@ -135,6 +136,7 @@ function renderEntity(){
  $('entity-deck').textContent=value(r.tipo);
  const meta=$('entity-meta');meta.replaceChildren();
  for(const [label,v] of [['Época',r.fechas],['Geografía',r.geografia]])meta.append(node('span','',label+': '+value(v)));
+ renderCuratorialGuide(r);
  $('entity-aura').textContent=value(r.aura);
  $('entity-note').textContent=value(r.observaciones);
  $('fallback-initial').textContent=r.entidad.charAt(0);
@@ -173,8 +175,79 @@ function renderEntity(){
  const prev=records.find(e=>e.n===n-1),next=records.find(e=>e.n===n+1);
  if(prev){const a=link('',urlFor(prev));a.append(node('small','','← ANTERIOR'),node('span','',prev.entidad));pager.append(a)}else pager.append(node('span'));
  if(next){const a=link('',urlFor(next));a.append(node('small','','SIGUIENTE →'),node('span','',next.entidad));pager.append(a)}
+ initialiseStudyTimer(r);
  loadWikiImage(r).catch(err=>console.warn('Imagen opcional no disponible',err));
 }
+
+function renderCuratorialGuide(r){
+ const guide=GUIAS[r.n],section=$('curator-section');
+ if(!section)return;
+ section.hidden=!guide;if(!guide)return;
+ $('curator-focus').textContent=guide.foco;
+ const questions=$('curator-questions');questions.replaceChildren();
+ for(const item of guide.preguntas)questions.append(node('li','',item));
+ const links=$('curator-links');links.replaceChildren();
+ for(const src of guide.fuentes){
+  const card=node('a','curator-source');card.href=src.url;card.target='_blank';card.rel='noopener noreferrer';
+  card.append(node('strong','',src.nombre+' ↗'),node('small','',src.nota));links.append(card);
+ }
+}
+function initialiseStudyTimer(r){
+ const selector=$('study-source'),clock=$('study-clock'),toggle=$('study-toggle'),stop=$('study-stop'),message=$('study-message');
+ if(!selector)return;
+ const sourceItems=[
+  ['ficha','Ficha histórica · '+r.entidad],
+  ['historia','Historia · '+canonText(r,'historia')],
+  ['literatura','Literatura · '+canonText(r,'literatura')],
+  ['fuente','Fuente emblemática · '+canonText(r,'texto')]
+ ];
+ selector.replaceChildren();
+ for(const [key,title] of sourceItems){const opt=node('option','',title);opt.value='entity:'+r.n+':'+key;selector.append(opt)}
+ let started=null,accumulated=0,firstStarted=null,tickId=null,saving=false;
+ const activeMs=()=>accumulated+(started===null?0:Date.now()-started);
+ const formatMs=ms=>{const secs=Math.floor(ms/1000),h=Math.floor(secs/3600),m=Math.floor(secs/60)%60,s=secs%60;return [h,m,s].map(n=>String(n).padStart(2,'0')).join(':')};
+ function display(){clock.textContent=formatMs(activeMs())}
+ function beginTick(){clearInterval(tickId);tickId=setInterval(display,1000)}
+ function pauseTick(){clearInterval(tickId);tickId=null}
+ function reset(){
+  pauseTick();started=null;accumulated=0;firstStarted=null;
+  toggle.textContent='Iniciar lectura';selector.disabled=false;stop.disabled=true;display();
+ }
+ toggle.addEventListener('click',()=>{
+  if(saving)return;
+  if(started!==null){accumulated+=Date.now()-started;started=null;pauseTick();toggle.textContent='Continuar lectura';message.textContent='Lectura en pausa. Podés continuar o terminar la sesión.';display()}
+  else{if(firstStarted===null)firstStarted=new Date().toISOString();started=Date.now();selector.disabled=true;stop.disabled=false;toggle.textContent='Pausar';message.textContent='Leyendo: '+selector.selectedOptions[0].textContent;beginTick()}
+ });
+ stop.addEventListener('click',async()=>{
+  if(saving)return;
+  if(started!==null){accumulated+=Date.now()-started;started=null;pauseTick()}
+  const secs=Math.round(accumulated/1000);
+  if(secs<1){reset();message.textContent='Sesión demasiado breve para registrarse.';return}
+  saving=true;toggle.disabled=true;stop.disabled=true;message.textContent='Guardando sesión…';
+  const selected=selector.selectedOptions[0];
+  const {error}=await client.from('iv_reading_sessions').insert({
+   owner_id:owner.id,dossier_slug:SLUG,source_id:selector.value,source_title:selected.textContent.slice(0,250),
+   duration_seconds:secs,started_at:firstStarted
+  });
+  saving=false;toggle.disabled=false;
+  if(error){console.warn('Error de sesión:',error);stop.disabled=false;message.textContent='No se pudo guardar; reintentá «Terminar sesión». Mantené esta pestaña abierta.';return}
+  reset();message.textContent='Sesión guardada en tu cuenta.';updateStudyTotal(r.n);
+ });
+ async function updateStudyTotal(num){
+  const {data,error}=await client.from('iv_reading_sessions')
+    .select('duration_seconds,source_id').eq('owner_id',owner.id).eq('dossier_slug',SLUG)
+    .like('source_id','entity:'+num+':%').limit(5000);
+  if(error){console.warn(error);return}
+  const total=(data||[]).reduce((sum,e)=>sum+(Number(e.duration_seconds)||0),0);
+  const hrs=Math.floor(total/3600),mins=Math.floor((total%3600)/60);
+  $('study-total').textContent=hrs?hrs+' h '+String(mins).padStart(2,'0')+' min':mins+' min';
+ }
+ window.addEventListener('beforeunload',event=>{
+  if((started!==null||accumulated>0)&&!saving){event.preventDefault();event.returnValue=''}
+ });
+ updateStudyTotal(r.n);
+}
+
 function resource(title,subtitle,url){
  const a=link('',url),strong=node('strong','',title+' ↗'),small=node('small','',subtitle);a.append(strong,small);return a;
 }
