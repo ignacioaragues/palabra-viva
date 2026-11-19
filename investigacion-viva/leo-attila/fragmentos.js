@@ -130,7 +130,7 @@ export function renderPassage(p) {
     <h3>${esc(p.title)}</h3>
     <p class="iv-fragment-work">${esc(p.work)}</p>
     <div class="iv-translation"><span class="overline">TRADUCCIÓN PROPIA · ESPAÑOL</span>${p.spanish.map(s=>`<p>${esc(s)}</p>`).join('')}</div>
-    <details class="iv-original"><summary>Mostrar / ocultar original latino</summary>
+    <details class="iv-original"><summary>${p.originalLang === 'grc' ? 'Mostrar / ocultar original griego' : 'Mostrar / ocultar original latino'}</summary>
       <div lang="${esc(p.originalLang || 'la')}">${(p.original || p.latin).map(s=>`<p>${esc(s)}</p>`).join('')}</div>
     </details>
     <div class="iv-fragment-note"><strong>Nota de lectura</strong><p>${esc(p.note)}</p></div>
