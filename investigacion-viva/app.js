@@ -16,7 +16,11 @@ const PARTIAL_TRANSLATIONS = {
     {href:'fragmentos/priscus-plot-edecon.html',label:'Complot de Crisafio'},
     {href:'fragmentos/priscus-edecon-reveals.html',label:'Edecón'},
     {href:'fragmentos/priscus-gold-cups.html',label:'Copas de Sirmio'},
-    {href:'fragmentos/priscus-palace-bath.html',label:'Palacio y baños'}
+    {href:'fragmentos/priscus-palace-bath.html',label:'Palacio y baños'},
+    {href:'fragmentos/priscus-greek-merchant.html',label:'El comerciante griego'},
+    {href:'fragmentos/priscus-greek-critique.html',label:'Crítica de Roma'},
+    {href:'fragmentos/priscus-roman-reply.html',label:'Respuesta de Prisco'},
+    {href:'fragmentos/priscus-greek-conclusion.html',label:'El desenlace'}
   ],
   r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
   r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
