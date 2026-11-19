@@ -182,6 +182,84 @@ export const passages = [
     ],
     note: 'Se han seleccionado dos pasajes no consecutivos del mismo fragmento, que describen la arquitectura del asentamiento y el destino de un técnico prisionero. El baño era de Onegesio, no de Atila. El contraste entre expectativa de liberación y nueva servidumbre es un rasgo particularmente irónico del relato de Prisco.'
   }
+  ,
+  {
+    id: 'priscus-greek-merchant', reference: 'r027', period: '449 · Casa de Onegesio',
+    title: 'Un griego vestido como los hunos',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; encuentro con el comerciante)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Texto griego · FHG IV, fr. 8 (encuentro)',
+    originalLang: 'grc',
+    original: [
+      'Παραγενόμενος δὲ ἅμα τοῖς κομίζουσιν αὐτὰ ὑπηρέταις προσεκαρτέρουν, ἔτι τῶν θυρῶν κεκλεισμένων, ἄχρις ὅτου τις ὑπεξελθὼν τὴν ἡμετέραν μηνύσειεν ἄφιξιν. Διατρίβοντι δέ μοι καὶ περιπάτους ποιουμένῳ πρὸ τοῦ περιβόλου τῶν οἰκημάτων, προσελθών τις, ὃν βάρβαρον ἐκ τῆς Σκυθικῆς ᾠήθην εἶναι στολῆς, Ἑλληνικῇ ἀσπάζεταί με φωνῇ, «χαῖρε» προσειπὼν, ὥστε με θαυμάζειν, ὅτι γε δὴ ἑλληνίζει Σκύθης ἀνήρ.',
+      'Ἀντασπασάμενος δὲ ἀνηρώτων τίς ὢν καὶ πόθεν ἐς τὴν βάρβαρον παρῆλθε γῆν καὶ βίον ἀναιρεῖται Σκυθικόν. Ὁ δὲ ἀπεκρίνατο ὅ τι βουλόμενος ταῦτα γνῶναι ἐσπούδακα, ἐγὼ δὲ ἔφην αἰτίαν πολυπραγμοσύνης εἶναί μοι τὴν Ἑλλήνων φωνήν. Τότε δὴ γελάσας ἔφη Γραικὸς μὲν εἶναι τὸ γένος, κατ ̓ ἐμπορίαν δὲ ἐς τὸ Βιμινάκιον ἐληλυθέναι τὴν πρὸς τῷ Ἴστρῳ μυσῶν πόλιν. Πλεῖστον δὲ ἐν αὐτῇ διατρῖψαι χρόνον, καὶ γυναῖκα γήμασθαι ζάπλουτον.',
+      'Τὴν δὲ ἐντεῦθεν εὐπραγίαν ἐκδύσασθαι, ὑπὸ τοῖς βαρβάροις τῆς πόλεως γενομένης, καὶ διὰ τὸν ὑπάρξαντα πλοῦτον αὐτῷ Ὀνηγησίῳ ἐν τῇ τῶν λαφύρων προκριθῆναι διανομῇ· τοὺς γὰρ ἁλόντας ἀπὸ τῶν εὐπόρων μετὰ τὸν Ἀττήλαν ἐκκρίτους εἶχον οἱ τῶν Σκυθῶν λογάδες διὰ τὸ ἐπὶ πλείστοις διατίθεσθαι. Ἀριστεύσαντα δὲ ἐν ταῖς ὕστερον πρὸς Ῥωμαίους μάχαις καὶ τὸ τῶν Ἀκατίρων ἔθνος, δόντα τῷ βαρβάρῳ δεσπότῃ κατὰ τὸν παρὰ Σκύθαις νόμον τὰ κατὰ τὸν πόλεμον αὐτῷ κτηθέντα, ἐλευθερίας τυχεῖν.'
+    ],
+    spanish: [
+      'Llegué acompañado de los servidores que llevaban los regalos y me quedé esperando, pues las puertas seguían cerradas, hasta que alguien saliera a anunciar nuestra llegada. Mientras pasaba el tiempo paseando ante la empalizada de la residencia, se acercó un hombre al que, por su vestimenta, tomé por bárbaro. Me saludó en griego con un «¡Salud!», y me sorprendió oír hablar griego a alguien que parecía huno.',
+      'Le devolví el saludo y le pregunté quién era, de dónde había venido a aquella tierra extranjera y por qué había adoptado la manera de vivir de los hunos. Él quiso saber por qué me interesaban esas cosas. Le expliqué que su lengua griega había despertado mi curiosidad. Entonces sonrió y dijo que era griego de nacimiento. Había llegado por negocios a Viminacio, ciudad de Mesia junto al Danubio, donde permaneció mucho tiempo y se casó con una mujer muy rica.',
+      'Perdió aquella prosperidad cuando los bárbaros tomaron la ciudad. Precisamente por su fortuna fue adjudicado a Onegesio en el reparto del botín: después de Atila, los jefes hunos se reservaban a los prisioneros más acomodados, por el mayor provecho que podían obtener de ellos. Más tarde, tras distinguirse luchando contra los romanos y contra el pueblo de los acatiros, entregó a su amo, según la costumbre huna, lo que había ganado en la guerra y obtuvo la libertad.'
+    ],
+    note: 'Selección discontinua: se omite entre el saludo y la autobiografía una reflexión lingüística de Prisco sobre las lenguas de la corte. El interlocutor no es presentado como un exiliado voluntario: primero fue capturado y esclavizado; después alcanzó la libertad y se integró en la sociedad huna. Viminacio corresponde a Viminacium, en la actual Serbia. Las denominaciones «hunos» y «escitas» se solapan en el vocabulario del autor.'
+  },
+  {
+    id: 'priscus-greek-critique', reference: 'r027', period: '449 · Casa de Onegesio',
+    title: 'Los impuestos y la justicia: una crítica a Roma',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; discurso del comerciante)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Texto griego · FHG IV, fr. 8 (crítica)',
+    originalLang: 'grc',
+    original: [
+      'Γυναῖκα δὲ γήμασθαι βάρβαρον, εἶναί τε αὐτῷ παῖδας· καὶ Ὀνηγησίῳ τραπέζης κοινωνοῦντα, ἀμείνονα τοῦ προτέρου τὸν παρόντα ἡγεῖσθαι [βίον]. Τοὺς μὲν γὰρ παρὰ Σκύθαις μετὰ τὸν πόλεμον ἐν ἀπραγμοσύνῃ διατελεῖν, ἑκάστου τῶν παρόντων ἀπολαύοντας καὶ οὐδαμῶς ἢ ὀλίγα ἐνοχλουμένους, τοὺς μέντοι παρὰ Ῥωμαίοις ἐν μὲν πολέμῳ ῥᾳδίως ἀναλίσκεσθαι, εἰς ἑτέρους τὰς τῆς σωτηρίας ἐλπίδας ἔχοντας, ὡς πάντων* διὰ τοὺς τυράννους μὴ χρωμένων ὅπλοις.',
+      'Καὶ τῶν χρωμένων δὲ σφαλερωτέρα ἡ τῶν στρατηγῶν κακία, μὴ ὑφισταμένων τὸν πόλεμον.',
+      'Ἐν δὲ εἰρήνῃ ὀδυνηρότερα ὑπάρχειν τὰ συμβαίνοντα τῶν ἐν τοῖς πολέμοις κακῶν διά τε τὴν βαρυτάτην εἴσπραξιν τῶν δασμῶν καὶ τὰς ἐκ τῶν πονηρῶν βλάβας, τῶν νόμων οὐ κατὰ πάντων κειμένων, ἀλλ ̓ εἰ μὲν ὁ παραβαίνων τὸν θεσμὸν τῶν πλουτούντων εἴη, ἔστι τῆς ἀδικίας αὐτὸν μὴ διδόναι δίκας· εἰ δὲ πένης εἴη, οὐκ ἐπιστάμενος χρῆσθαι πράγμασιν, ὑπομένει τὴν ἀπὸ τοῦ νόμου ζημίαν, εἴπερ μὴ πρὸ τῆς κρίσεως ἀπολείποι τὸν βίον, μακροῦ ἐπὶ ταῖς δίκαις παρατεινομένου χρόνου καὶ πλείστων ἐκδαπανωμένων χρημάτων.',
+      'Ὅπερ τῶν πάντων ἀνιαρότατον εἴη, ἐπὶ μισθῷ τῶν ἀπὸ τοῦ νόμου τυγχάνειν. Οὐδὲ γὰρ τῷ ἀδικουμένῳ τις δικαστήριον παραδώσει, εἰ μή τι ἀργύριον τῷ τε δικαστῇ καὶ τοῖς ἐκείνῳ διακονουμένοις κατάθοιτο.'
+    ],
+    spanish: [
+      'Se había casado con una mujer de aquel pueblo y tenía hijos. Compartía la mesa de Onegesio y consideraba su vida actual mejor que la anterior. Decía que, entre los hunos, después de la guerra se vive sin preocupaciones, disfrutando de lo que se posee y sufriendo pocas molestias, o ninguna. Entre los romanos, en cambio, los hombres mueren fácilmente en la guerra porque deben confiar su supervivencia a otros: sus gobernantes no permiten a todos llevar armas.',
+      'Incluso para quienes pueden empuñarlas, la incapacidad de los generales, que no saben afrontar la guerra, hace más precaria la situación.',
+      'En tiempo de paz, decía, ocurren desgracias todavía más dolorosas que las de la guerra: los impuestos se cobran con enorme dureza y los malvados perjudican a los demás, porque las leyes no se aplican por igual a todos. Si el infractor es rico, puede quedar impune; si es pobre y no sabe manejar sus asuntos, soporta las penas que establece la ley, siempre que no muera antes de que se dicte sentencia, pues los pleitos se prolongan mucho y consumen sumas enormes.',
+      'Lo más insoportable de todo es que haya que pagar para obtener lo que reconoce la ley. Nadie permitirá siquiera al perjudicado acudir a un tribunal si antes no entrega dinero al juez y a sus asistentes.'
+    ],
+    note: 'Aquí la comparación entre «bárbaros» y «romanos» se invierte: el prisionero liberado acusa al Imperio de desigualdad judicial, costos procesales y exacción fiscal. Es un argumento puesto en boca del interlocutor en una obra historiográfica elaborada, no una encuesta de opiniones de la población huna. El asterisco y los corchetes del griego proceden de la transmisión/edición digital y requieren cotejo posterior.'
+  },
+  {
+    id: 'priscus-roman-reply', reference: 'r027', period: '449 · Casa de Onegesio',
+    title: 'Prisco responde: leyes, soldados y jueces',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; defensa de la constitución romana)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Texto griego · FHG IV, fr. 8 (respuesta)',
+    originalLang: 'grc',
+    original: [
+      'Τοιαῦτα καὶ πλεῖστα ἕτερα προτιθέντος, ὑπολαβὼν ἔφασκον πράως αὐτὸν καὶ τὰ ἐξ ἐμοῦ ἀκούειν· καὶ δὴ ἔλεγον, ὡς οἱ τῆς Ῥωμαίων πολιτείας εὑρεταὶ σοφοί τε καὶ ἀγαθοὶ ἄνδρες, ὥστε τὰ πράγματα [μὴ] τηνάλλως φέρεσθαι, τοὺς μὲν τῶν νόμων εἶναι φύλακας, τοὺς δὲ ποιεῖσθαι τῶν ὅπλων ἐπιμέλειαν ἔταξαν καὶ τὰς πολεμικὰς μελέτας ἀσκεῖν, πρὸς μηδὲν ἕτερον ἐπαγομένους ἢ ὥστε εἶναι πρὸς μάχην ἑτοίμους καὶ ὡς ἐπὶ τὴν συνήθη γυμνασίαν θαρροῦντας ἐπὶ τὸν πόλεμον ἰέναι, προαναλωθέντος αὐτοῖς διὰ τῆς μελέτης τοῦ φόβου· τοὺς δὲ προσκειμένους τῇ γεωργίᾳ καὶ τῇ ἐπιμελείᾳ τῆς γῆς ἑαυτούς τε καὶ τοὺς ὑπὲρ σφῶν αὐτῶν ἀγωνιζομένους τρέφειν ἔταξαν, τὸ στρατιωτικὸν εἰσπραττομένους σιτηρέσιον· ἄλλους δὲ τῶν ἀδικουμένων προνοεῖν, καὶ τοὺς μὲν τοῦ δικαίου προΐστασθαι ὑπὲρ τῶν δι ̓ ἀσθένειαν φύσεως μὴ οἵωντε ὄντων τὰ σφέτερα προΐσχεσθαι δίκαια, τοὺς δὲ δικάζοντας φυλάττειν ἅπερ ὁ νόμος βούλεται· μὴ ἐστερῆσθαι δὲ φροντίδος μηδὲ τῶν παραστάντων τοῖς δικασταῖς, ἀλλὰ κἀκείνων εἶναι τοὺς πρόνοιαν ποιησομένους, ὅπως τοῦ τε δικαίου τεύξοιτο ὁ τῆς τῶν δικαστῶν τυχὼν κρίσεως, καὶ ὁ ἀδικεῖν νομισθεὶς μὴ εἰσπραχθείη πλέον, ἤπερ ἡ δικαστικὴ βούλεται ψῆφος.',
+      'Τὸν δὲ ἐπὶ ταῖς δίκαις μακρότερον, ἂν οὕτω τύχοι, χρόνον, τῆς τοῦ δικαίου προνοίας γίνεσθαι χάριν, ὥστε μὴ σχεδιάζοντας τοὺς δικαστὰς τῆς ἀκριβείας διαμαρτεῖν· λογιζομένους ἄμεινον εἶναι ὀψὲ πέρας ἐπιτιθέναι δίκῃ, ἢ ἐσπουδακότας μὴ μόνον ἄνθρωπον ἀδικεῖν, ἀλλὰ εἰς τὸν τοῦ δικαίου εὑρετὴν θεὸν πλημμελεῖν. Κεῖσθαι δὲ τοὺς νόμους κατὰ πάντων, ὥστε αὐτοῖς καὶ βασιλέα πείθεσθαι, καὶ οὐχ, ὃ τῇ αὐτοῦ ἔνεστι κατηγορίᾳ, ὅτι γε δὴ οἱ εὔποροι τοὺς πένητας ἀκινδύνως βιάζοιντο, εἴ μή γε διαλαθών τις φύγοι τὴν δίκην.'
+    ],
+    spanish: [
+      'Mientras aquel hombre exponía estos y otros muchos argumentos, intervine y le pedí que escuchara también, con calma, lo que yo tenía que decir. Le expliqué que los fundadores de la organización política romana habían sido hombres sabios y virtuosos. Para que los asuntos públicos no quedaran abandonados al azar, confiaron a unos la custodia de las leyes y a otros el manejo de las armas y el adiestramiento militar, de modo que estuvieran preparados para combatir y marcharan a la guerra con la confianza que da el ejercicio. A quienes trabajaban la tierra les asignaron la tarea de alimentarse y de sostener a los soldados mediante el abastecimiento militar. Designaron asimismo personas encargadas de defender a los perjudicados, representar a quienes no podían hacer valer sus derechos por sí solos, juzgar conforme a la ley y vigilar que las sentencias se cumplieran sin exceder lo decidido.',
+      'En cuanto a la duración de los procesos, sostuve que, cuando se prolongan, es por el cuidado puesto en impartir justicia: los jueces deben evitar los errores de una decisión improvisada. Es preferible terminar tarde un litigio, después de reflexionar, que precipitarse y cometer una injusticia contra una persona y una falta ante Dios, creador de la justicia. Añadí que las leyes estaban establecidas para todos, incluso para el emperador, y que no era cierto que los ricos pudieran oprimir impunemente a los pobres, salvo que consiguieran eludir la justicia.'
+    ],
+    note: 'Selección discontinua: tras la primera respuesta de Prisco se omiten dos tramos dedicados a los costos de la administración judicial y a su justificación por analogía con el mantenimiento de soldados y animales de trabajo. El contraste entre el modelo constitucional ideal y las prácticas denunciadas por el comerciante es el centro de la controversia. La referencia a la sumisión del emperador a las leyes no debe confundirse con una descripción empírica de todos los juicios de la época.'
+  },
+  {
+    id: 'priscus-greek-conclusion', reference: 'r027', period: '449 · Casa de Onegesio',
+    title: 'El llanto del comerciante: buenas leyes, malos gobernantes',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; conclusión del diálogo)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Texto griego · FHG IV, fr. 8 (final del diálogo)',
+    originalLang: 'grc',
+    original: [
+      'Ὅπερ οὐκ ἐπὶ τῶν πλουσίων, ἀλλὰ καὶ πενήτων εὕροι τις ἄν· πλημμελοῦντες γὰρ οὐδὲ αὐτοὶ ἀπορίᾳ ἐλέγχων δοῖεν δίκας. Καὶ τοῦτο παρὰ πᾶσι, καὶ οὐ παρὰ Ῥωμαίοις μόνον συμβαῖνόν ἐστι. Χάριν δὲ ὁμολογεῖν τῇ τύχῃ ἐπὶ τῆ αὐτῷ ὑπαρξάσῃ ἐλευθερίᾳ, καὶ μὴ τῷ ἐπὶ πόλεμον ἐξάγοντι δεσπότῃ, ὥστε αὐτὸν δι ̓ ἀπειρίαν ἢ ὑπὸ τῶν πολεμίων ἀναιρεθῆναι, ἢ φεύγοντα ὑπὸ τοῦ κτησαμένου κολάζεσθαι. Ἄμεινον δὲ καὶ τοῖς οἰκέταις διατελοῦσι Ῥωμαῖοι χρώμενοι.',
+      'Πατέρων γὰρ ἢ διδασκάλων ἐς αὐτοὺς ἔργα ἐπιδεικνύντες, ἐφ ̓ ᾧ τῶν φαύλων ἀπεχομένους μετιέναι ἅπερ αὐτοῖς καλὰ νενόμισται, σωφρονίζουσι σφᾶς ἐπὶ τοῖς ἁμαρτήμασιν, ὥσπερ τοὺς οἰκείους παῖδας. Οὐ δὴ γὰρ οὐδὲ αὐτοῖς θάνατον, ὥσπερ Σκύθαις, ἐπάγειν θέμις. Ἐλευθερίας δὲ τρόποι παρ ̓ αὐτοῖς πλεῖστοι, ἣν οὐ μόνον περιόντες, ἀλλὰ καὶ τελευτῶντες χαρίζονται, διατάττοντες κατὰ τῆς περιουσίας ὃν βούλονται τρόπον.',
+      'Καὶ νόμος ἐστὶν ὅπερ ἕκαστος τελευτῶν περὶ τῶν προσηκόντων βουλεύσοιτο.» Καὶ ὃς δακρύσας ἔφη, ὡς οἱ μὲν νόμοι καλοὶ καὶ ἡ πολιτεία Ῥωμαίων ἀγαθὴ, οἱ δ ̓ ἄρχοντες οὐχ ὅμοια τοῖς πάλαι φρονοῦντες αὐτὴν διαλυμαίνοντα· Ταῦτα διαλεγομένων ἡμῶν, προσελθών τις τῶν ἔνδοθεν ἀνοίγει τὰς θύρας τοῦ περιβόλου.'
+    ],
+    spanish: [
+      'Respondí que no solo entre los ricos, sino también entre los pobres, podía encontrarse a quienes escapaban al castigo por falta de pruebas. Esto sucede entre todos los pueblos, no únicamente entre los romanos. Le dije además que debía agradecer a la fortuna la libertad que había obtenido, y no al amo que lo llevaba a la guerra, donde podía morir por inexperiencia o, si huía, ser castigado por quien lo poseía. Los romanos, continué, trataban mejor incluso a sus esclavos.',
+      'Actuaban con ellos —según mi argumento— como padres o maestros: los apartaban de las malas acciones y los corregían como a sus propios hijos. No podían darles muerte, como los hunos; existían, además, muchas maneras de otorgarles la libertad, no solo en vida, sino también por testamento, al disponer de sus bienes conforme a su voluntad.',
+      'La ley reconocía lo que cada persona hubiese decidido al morir sobre lo que le pertenecía. Entonces aquel hombre, llorando, dijo que las leyes eran buenas y que la organización política romana era excelente, pero que los gobernantes, al no pensar como los de antaño, la estaban corrompiendo. Mientras conversábamos, alguien salió del interior y abrió las puertas de la empalizada.'
+    ],
+    note: 'Es la conclusión del debate, pero no una retractación simple: el comerciante separa la excelencia ideal de las leyes de su aplicación por los gobernantes de su tiempo. La descripción benévola de la esclavitud romana es parte de la defensa retórica de Prisco y no debe leerse como un juicio histórico neutral. El llanto tiene también una función dramática dentro del relato historiográfico.'
+  }
+
 ];
 
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
