@@ -354,12 +354,12 @@ function showProjects(rows){
       'leo-attila':['leo-attila-encuentro.svg','Encuentro de León I y Atila'],
       'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
       'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles'],
-      'estados-con-aura':['estados-con-aura.svg','Grabado minimalista de una ciudad histórica imaginaria']
+      'estados-con-aura':['estados-con-aura-grabado.webp','Grabado de una ciudad amurallada de inspiración histórica']
     };
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261118-final-webp-v1';
+      preview.src='./assets/'+artwork[item.slug][0]+'?v=20261119-grabado-atlas';
       preview.alt=artwork[item.slug][1];
       preview.width=860;preview.height=645;
       preview.loading='lazy';
