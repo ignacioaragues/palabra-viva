@@ -1,8 +1,8 @@
 // Inventario editorial de traducciones parciales del proyecto León / Atila.
 // No se confunde con el estado personal de lectura. Referencias r027–r054 del catálogo privado.
 export const inProgress = [
-  {id:'r027', title:'Prisco de Panio · embajada a Atila', finished:7,
-   remaining:'El romano instalado en la corte huna y su crítica de Roma; el diálogo con Onegesio; la audiencia, los gestos de Atila y la continuación de la misión.'},
+  {id:'r027', title:'Prisco de Panio · embajada a Atila', finished:11,
+   remaining:'El diálogo diplomático con Onegesio; la audiencia, las mujeres de la corte y los gestos de Atila; otros episodios de la misión y las negociaciones.'},
   {id:'r029', title:'Próspero de Aquitania · Chronicon', finished:2,
    remaining:'Revisar la entrada de 453 y otros pasajes pertinentes, cotejando la cronología y la transmisión del texto.'},
   {id:'r041', title:'Jordanes · Getica', finished:2,
