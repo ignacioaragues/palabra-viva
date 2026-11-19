@@ -16,6 +16,10 @@ const GROUP_DESCRIPTIONS={
  'Civilización perdida':'Culturas y complejos arqueológicos desaparecidos como sistemas políticos, no pueblos necesariamente extinguidos. Algunas no fueron estados unificados.'
 };
 const GROUP_IDS={'Imperio':'imperios-originales','Otro':'reinos-originales','País singular':'paises-originales','Entidad singular adicional':'otras-entidades-originales','Imperio nómada':'imperios-nomadas','País casi desconocido':'paises-desconocidos','Civilización perdida':'civilizaciones-perdidas'};
+const RELATED_ENTRIES={
+ 'Imperio nómada':[['Imperio mongol',12],['Kaganato jázaro',55],['Kaganato dzungar',76]],
+ 'País casi desconocido':[['Reino de Sikkim',61],['República de Lanfang',71],['Reino de Sedang',72],['Neutral Moresnet',50]]
+};
 let activeType='all';
 const node=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
 const link=(txt,url,cls='')=>{const a=node('a',cls,txt);a.href=url; if(/^https:\/\//.test(url)){a.target='_blank';a.rel='noopener noreferrer'}return a};
@@ -139,6 +143,15 @@ function renderIndex(){
   const grid=node('div','entity-subgrid');
   for(const r of group)grid.append(cardForEntity(r));
   section.append(grid);
+  if(!q && RELATED_ENTRIES[id]?.length){
+   const related=node('div','related-entities');
+   related.append(node('strong','','También en el canon original: '));
+   for(const [name,number] of RELATED_ENTRIES[id]){
+    const existing=records.find(r=>r.n===number);
+    if(existing)related.append(link(name+' ↗',urlFor(existing)));
+   }
+   section.append(related);
+  }
   wrap.append(section);
  }
  $('result-count').textContent=filtered.length+' '+(filtered.length===1?'entidad':'entidades')+' · '+records.filter(r=>progress.status?.['entity:'+r.n]==='done').length+' marcadas como leídas';
