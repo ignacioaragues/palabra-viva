@@ -40,6 +40,7 @@ function pageLabel() {
     return {id:'atlas:'+key,title:document.getElementById('entity-title')?.textContent?.trim()||'Ficha del atlas'};
   }
   if(atlas==='index')return {id:'atlas:indice',title:'Atlas · índice'};
+  if(slug==='investigacion-viva')return {id:'pagina:indice',title:'Investigación Viva · índice de proyectos'};
   if(slug==='leo-attila')return {id:'pagina:dossier',title:'León y Atila · biblioteca y dossier'};
   const tab=document.querySelector('[data-tab][aria-selected="true"]')?.dataset.tab || 'dossier';
   if(tab==='dossier'){
@@ -120,6 +121,7 @@ for(const event of ['scroll','pointerdown','keydown','touchstart','pointermove']
 window.addEventListener('focus',activity);
 window.addEventListener('blur',onBlur);
 window.addEventListener('pagehide',()=>{disposed=true;pause();});
+window.addEventListener('pageshow',()=>{disposed=false;lastActivity=Date.now();reconcile();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else activity();});
 window.addEventListener('iv:manual-state',reconcile);
 client.auth.onAuthStateChange((event,session)=>{
