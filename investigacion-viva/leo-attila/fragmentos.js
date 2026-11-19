@@ -115,6 +115,73 @@ export const passages = [
     ],
     note: 'Una escena de alto valor para entender la negociación como ejercicio de lenguaje y etiqueta. La divinización retórica del emperador, formulada por el intérprete Bigilas, resulta insultante para los seguidores de Atila; Prisco muestra la necesidad de reconducir la conversación.'
   }
+  ,
+  {
+    id: 'priscus-plot-edecon', reference: 'r027', period: '448/449 · Constantinopla',
+    title: 'Crisafio propone asesinar a Atila',
+    author: 'Prisco de Panio', work: 'Historia, fr. 7 (FHG IV, p. 76; Excerpta de legationibus)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8986',
+    sourceLabel: 'Griego · FHG IV, fragmento 7',
+    originalLang: 'grc',
+    original: [
+      'Τότε δὴ ὁ εὐνοῦχος ἔλεγε τῷ Ἐδήκωνι, εἰ διαβὰς ἐς τὴν Σκυθικὴν ἀνέλοι τὸν Ἀττήλαν καὶ παρὰ Ῥωμαίους ἥξει, ἔσεσθαι αὐτῷ βίον εὐδαίμονα καὶ πλοῦτον μέγιστον.',
+      'Τοῦ δὲ ὑποσχομένου καὶ φήσαντος ἐπὶ τῇ πράξει δεῖσθαι χρημάτων, οὐ πολλῶν δὲ, ἀλλὰ πεντήκοντα λιτρῶν χρυσίου, δοθησομένων τῷ ὑπ ̓ αὐτὸν πλήθει, ὥστε αὐτῷ τελείως συνεργῆσαι πρὸς τὴν ἐπίθεσιν, καὶ τοῦ εὐνούχου τὸ χρυσίον παραχρῆμα δώσειν ὑποσχομένου, ἔλεγεν ὁ βάρβαρος ἀποπέμπεσθαι μὲν αὐτὸν ἀπαγγελοῦντα τῷ Ἀττήλᾳ περὶ τῆς πρεσβείας, συμπέμπεσθαι δ ̓ αὐτῷ Βιγίλαν τὴν παρὰ τοῦ Ἀττήλα ἐπὶ τοῖς φυγάσιν ἀπόκρισιν δεξάμενον.'
+    ],
+    spanish: [
+      'Entonces el eunuco [Crisafio] dijo a Edecón que, si cruzaba al territorio de los hunos, mataba a Atila y regresaba junto a los romanos, disfrutaría de una vida feliz y de inmensas riquezas.',
+      'Edecón prometió hacerlo, pero afirmó que para ejecutar el plan necesitaba dinero: no demasiado, apenas cincuenta libras de oro, destinadas a los hombres que estaban bajo sus órdenes, para asegurar su plena colaboración en el ataque. El eunuco se ofreció a entregar el oro de inmediato. El bárbaro, sin embargo, sostuvo que primero debía regresar a informar a Atila sobre la embajada y que Bigilas debía acompañarlo para recibir la respuesta del rey acerca de los fugitivos.'
+    ],
+    note: 'La conspiración se presenta como una iniciativa de Crisafio, poderoso funcionario de Teodosio II. El dinero habría servido, según la propuesta, para comprometer a los guardianes de Atila. Las cincuenta libras de oro corresponden a esta primera negociación; la entrega posterior de cien libras aparece en otro fragmento. La selección traduce solamente las dos unidades griegas reproducidas arriba.'
+  },
+  {
+    id: 'priscus-edecon-reveals', reference: 'r027', period: '448/449 · Campamento de Atila',
+    title: 'Edecón revela la conspiración',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; Excerpta de legationibus)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Griego · FHG IV, fragmento 8',
+    originalLang: 'grc',
+    original: [
+      'Προδεδομένος δὲ ἐλελήθει. Ὁ γὰρ Ἐδέκων, εἴτε δόλῳ ὑποσχόμενος, εἴτε καὶ τὸν Ὀρέστην εὐλαβηθεὶς, μὴ ἐς τὸν Ἀττήλαν ἀγάγοι ἅπερ ἡμῖν ἐν τῇ Σερδικῇ μετὰ τὴν ἑστίασιν εἰρήκει, ἐν αἰτίᾳ ποιούμενος τὸ χωρὶς αὐτοῦ βασιλεῖ καὶ τῷ εὐνούχῳ ἐς λόγους αὐτὸν ἐληλυθέναι, καταμηνύει τὴν μελετηθεῖσαν αὐτῷ ἐπιβουλὴν καὶ τὸ ποσὸν τοῦ ἐκπεμφθησομένου χρυσίου, ἐκλέγει δὲ καὶ ἐφ ̓ οἷς τὴν πρεσβείαν ἐποιούμεθα.'
+    ],
+    spanish: [
+      'Pero Bigilas ignoraba que ya lo habían delatado. Edecón, bien porque había prometido colaborar desde el principio con ánimo de engañar, bien porque temía que Orestes contara a Atila lo que nos había dicho después del banquete en Sérdica —reprochándole haber hablado con el emperador y el eunuco sin incluirlo—, reveló el atentado que se había preparado, la cantidad de oro que iban a enviarle y también los motivos de nuestra embajada.'
+    ],
+    note: 'Prisco no afirma conocer las motivaciones de Edecón: ofrece dos explicaciones alternativas, el engaño inicial o el temor a Orestes. El pasaje permite distinguir la información que el narrador conoce retrospectivamente de las incertidumbres que afrontaban los diplomáticos durante la misión.'
+  },
+  {
+    id: 'priscus-gold-cups', reference: 'r027', period: '448/449 · Embajada occidental',
+    title: 'Las copas de Sirmio y el reclamo de Atila',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; embajada de Occidente)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Griego · FHG IV, fragmento 8',
+    originalLang: 'grc',
+    original: [
+      'Κατὰ δὲ τὸν χρόνον ἐν ᾧ ὑπὸ Σκυθῶν ἐν τῇ Παιόνων ἐπολιορκεῖτο τὸ Σίρμιον, τὰς φιάλας παρὰ τοῦ τῆς πόλεως ἐπισκόπου ἐδέξατο ἐφ ̓ ᾧ αὐτὸν λύσασθαι, εἴ γε περιόντος αὐτοῦ ἁλῶναι τὴν πόλιν συμβαίη, ἢ ἀναιρεθέντος ὠνήσασθαι τοὺς αἰχμαλώτους ἀπαγομένους τῶν ἀστῶν.',
+      'Ὁ δὲ Κωνστάντιος μετὰ τῆς πόλεως ἀνδραποδισμὸν ὀλιγωρήσας τῶν συνθηκῶν ἐς τὴν Ῥώμην κατὰ πρᾶξίν τινα παραγίνεται, καὶ κομίζεται παρὰ τοῦ Σιλβανοῦ χρυσίον τὰς φιάλας δοὺς, ὥστε ῥητοῦ χρόνου ἐντὸς ἢ ἀποδόντα τὸ ἐκδανεισθὲν χρυσίον ἀναλαβεῖν τὰ ἐνέχυρα, ἢ αὐτοῖς τὸν Σιλβανὸν ἐς ὅ τι βούλοιτο χρήσασθαι.'
+    ],
+    spanish: [
+      'Cuando los hunos sitiaban Sirmio, en Panonia, Constancio había recibido unas copas del obispo de la ciudad con el compromiso de rescatarlo si la ciudad caía mientras él siguiera con vida; si el obispo moría, debía emplearlas para redimir a los ciudadanos conducidos al cautiverio.',
+      'Pero, después de que la ciudad fuera sometida y sus habitantes esclavizados, Constancio desatendió lo convenido. Llegó a Roma por ciertos asuntos y obtuvo oro de Silvano entregándole las copas como garantía: si devolvía el préstamo dentro del plazo fijado, recuperaría las prendas; de lo contrario, Silvano podría disponer de ellas como quisiera.'
+    ],
+    note: 'Este episodio explica el origen de unas copas de oro que terminaron provocando una negociación diplomática entre Atila y el gobierno romano occidental. El texto no prueba que Silvano conociera la obligación original de rescatar a los cautivos. La selección se interrumpe antes de las reclamaciones posteriores sobre la posesión de las copas.'
+  },
+  {
+    id: 'priscus-palace-bath', reference: 'r027', period: '448/449 · Residencia de Atila',
+    title: 'El palacio de madera y el arquitecto cautivo',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; descripción de la residencia)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Griego · FHG IV, fragmento 8',
+    originalLang: 'grc',
+    original: [
+      'Καὶ ποταμούς τινας διαβάντες ἐν μεγίστῃ παρεγινόμεθα κώμῃ, ἐν ᾗ τὰ τοῦ Ἀττήλα οἰκήματα περιφανέστερα τῶν ἁπανταχοῦ εἶναι ἐλέγετο, ξύλοις τε καὶ σανίσιν εὐξέστοις ἡρμοσμένα καὶ περιβόλῳ ξυλίνῳ κυκλούμενα, οὐ πρὸς ἀσφάλειαν, ἀλλὰ πρὸς εὐπρέπειαν συλλαμβάνοντι.',
+      'Ὁ δὲ ἀρχιτέκτων τοῦ βαλανείου ἀπὸ τοῦ Σιρμίου αἰχμάλωτος ἀχθεὶς, μισθὸν τοῦ εὑρέματος ἐλευθερίαν λήψεσθαι προσδοκῶν, ἔλαθε μείζονι πόνῳ περιπεσὼν τῆς παρὰ Σκύθαις δουλείας· βαλανέα γὰρ αὐτὸν Ὀνηγήσιος κατέστησε, καὶ λουομένῳ αὐτῷ τε καὶ τοῖς ἀμφ ̓ αὐτὸν διηκονεῖτο.'
+    ],
+    spanish: [
+      'Tras cruzar varios ríos, llegamos a una aldea muy grande. Se decía que las residencias de Atila eran las más notables de toda la región: estaban construidas con maderos y tablas cuidadosamente alisados y rodeadas por una empalizada de madera, levantada no por motivos de seguridad, sino de ornamentación.',
+      'El constructor de los baños [de Onegesio] había sido llevado cautivo desde Sirmio. Esperaba obtener la libertad como recompensa por su obra, pero, sin darse cuenta, cayó en una ocupación más penosa que su anterior esclavitud entre los hunos: Onegesio lo convirtió en encargado de los baños, y debía atenderlo tanto a él como a quienes se bañaban con él.'
+    ],
+    note: 'Se han seleccionado dos pasajes no consecutivos del mismo fragmento, que describen la arquitectura del asentamiento y el destino de un técnico prisionero. El baño era de Onegesio, no de Atila. El contraste entre expectativa de liberación y nueva servidumbre es un rasgo particularmente irónico del relato de Prisco.'
+  }
 ];
 
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
