@@ -362,6 +362,7 @@ function sourceChoices(){
 }
 function timeInSession(){return timer?timer.totalMs+(timer.active?Math.max(0,Date.now()-timer.segmentStart):0):0}
 let writeQueue=Promise.resolve();
+function signalTimer(active){window.__ivManualTimerActive=active;window.dispatchEvent(new Event('iv:manual-state'));}
 function logSegment(){
  if(!timer?.active||!user)return;
  const now=Date.now(),delta=now-timer.segmentStart;if(delta<900)return;
@@ -376,25 +377,25 @@ function logSegment(){
 function startTimer(id,title,external=false){
  if(timer?.active && timer.id===id){timer.external=external;refreshTimerUI();return}
  if(timer?.active)logSegment();
- timer={id,title,totalMs:0,segmentStart:Date.now(),active:true,external};
+ timer={id,title,totalMs:0,segmentStart:Date.now(),active:true,external};signalTimer(true);
  $('timer-source').value=id;lastInteraction=Date.now();refreshTimerUI();
  sync(external?'Sesión externa iniciada: detenela cuando termines.':'Lectura en curso. El contador se sincroniza periódicamente.');
 }
 function pauseTimer(){
- if(!timer?.active)return;logSegment();timer.active=false;refreshTimerUI();
+ if(!timer?.active)return;logSegment();timer.active=false;signalTimer(false);refreshTimerUI();
 }
 function resumeTimer(){
  if(!timer){const id=$('timer-source').value,entry=catalog.find(x=>x.id===id||('dossier:'+x.doc_id)===id);startTimer(id,entry?itemTitle(entry):'Lectura',true);return}
- timer.segmentStart=Date.now();timer.active=true;lastInteraction=Date.now();refreshTimerUI();
+ timer.segmentStart=Date.now();timer.active=true;signalTimer(true);lastInteraction=Date.now();refreshTimerUI();
 }
 function finishTimer(){
  if(timer?.active)logSegment();
- timer=null;refreshTimerUI();sync('Sesión finalizada. El tiempo registrado se conserva en tu cuenta.');
+ timer=null;signalTimer(false);refreshTimerUI();sync('Sesión finalizada. El tiempo registrado se conserva en tu cuenta.');
 }
 $('timer-toggle').addEventListener('click',()=>{if(timer?.active)pauseTimer();else resumeTimer()});
 $('timer-stop').addEventListener('click',finishTimer);
 $('timer-source').addEventListener('change',()=>{
- if(timer?.active){logSegment();timer=null}
+ if(timer?.active){logSegment();timer=null;signalTimer(false)}
  refreshTimerUI();
 });
 function refreshTimerUI(){
@@ -445,6 +446,11 @@ function renderHistory(){
  }
 }
 $('session-category').addEventListener('change',renderHistory);
+window.addEventListener('iv:auto-segment-saved',e=>{
+ const row=e.detail;
+ if(row?.dossier_slug!==slug||!user)return;
+ sessions.unshift(row);renderMetrics();renderTimeSummary();renderHistory();
+});
 function startTicker(){
  setInterval(()=>{
   if(!timer?.active)return;
@@ -491,7 +497,7 @@ $('login-form').addEventListener('submit',async e=>{
  finally{button.disabled=false}
 });
 client.auth.onAuthStateChange((ev)=>{
- if(ev==='SIGNED_OUT'){if(timer?.active)logSegment();timer=null;user=null;showGate()}
+ if(ev==='SIGNED_OUT'){if(timer?.active)logSegment();timer=null;signalTimer(false);user=null;showGate()}
 });
 startTicker();
 load().catch(e=>{console.warn(e);showGate('No se pudo cargar el proyecto.');});
