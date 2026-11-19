@@ -1,0 +1,22 @@
+/* Pasajes traducidos del dossier León/Atila. Mantener el sistema visual de Investigación Viva. */
+.iv-fragments{padding:76px 0 86px;scroll-margin-top:36px;border-top:1px solid var(--line)}
+.iv-fragment-intro{max-width:570px;color:var(--muted);font:13px/1.9 var(--serif);margin:-10px 0 30px}
+.iv-fragment-list{display:grid;gap:18px;max-width:1080px}
+.iv-fragment{scroll-margin-top:30px;background:var(--white);border:1px solid var(--line);padding:clamp(21px,3vw,40px);min-width:0}
+.iv-fragment:target{outline:2px solid var(--sage);outline-offset:3px}
+.iv-fragment-meta{display:flex;gap:15px;justify-content:space-between;flex-wrap:wrap;font:700 10px/1.5 var(--sans);letter-spacing:.11em;color:var(--rust);text-transform:uppercase}
+.iv-fragment h3{font:400 clamp(23px,3vw,31px)/1.35 var(--serif);letter-spacing:-.035em;margin:12px 0 4px}
+.iv-fragment-work{font:italic 12px/1.8 var(--serif);color:var(--muted);margin:0 0 26px}
+.iv-translation{max-width:78ch}
+.iv-translation .overline{display:block;margin-bottom:14px}
+.iv-translation p{font:15px/1.95 var(--serif);margin:0 0 17px;hyphens:auto}
+.iv-original{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:24px 0;padding:13px 0}
+.iv-original summary{font:700 11px/1.6 var(--sans);color:var(--deep);cursor:pointer}
+.iv-original>div{max-width:82ch;padding:16px 0 2px}
+.iv-original p{font:13px/1.9 var(--serif);color:#50594f;margin:0 0 14px}
+.iv-fragment-note{max-width:82ch;background:#f2f1eb;border-left:2px solid #98a89b;padding:15px 19px}
+.iv-fragment-note strong{font:700 10px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--deep)}
+.iv-fragment-note p{font:12px/1.9 var(--sans);color:var(--muted);margin:7px 0 0}
+.iv-fragment-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;border-top:1px solid var(--line);margin-top:20px;padding-top:12px;font:600 10px/1.6 var(--sans);color:var(--muted)}
+.iv-fragment-foot a{color:var(--deep)}
+@media(max-width:600px){.iv-fragments{padding:50px 0}.iv-translation p{font-size:14px;line-height:1.85}.iv-fragment{padding:20px}}
