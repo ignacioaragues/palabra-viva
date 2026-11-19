@@ -1,6 +1,7 @@
 import '../../auto-reading.js?v=20261119-auto1';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
 import { passages, renderPassage } from '../fragmentos.js?v=20261119-2';
+import {inProgress,pending} from './inventario.js?v=20261119-1';
 
 const dossier = '../';
 const listing = './';
@@ -33,7 +34,54 @@ function showList() {
     card.append(eyebrow, h, work, l);
     grid.append(card);
   }
-  $('reader-content').replaceChildren(grid);
+  $('reader-content').replaceChildren(grid, buildPendingInventory());
+}
+function buildPendingInventory(){
+  const section=document.createElement('section');
+  section.className='iv-pending-section';
+  section.id='pendientes';
+  const title=document.createElement('h2');title.textContent='Inventario de traducciones pendientes';
+  const desc=document.createElement('p');desc.className='iv-pending-summary';
+  desc.textContent='26 fuentes históricas seleccionadas para traducción parcial: 3 con pasajes ya publicados y otros por completar; 23 todavía sin traducciones. Este estado editorial no modifica tus casillas de lectura.';
+  section.append(title,desc);
+  const inProgressTitle=document.createElement('h3');
+  inProgressTitle.textContent='En curso · 3 fuentes';
+  section.append(inProgressTitle);
+  const running=document.createElement('div');running.className='iv-pending-running';
+  for(const item of inProgress){
+    const entry=document.createElement('article');entry.className='iv-pending-entry';
+    const h=document.createElement('h4');h.textContent=item.title;
+    const detail=document.createElement('p');detail.textContent=item.remaining;
+    const meta=document.createElement('small');meta.textContent=item.id+' · '+item.finished+' fragmentos publicados · faltan otros pasajes';
+    entry.append(h,meta,detail);running.append(entry);
+  }
+  section.append(running);
+  const untouched=document.createElement('h3');
+  untouched.textContent='Por comenzar · '+pending.length+' fuentes';
+  section.append(untouched);
+  const groups=[['alta','Prioridad alta'],['media','Prioridad media'],['baja','Prioridad baja']];
+  for(const [priority,label] of groups){
+    const list=pending.filter(x=>x.priority===priority);
+    const details=document.createElement('details');
+    details.className='iv-pending-group';
+    details.open=priority==='alta';
+    const summary=document.createElement('summary');summary.textContent=label+' · '+list.length;
+    details.append(summary);
+    for(const item of list){
+      const row=document.createElement('article');row.className='iv-pending-row';
+      const heading=document.createElement('div');
+      const name=document.createElement('strong');name.textContent=item.author+' · '+item.title;
+      const serial=document.createElement('small');serial.textContent=item.id+' · '+item.group;
+      heading.append(name,serial);
+      const focus=document.createElement('p');focus.textContent=item.focus;
+      row.append(heading,focus);details.append(row);
+    }
+    section.append(details);
+  }
+  const comment=document.createElement('p');comment.className='iv-pending-summary';
+  comment.textContent='Las colecciones completas de León I se trabajan en Edición Viva; el teatro y la bibliografía académica permanecen en el inventario general sin entrar en esta cola de traducciones.';
+  section.append(comment);
+  return section;
 }
 function showFragment(p) {
   $('reader-heading').textContent = p.title;
