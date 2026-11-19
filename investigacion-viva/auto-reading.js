@@ -36,7 +36,7 @@ function pageLabel() {
   }
   const atlas=document.documentElement.dataset.atlasView;
   if(atlas==='entity') {
-    const key=(new URLSearchParams(location.search).get('id')||'ficha').slice(0,75).replace(/[^a-zA-Z0-9-]/g,'-');
+    const key=(new URLSearchParams(location.search).get('e')||'ficha').slice(0,75).replace(/[^a-zA-Z0-9-]/g,'-');
     return {id:'atlas:'+key,title:document.getElementById('entity-title')?.textContent?.trim()||'Ficha del atlas'};
   }
   if(atlas==='index')return {id:'atlas:indice',title:'Atlas · índice'};
