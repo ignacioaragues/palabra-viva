@@ -1,6 +1,6 @@
 /* Investigación Viva · lecturas parciales del dossier León/Atila.
    Selección y traducciones originales al español; no se altera el catálogo privado ni el progreso. */
-const passages = [
+export const passages = [
   {
     id: 'prosper-451', reference: 'r029', period: '451 · Galia',
     title: 'La invasión de la Galia y la batalla',
@@ -68,7 +68,7 @@ const passages = [
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
   '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
 }[char]));
-function renderPassage(p) {
+export function renderPassage(p) {
   const article = document.createElement('article');
   article.className = 'iv-fragment';
   article.id = 'fragmento-' + p.id;
@@ -85,8 +85,4 @@ function renderPassage(p) {
     <div class="iv-fragment-foot"><a href="${esc(p.source)}" target="_blank" rel="noopener noreferrer">${esc(p.sourceLabel)} ↗</a><span>Referencia del inventario: ${esc(p.reference)}</span></div>
   `;
   return article;
-}
-const target = document.getElementById('fragment-list');
-if (target) {
-  passages.forEach(p => target.append(renderPassage(p)));
 }
