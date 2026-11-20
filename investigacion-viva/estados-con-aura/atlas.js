@@ -232,10 +232,11 @@ function renderEntity(){
  btn.addEventListener('click',()=>{progress.status[statusKey]=progress.status?.[statusKey]==='done'?'pending':'done';refreshStatus();persistProgress()});
  refreshStatus();
  const reading=$('reading-cards');reading.replaceChildren(
-  bibliographicCard('HISTORIA',canonText(r,'historia')),
-  bibliographicCard('LITERATURA',canonText(r,'literatura')),
-  bibliographicCard('TEXTO / OBRA DEL MUNDO HISTÓRICO',canonText(r,'texto'))
+  bibliographicCard(r.ficcion?'ESTUDIOS CRÍTICOS':'HISTORIA',canonText(r,'historia')),
+  bibliographicCard(r.ficcion?'OBRA Y LECTURA':'LITERATURA',canonText(r,'literatura')),
+  bibliographicCard(r.ficcion?'PASAJE DE LA OBRA':'TEXTO / OBRA DEL MUNDO HISTÓRICO',canonText(r,'texto'))
  );
+ $('source-heading').textContent=r.ficcion?'TEXTO LITERARIO DE ORIGEN':'TEXTO EMBLEMÁTICO';
  $('text-title').textContent=value(r.texto);
  $('text-links').replaceChildren(
   headingLink('Wikisource ↗','https://es.wikisource.org/w/index.php?search=',r.texto),
