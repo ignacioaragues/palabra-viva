@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es" data-atlas-view="map" data-research-slug="estados-con-aura">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f3eb"><meta name="robots" content="noindex,nofollow,noarchive">
+<title>Mapa de las soberanías · Investigación Viva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./atlas.css?v=20261120-mundos1">
+<link rel="stylesheet" href="./atlas-map.css?v=20261120-mapa1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script type="module" src="./atlas.js?v=20261120-mapa1"></script>
+<script type="module" src="../auto-reading.js?v=20261119-auto3"></script>
+</head>
+<body>
+<header class="masthead"><a class="identity" href="../"><span class="mark">I<span>·</span></span><span><strong>Investigación Viva</strong><small>ATLAS DE LAS SOBERANÍAS</small></span></a><nav><a href="./">Volver al atlas</a><a href="../">Proyectos</a></nav></header>
+<div class="loading" id="loading" role="status">Cargando el mapa privado…</div>
+<main id="gate" class="gate" hidden><div class="gate-box"><span class="eyebrow">ARCHIVO PERSONAL</span><h1>El mapa es privado.</h1><p>Tu sesión de Palabra Viva se reconoce automáticamente si ya está abierta.</p><form id="login-form"><label>Correo electrónico<input name="email" type="email" autocomplete="email" required></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Iniciar sesión →</button></form><p id="login-error" class="error" role="alert"></p></div></main>
+<main id="app" hidden>
+<section class="wrap map-intro"><div><span class="eyebrow">CARTOGRAFÍA · INVESTIGACIÓN VIVA</span><h1>Mapa de las <em>soberanías.</em></h1><p>Una geografía comparada de estados, imperios y sociedades: centros de referencia, regiones de ocupación aproximadas y fichas enlazadas. Los mundos inventados se consultan por separado.</p></div><a href="./" class="map-back">Volver a las 118 fichas ↗</a></section>
+<div class="map-shell wrap"><aside class="map-sidebar" aria-label="Capas del atlas"><div class="map-sidebar-heading"><h2>Capas</h2><small id="map-layer-total">Cargando…</small></div><div id="map-layer-controls" class="map-layers"></div><div class="map-display-options"><label><input id="map-areas" type="checkbox" checked> Mostrar regiones esquemáticas</label><label><input id="map-centres" type="checkbox" checked> Mostrar centros de referencia</label></div><label class="map-search-label">Buscar entidad<input id="map-search" type="search" placeholder="Ej.: Bizancio, Ugarit, Ryūkyū…"></label><p id="map-count" class="map-count" aria-live="polite"></p><div id="map-entity-list" class="map-entity-list"></div></aside><section class="map-area"><div id="atlas-world-map" role="application" aria-label="Mapa del mundo con capas históricas y marcadores interactivos" tabindex="0"></div><div class="map-caption"><p><strong>Cómo interpretar el mapa.</strong> Los puntos indican una capital, un yacimiento o una localización representativa, no la extensión total de una soberanía. Las áreas sombreadas son <em>esquemas regionales exploratorios</em>, no fronteras históricas exactas; la cartografía científica requiere fuentes georreferenciadas y fechas precisas.</p><p>Base cartográfica actual: © OpenStreetMap contributors. No proyectamos las fronteras de los países ficticios sobre la Tierra.</p></div></section></div>
+<section class="wrap fiction-map-panel"><div><span class="eyebrow">GEOGRAFÍAS IMAGINARIAS</span><h2>Países que nunca existieron.</h2><p>Sus mapas pertenecen a sus obras; no se muestran en un globo terrestre real. Podés abrir cada ficha desde esta colección.</p></div><div id="map-fiction-list" class="map-fiction-list"></div></section>
+</main>
+<footer><span>INVESTIGACIÓN VIVA · CARTOGRAFÍA EXPERIMENTAL</span><a href="./">Volver al atlas ↑</a></footer>
+</body></html>
