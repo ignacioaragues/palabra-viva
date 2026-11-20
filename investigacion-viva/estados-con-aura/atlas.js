@@ -94,10 +94,16 @@ async function boot(){
   if(generation!==loadGeneration)return;
   await loadProgress();
   if(generation!==loadGeneration)return;
+  if(view==='map'){
+   showApp();
+   const {renderAtlasMap}=await import('./atlas-map.js?v=20261120-mapa1');
+   renderAtlasMap({records});
+   return;
+  }
   if(view==='entity')renderEntity();
   else renderIndex();
   showApp();
-  if(view==='index'&&location.hash&&/^#(?:imperios-nomadas|paises-desconocidos|civilizaciones-perdidas)$/.test(location.hash))requestAnimationFrame(()=>document.querySelector(location.hash)?.scrollIntoView());
+  if(view==='index'&&location.hash&&/^#(?:imperios-nomadas|paises-desconocidos|civilizaciones-perdidas|paises-ficticios)$/.test(location.hash))requestAnimationFrame(()=>document.querySelector(location.hash)?.scrollIntoView());
  }catch(err){console.error(err);showGate('No se pudo abrir el archivo: '+(err.message||'error de lectura'))}
 }
 function yearNumber(r){
