@@ -5,7 +5,7 @@ const SLUG='estados-con-aura';
 const $=id=>document.getElementById(id);
 const view=document.documentElement.dataset.atlasView;
 let owner=null,records=[],progress={version:1,status:{},notes:{}},saveTimer=null,saveQueue=Promise.resolve(),loadGeneration=0;
-const TYPES=[['all','Todas las entidades'],['Imperio','Imperios'],['Otro','Reinos, repúblicas y órdenes'],['País singular','Países singulares'],['Entidad singular adicional','Otras entidades'],['Imperio nómada','Imperios nómadas'],['País casi desconocido','Países casi desconocidos'],['Civilización perdida','Civilizaciones perdidas']];
+const TYPES=[['all','Todas las entidades'],['Imperio','Imperios'],['Otro','Reinos, repúblicas y órdenes'],['País singular','Países singulares'],['Entidad singular adicional','Otras entidades'],['Imperio nómada','Imperios nómadas'],['País casi desconocido','Países casi desconocidos'],['Civilización perdida','Civilizaciones perdidas'],['País ficticio','Países ficticios']];
 const GROUP_DESCRIPTIONS={
  'Imperio':'Grandes imperios del canon original.',
  'Otro':'Reinos, repúblicas, órdenes y soberanías de la selección inicial.',
@@ -13,9 +13,10 @@ const GROUP_DESCRIPTIONS={
  'Entidad singular adicional':'Más formas extraordinarias de poder, autonomía y supervivencia.',
  'Imperio nómada':'Cortes itinerantes, kaganatos y confederaciones: desde la estepa de Mongolia hasta el Danubio. Incluye ocho nuevas fichas; los imperios mongol, jázaro y dzungar permanecen en su ubicación original.',
  'País casi desconocido':'Reinos y sultanatos que rara vez aparecen en la historia general: pequeños en superficie, pero conectados a inmensos mundos culturales y comerciales.',
- 'Civilización perdida':'Culturas y complejos arqueológicos desaparecidos como sistemas políticos, no pueblos necesariamente extinguidos. Algunas no fueron estados unificados.'
+ 'Civilización perdida':'Culturas y complejos arqueológicos desaparecidos como sistemas políticos, no pueblos necesariamente extinguidos. Algunas no fueron estados unificados.',
+ 'País ficticio':'Reinos, imperios y repúblicas que sólo existen en la literatura, la filosofía y la imaginación política.'
 };
-const GROUP_IDS={'Imperio':'imperios-originales','Otro':'reinos-originales','País singular':'paises-originales','Entidad singular adicional':'otras-entidades-originales','Imperio nómada':'imperios-nomadas','País casi desconocido':'paises-desconocidos','Civilización perdida':'civilizaciones-perdidas'};
+const GROUP_IDS={'Imperio':'imperios-originales','Otro':'reinos-originales','País singular':'paises-originales','Entidad singular adicional':'otras-entidades-originales','Imperio nómada':'imperios-nomadas','País casi desconocido':'paises-desconocidos','Civilización perdida':'civilizaciones-perdidas','País ficticio':'paises-ficticios'};
 const RELATED_ENTRIES={
  'Imperio nómada':[['Imperio mongol',12],['Kaganato jázaro',55],['Kaganato dzungar',76]],
  'País casi desconocido':[['Reino de Sikkim',61],['República de Lanfang',71],['Reino de Sedang',72],['Neutral Moresnet',50]]
@@ -53,7 +54,9 @@ async function decodeCatalog(row){
  if(!Array.isArray(decoded.items)||decoded.items.length!==80)throw new Error('El canon original no está completo.');
  const extension=row.catalog?.[1];
  const extra=extension?.kind==='curated-additions'&&Array.isArray(extension.items)?extension.items:[];
- const combined=decoded.items.concat(extra);
+ const fictionalPack=row.catalog?.find?.(block=>block?.kind==='fictional-additions');
+ const fictional=Array.isArray(fictionalPack?.items)?fictionalPack.items:[];
+ const combined=decoded.items.concat(extra,fictional);
  if(new Set(combined.map(x=>Number(x.n))).size!==combined.length)throw new Error('Se han detectado números duplicados en el atlas.');
  return combined.sort((a,b)=>Number(a.n)-Number(b.n));
 }
@@ -105,8 +108,16 @@ function yearNumber(r){
  const roman=cent[1].toUpperCase();const map={I:1,V:5,X:10,L:50,C:100,D:500,M:1000};let n=0;for(let i=0;i<roman.length;i++)n+=(map[roman[i]]||0)*(map[roman[i+1]]>map[roman[i]]?-1:1);return n*100;
 }
 
+const ENTITY_IMAGES={1:'entidad-1-bizancio',2:'entidad-2-austrohungria',3:'entidad-3-imperio-ruso',4:'entidad-4-otomano'};
+const ASSET_BASE='../assets/atlas/';
 function cardForEntity(r){
  const card=link('',urlFor(r),'entity-card');
+ if(ENTITY_IMAGES[r.n]){
+  const illustration=node('img','entity-card-engraving');
+  illustration.src=ASSET_BASE+ENTITY_IMAGES[r.n]+'.webp';
+  illustration.alt='Grabado original evocativo de '+r.entidad;
+  illustration.loading='lazy';card.append(illustration);
+ }
  const top=node('div','card-top');
  top.append(node('small','',String(r.n).padStart(2,'0')+' / '+records.length),node('span','classification',value(r.tipo)));
  const heading=node('h3','',r.entidad);
@@ -156,7 +167,7 @@ function renderIndex(){
  }
  $('result-count').textContent=filtered.length+' '+(filtered.length===1?'entidad':'entidades')+' · '+records.filter(r=>progress.status?.['entity:'+r.n]==='done').length+' marcadas como leídas';
  $('empty').hidden=filtered.length!==0;
- for(const [id] of TYPES.slice(-3)){
+ for(const [id] of TYPES.slice(-4)){
   const e=document.querySelector('[data-collection-count="'+GROUP_IDS[id]+'"]');
   if(e)e.textContent=records.filter(r=>r.grupo===id).length+' fichas';
  }
@@ -191,6 +202,21 @@ function renderEntity(){
  const meta=$('entity-meta');meta.replaceChildren();
  for(const [label,v] of [['Época',r.fechas],['Geografía',r.geografia]])meta.append(node('span','',label+': '+value(v)));
  renderCuratorialGuide(r);
+ const fiction=$('fiction-source');
+ if(fiction){
+  fiction.hidden=!r.ficcion;
+  if(r.ficcion){
+   const data=r.ficcion;
+   fiction.replaceChildren();
+   const header=node('span','eyebrow','UNIVERSO FICTICIO · NO EXISTIÓ HISTÓRICAMENTE');
+   const grid=node('div','fiction-metadata');
+   for(const [label,val] of [['Autor',data.autor],['Obra de origen',data.obra],['Publicación',data.fecha],['Geografía narrativa',data.geografia]]){
+    const item=node('div');item.append(node('small','',label),node('strong','',val));grid.append(item);
+   }
+   fiction.append(header,grid);
+   if(data.fuente)fiction.append(link('Consultar la obra o su catálogo ↗',data.fuente,'fiction-primary-link'));
+  }
+ }
  $('entity-aura').textContent=value(r.aura);
  $('entity-note').textContent=value(r.observaciones);
  $('fallback-initial').textContent=r.entidad.charAt(0);
@@ -237,7 +263,15 @@ function renderEntity(){
  if(prev){const a=link('',urlFor(prev));a.append(node('small','','← ANTERIOR'),node('span','',prev.entidad));pager.append(a)}else pager.append(node('span'));
  if(next){const a=link('',urlFor(next));a.append(node('small','','SIGUIENTE →'),node('span','',next.entidad));pager.append(a)}
  initialiseStudyTimer(r);
- loadWikiImage(r).catch(err=>console.warn('Imagen opcional no disponible',err));
+ if(ENTITY_IMAGES[r.n]){
+  const holder=$('entity-image'),img=node('img');
+  img.src=ASSET_BASE+ENTITY_IMAGES[r.n]+'.webp';
+  img.alt='Ilustración original tipo grabado, evocación artística de '+r.entidad;
+  img.loading='lazy';holder.replaceChildren(img);
+  $('entity-image-credit').textContent='Grabado original contemporáneo, recreación artística. No es una imagen documental del período.';
+ }else{
+  loadWikiImage(r).catch(err=>console.warn('Imagen opcional no disponible',err));
+ }
 }
 
 function renderCuratorialGuide(r){
