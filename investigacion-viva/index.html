@@ -37,7 +37,7 @@
       </div>
       <div class="landing-insignia" aria-hidden="true">I<span>·</span></div>
     </div>
-    <div class="landing-divider"><span>01 · DOSSIERS DISPONIBLES</span><span id="project-count">—</span></div>
+    <div class="landing-divider"><span>01 · DOSSIERS EN CURSO</span><span id="project-count">—</span></div>
     <div class="research-projects" id="research-projects" aria-live="polite"></div>
     <section class="research-reading-overview" aria-labelledby="reading-overview-heading">
  <div class="project-index-heading"><div><span class="overline">02 · ACTIVIDAD DE LECTURA</span>
@@ -53,9 +53,9 @@
 <section class="project-index" id="indice-proyectos" aria-labelledby="project-index-heading">
       <div class="project-index-heading">
         <div>
-          <span class="overline">03 · PLAN DE INVESTIGACIÓN</span>
-          <h2 id="project-index-heading">Índice de proyectos<span class="stop">.</span></h2>
-          <p>Tu checklist personal. Ordená los proyectos por importancia, agrupá subproyectos y marcá lo que vas terminando. Las ideas nuevas no crean una página de dossier automáticamente.</p>
+          <span class="overline">03 · ÁREAS DE INVESTIGACIÓN</span>
+          <h2 id="project-index-heading">Áreas y proyectos<span class="stop">.</span></h2>
+          <p>Organizá tus investigaciones por áreas, desarrollá sus subproyectos y conservá el progreso. Terminar un proyecto no lo archiva automáticamente.</p>
         </div>
         <div class="index-head-actions">
           <span id="index-count" aria-live="polite">—</span>
@@ -66,6 +66,7 @@
         <div class="project-form-row">
           <label>Nombre del proyecto <input id="project-add-title" name="title" maxlength="160" required placeholder="Título del nuevo proyecto"></label>
           <label>Dentro de <select id="project-add-parent" name="parent"></select></label>
+          <label>Área <select id="project-add-area" name="area"></select></label>
         </div>
         <label>Descripción breve (opcional) <textarea id="project-add-summary" name="summary" maxlength="500" rows="2" placeholder="Tema, objetivo o próximo paso"></textarea></label>
         <div class="project-form-actions">
@@ -73,9 +74,17 @@
           <button type="button" id="project-add-cancel" class="index-secondary">Cancelar</button>
         </div>
       </form>
-      <p class="index-help">Usá <strong>⠿</strong> para arrastrar un proyecto entre otros del mismo nivel, o las flechas para moverlo. La opción «Jerarquía» permite crear subproyectos.</p>
+      <p class="index-help">Usá <strong>⠿</strong> para arrastrar un proyecto entre otros del mismo nivel, o las flechas para moverlo. La opción «Jerarquía» permite crear subproyectos. Los proyectos terminados pueden pasar al Archivo y recuperarse en cualquier momento.</p>
       <div id="project-index-list" class="project-index-list"></div>
       <p id="index-sync" class="index-sync" role="status" aria-live="polite"></p>
+    </section>
+    <section class="project-archive" id="archivo-proyectos" aria-labelledby="project-archive-heading">
+      <div class="project-index-heading"><div>
+        <span class="overline">04 · ARCHIVO</span>
+        <h2 id="project-archive-heading">Proyectos archivados<span class="stop">.</span></h2>
+        <p>Investigaciones cerradas y conservadas para consultar. Archivar no borra el dossier, el minicurso, los materiales ni el tiempo de estudio.</p>
+      </div><span id="project-archive-count" class="archive-count">0 archivados</span></div>
+      <div id="project-archive-list" class="project-archive-list"></div>
     </section>
     <p class="landing-note">Este espacio es personal. Las investigaciones y su progreso solo se cargan con tu cuenta.</p>
   </section>
