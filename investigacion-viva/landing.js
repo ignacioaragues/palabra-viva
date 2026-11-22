@@ -79,7 +79,7 @@ function normaliseProjects(input){
       slug:id.startsWith('dossier:')?id.slice(8):null,
       area:PROJECT_AREAS.some(([code])=>code===raw.area)?raw.area:(DOSSIER_AREAS[id.slice(8)]||'otros'),
       archived:raw.archived===true,
-      archivedAt:typeof raw.archivedAt==='string' && /^\\d{4}-\\d{2}-\\d{2}T/.test(raw.archivedAt)?raw.archivedAt:null
+      archivedAt:typeof raw.archivedAt==='string' && /^\d{4}-\d{2}-\d{2}T/.test(raw.archivedAt)?raw.archivedAt:null
     });
   }
   const byId=new Map(out.map(x=>[x.id,x]));
@@ -201,7 +201,8 @@ function renderIndex(){
     (visible.length===1?' proyecto':' proyectos')+' · '+done+
     (done===1?' terminado':' terminados');
   if(!visible.length){
-    root.append(el('p','index-empty','Todavía no hay proyectos. Agregá el primero desde el botón superior.'));
+    root.append(el('p','index-empty','No hay proyectos activos. Podés crear uno nuevo o recuperar un proyecto del archivo.'));
+    renderArchive();
     return;
   }
   function renderLevel(parentId,level,areaFilter=null){
