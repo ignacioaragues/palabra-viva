@@ -88,12 +88,15 @@ function renderList(){
 }
 function selectLesson(index,scroll){
   if(index<0||index>=lessons.length)return;
-  clearTimeout(saveTimer);
-  // Capturar el texto antes de cambiar de lección; cada guardado usa su snapshot.
+  const unsaved=saveTimer!==null;
+  clearTimeout(saveTimer);saveTimer=null;
+  // Capturar el texto anterior y no perder un guardado pendiente al navegar.
   if(current>=0 && owner){
     const old=lessons[current].document_id;
     const value=$('lesson-notes').value;
-    if((progress.notes[old]||'')!==value){progress.notes[old]=value;persist(0)}
+    const changed=(progress.notes[old]||'')!==value;
+    if(changed)progress.notes[old]=value;
+    if(unsaved||changed)persist(0);
   }
   current=index;const x=lessons[index];
   $('lesson-number').textContent='LECCIÓN '+String(index+1).padStart(2,'0')+' / '+lessons.length;
