@@ -5,7 +5,7 @@ const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
 const $=id=>document.getElementById(id);
 const slug=document.documentElement.dataset.researchSlug;
 const gate=$('course-gate'),loading=$('course-loading'),app=$('reader-app');
-let owner=null,lessons=[],bibliography=[],current=-1,progress={version:1,completed:{},notes:{}};
+let owner=null,lessons=[],bibliography=[],visuals=[],current=-1,progress={version:1,completed:{},notes:{}};
 let saveQueue=Promise.resolve(),saveTimer=null,epoch=0;
 const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x};
 function showGate(message){
@@ -83,6 +83,58 @@ function renderLibrary(){
   const target=$('library-items');target.replaceChildren();
   for(const b of bibliography)target.append(readingCard(b));
 }
+function renderVisuals(index){
+  const target=$('lesson-visuals');if(!target)return;
+  target.replaceChildren();
+  const entries=visuals.filter(v=>Array.isArray(v.lessons)&&v.lessons.includes(index+1));
+  if(!entries.length){target.hidden=true;return}
+  target.hidden=false;
+  const heading=el('div','section-head');
+  heading.append(el('span','eyebrow','ATLAS VISUAL'),el('h3',null,'Lugares y momentos'));
+  heading.append(el('p',null,'Cronología y mapa esquemático de centros relevantes. Las conexiones indican circulación histórica general, no rutas individuales demostradas.'));
+  target.append(heading);
+  const timeline=entries.filter(v=>v.type==='timeline').sort((a,b)=>a.year-b.year);
+  if(timeline.length){
+    const wrap=el('div','visual-timeline');
+    for(const v of timeline){
+      const item=el('article','visual-event');
+      item.append(el('span','visual-date',v.period),el('strong',null,v.title),el('small',null,v.place),el('p',null,v.description));
+      const link=safeLink(v.url);
+      if(link){const a=el('a','visual-source','Consultar fuente ↗');a.href=link;a.target='_blank';a.rel='noopener noreferrer';item.append(a)}
+      wrap.append(item);
+    }
+    target.append(wrap);
+  }
+  const routes=visuals.filter(v=>v.type==='route').sort((a,b)=>a.order-b.order);
+  if(routes.length){
+    const figure=el('figure','visual-map');
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 680 340');svg.setAttribute('role','img');
+    svg.setAttribute('aria-label','Esquema de centros de transmisión alquímica entre Egipto, Mesopotamia, Iberia, Alemania e Inglaterra');
+    const ns='http://www.w3.org/2000/svg';
+    const node=(tag,attrs)=>{const x=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))x.setAttribute(k,String(v));return x};
+    const coords=v=>({x:Math.round(80+(v.lon+12)*9.8),y:Math.round(300-(v.lat-25)*8.1)});
+    svg.append(node('rect',{x:0,y:0,width:680,height:340,fill:'#edf0e9'}));
+    for(const lat of [30,40,50]){const y=coords({lat,lon:0}).y;svg.append(node('line',{x1:25,x2:655,y1:y,y2:y,stroke:'#d0d9cf','stroke-dasharray':'3 6'}));}
+    for(let i=0;i<routes.length-1;i++){
+      const a=coords(routes[i]),b=coords(routes[i+1]);
+      svg.append(node('path',{d:'M'+a.x+' '+a.y+' Q'+((a.x+b.x)/2)+' '+(Math.min(a.y,b.y)-28)+' '+b.x+' '+b.y,fill:'none',stroke:'#9aaea0','stroke-width':2,'stroke-dasharray':'6 6'}));
+    }
+    for(const v of routes){
+      const p=coords(v);
+      svg.append(node('circle',{cx:p.x,cy:p.y,r:8,fill:'#9e6a54',stroke:'#fff', 'stroke-width':2}));
+      const t=node('text',{x:p.x+12,y:p.y-10,fill:'#314a39','font-size':12,'font-family':'sans-serif','font-weight':'600'});
+      t.textContent=v.place;svg.append(t);
+    }
+    figure.append(svg,el('figcaption',null,'Mapa conceptual, no cartografía georreferenciada: posiciones aproximadas y flechas ilustrativas. No se postula una cadena única de transmisión.'));
+    target.append(figure);
+    const list=el('div','visual-places');
+    for(const v of routes){
+      const row=el('p');row.append(el('strong',null,v.place+' · '),document.createTextNode(v.description));list.append(row);
+    }
+    target.append(list);
+  }
+}
 function summary(){
   const done=lessons.filter(x=>progress.completed[x.document_id]).length;
   $('course-progress-label').textContent=done+' de '+lessons.length+' completadas';
@@ -121,7 +173,7 @@ function selectLesson(index,scroll){
   $('lesson-subtitle').textContent=x.subtitle||'';
   $('lesson-notes').value=progress.notes[x.document_id]||'';
   $('lesson-save-state').textContent='';
-  renderMarkdown(x.body_text||'');renderReadings(index);renderList();summary();
+  renderMarkdown(x.body_text||'');renderReadings(index);renderVisuals(index);renderList();summary();
   $('lesson-done').textContent=progress.completed[x.document_id]?'✓ Lección completada':'Marcar lección como completa';
   $('lesson-done').classList.toggle('is-done',!!progress.completed[x.document_id]);
   $('lesson-next').disabled=index===lessons.length-1;
@@ -169,7 +221,7 @@ async function initialise(){
   owner=auth.data.user;
   // El HTML y el JS no contienen la biblioteca: sólo se descarga tras RLS.
   const [d,docs,previous]=await Promise.all([
-    client.from('iv_dossiers').select('slug,title,catalog').eq('slug',slug).maybeSingle(),
+    client.from('iv_dossiers').select('slug,title,catalog,visual_catalog').eq('slug',slug).maybeSingle(),
     client.from('iv_documents').select('document_id,title,subtitle,body_text,source_label')
       .eq('dossier_slug',slug).like('document_id','curso-%').order('document_id'),
     client.from('iv_progress').select('data').eq('owner_id',owner.id).eq('dossier_slug',slug).maybeSingle()
@@ -177,7 +229,7 @@ async function initialise(){
   if(d.error||docs.error||previous.error||!d.data){
     showGate('No se pudo recuperar el curso o esta cuenta no tiene acceso.');return;
   }
-  lessons=docs.data||[];bibliography=Array.isArray(d.data.catalog)?d.data.catalog:[];
+  lessons=docs.data||[];bibliography=Array.isArray(d.data.catalog)?d.data.catalog:[];visuals=Array.isArray(d.data.visual_catalog)?d.data.visual_catalog:[];
   if(previous.data?.data && typeof previous.data.data==='object'){
     const data=previous.data.data;
     progress={version:1,
