@@ -15,16 +15,33 @@ function showGate(message){
 function safeLink(url){
   try {const u=new URL(url);return u.protocol==='https:'?u.href:null;}catch{return null}
 }
+function appendLinkedText(target,value){
+  const re=/https:\/\/[^\s<>]+/g;
+  let pos=0,match;
+  while((match=re.exec(value))){
+    if(match.index>pos)target.append(document.createTextNode(value.slice(pos,match.index)));
+    const raw=match[0],clean=raw.replace(/[.,;:!?)]+$/,'');
+    const link=safeLink(clean);
+    if(link){
+      const a=el('a','source-link',clean);
+      a.href=link;a.target='_blank';a.rel='noopener noreferrer';
+      target.append(a);
+    }else target.append(document.createTextNode(clean));
+    if(raw.length>clean.length)target.append(document.createTextNode(raw.slice(clean.length)));
+    pos=re.lastIndex;
+  }
+  if(pos<value.length)target.append(document.createTextNode(value.slice(pos)));
+}
 function inline(target,source){
   const pattern=/(\*\*([^*]+)\*\*|\*([^*]+)\*|\x60([^\x60]+)\x60)/g;
   let cursor=0,m;
   while((m=pattern.exec(source))){
-    if(m.index>cursor)target.append(document.createTextNode(source.slice(cursor,m.index)));
+    if(m.index>cursor)appendLinkedText(target,source.slice(cursor,m.index));
     const node=el(m[2]?'strong':m[3]?'em':'code');
     node.textContent=m[2]||m[3]||m[4];
     target.append(node);cursor=pattern.lastIndex;
   }
-  if(cursor<source.length)target.append(document.createTextNode(source.slice(cursor)));
+  if(cursor<source.length)appendLinkedText(target,source.slice(cursor));
 }
 function renderMarkdown(markdown){
   const root=$('lesson-body');root.replaceChildren();
