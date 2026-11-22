@@ -93,6 +93,31 @@ function renderVisuals(index){
   heading.append(el('span','eyebrow','ATLAS VISUAL'),el('h3',null,'Lugares y momentos'));
   heading.append(el('p',null,'Cronología y mapa esquemático de centros relevantes. Las conexiones indican circulación histórica general, no rutas individuales demostradas.'));
   target.append(heading);
+  const images=entries.filter(v=>v.type==='image');
+  if(images.length){
+    const gallery=el('div','source-gallery');
+    const intro=el('p','visual-method','Estas reproducciones son documentos históricos, no imágenes decorativas. Abrí la ficha de procedencia y el facsímil antes de interpretar el símbolo; la miniatura depende de un servidor externo.');
+    target.append(intro);
+    for(const v of images){
+      const figure=el('figure','source-figure');
+      const a=el('a','source-image-link');a.href=safeLink(v.url)||'#';a.target='_blank';a.rel='noopener noreferrer';
+      const img=el('img','source-image');img.src=safeLink(v.image_url)||'';img.alt=v.title+' — '+v.medium;img.loading='lazy';img.decoding='async';
+      img.addEventListener('error',()=>{img.hidden=true;a.append(el('span','source-image-fallback','Imagen no disponible · abrir ficha de procedencia ↗'))},{once:true});
+      a.append(img);figure.append(a);
+      const caption=el('figcaption');
+      caption.append(el('strong','source-title',v.title),el('span','source-credit',[v.creator,v.date,v.medium].filter(Boolean).join(' · ')));
+      caption.append(el('p','source-commentary',v.description||''));
+      if(v.question)caption.append(el('p','source-question','Para investigar: '+v.question));
+      const links=el('div','source-links');
+      for(const [label,url] of [['Ficha y derechos',v.url],['Fuente primaria',v.primary_url]]){
+        const safe=safeLink(url);if(!safe)continue;
+        const link=el('a',null,label+' ↗');link.href=safe;link.target='_blank';link.rel='noopener noreferrer';links.append(link);
+      }
+      caption.append(el('small','source-rights',[v.source,v.rights].filter(Boolean).join(' · ')),links);
+      figure.append(caption);gallery.append(figure);
+    }
+    target.append(gallery);
+  }
   const timeline=entries.filter(v=>v.type==='timeline').sort((a,b)=>a.year-b.year);
   if(timeline.length){
     const wrap=el('div','visual-timeline');
