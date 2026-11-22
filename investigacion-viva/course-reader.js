@@ -47,8 +47,10 @@ function renderMarkdown(markdown){
   const root=$('lesson-body');root.replaceChildren();
   for(const block of markdown.trim().split(/\n\s*\n/)){
     const lines=block.trim().split('\n');
-    if(lines[0].startsWith('## ')){
-      const h=el('h3');inline(h,lines[0].slice(3));root.append(h);
+    if(/^#{2,3} /.test(lines[0])){
+      const level=lines[0].startsWith('### ')?3:2;
+      const h=el(level===2?'h3':'h4','prose-heading-'+level);
+      inline(h,lines[0].slice(level+1));root.append(h);
       if(lines.length>1){const p=el('p');inline(p,lines.slice(1).join(' '));root.append(p);}
     }else if(lines.every(line=>/^\d+\. /.test(line))){
       const list=el('ol');
