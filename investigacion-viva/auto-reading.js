@@ -41,6 +41,11 @@ function pageLabel() {
   }
   if(atlas==='index')return {id:'atlas:indice',title:'Atlas · índice'};
   if(atlas==='map')return {id:'atlas:mapa',title:'Atlas de las soberanías · mapa'};
+  if(document.getElementById('lesson-body')){
+    const lesson=(new URLSearchParams(location.search).get('leccion')||'indice').slice(0,75).replace(/[^a-zA-Z0-9-]/g,'-');
+    const title=document.getElementById('reading-document-title')?.textContent?.trim()||'Curso';
+    return {id:'curso:'+lesson,title:'Curso · '+title};
+  }
   if(slug==='investigacion-viva')return {id:'pagina:indice',title:'Investigación Viva · índice de proyectos'};
   if(slug==='leo-attila')return {id:'pagina:dossier',title:'León y Atila · biblioteca y dossier'};
   const tab=document.querySelector('[data-tab][aria-selected="true"]')?.dataset.tab || 'dossier';
