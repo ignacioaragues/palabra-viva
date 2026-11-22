@@ -14,6 +14,7 @@ function gate(message=''){
   $('gate').hidden=false;
   $('research-projects').replaceChildren();
   $('project-index-list').replaceChildren();
+  $('project-archive-list').replaceChildren();
   $('project-add-form').hidden=true;
   $('index-sync').textContent='';
   $('footer-state').textContent='Acceso restringido';
@@ -26,6 +27,32 @@ function gate(message=''){
 const PROJECT_STATUSES=[
   ['pending','Pendiente'],['active','En curso'],['done','Terminado']
 ];
+const PROJECT_AREAS=[
+  ['ciencia','Ciencia y conocimiento'],
+  ['religion','Religión y misticismo'],
+  ['pensamiento','Pensamiento y filosofía'],
+  ['lore','Universos de ficción'],
+  ['pueblos','Pueblos y culturas'],
+  ['literatura','Literatura'],
+  ['historia','Historia'],
+  ['arte','Arte y música'],
+  ['otros','Otros proyectos']
+];
+const DOSSIER_AREAS={
+  'leo-attila':'historia',
+  'universales-cosmicos':'ciencia',
+  'privilegio-actualidad':'pensamiento',
+  'estados-con-aura':'historia',
+  'garay':'literatura'
+};
+const areaFor=item=>PROJECT_AREAS.some(([id])=>id===item.area)?item.area:(DOSSIER_AREAS[item.slug]||'otros');
+function fillAreaOptions(select,value='otros'){
+  select.replaceChildren();
+  for(const [id,label] of PROJECT_AREAS){
+    const option=el('option','',label);option.value=id;select.append(option);
+  }
+  select.value=PROJECT_AREAS.some(([id])=>id===value)?value:'otros';
+}
 let owner=null, dossierRows=[], projectItems=[], saveTimer=null, recentReading=[];
 let saveQueue=Promise.resolve(), draggingId=null, editingId=null;
 const newId=()=>('iv-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8));
@@ -49,7 +76,10 @@ function normaliseProjects(input){
       summary:String(raw.summary||'').slice(0,500),
       parentId:typeof raw.parentId==='string'?raw.parentId:null,
       status:PROJECT_STATUSES.some(x=>x[0]===raw.status)?raw.status:'pending',
-      slug:id.startsWith('dossier:')?id.slice(8):null
+      slug:id.startsWith('dossier:')?id.slice(8):null,
+      area:PROJECT_AREAS.some(([code])=>code===raw.area)?raw.area:(DOSSIER_AREAS[id.slice(8)]||'otros'),
+      archived:raw.archived===true,
+      archivedAt:typeof raw.archivedAt==='string' && /^\\d{4}-\\d{2}-\\d{2}T/.test(raw.archivedAt)?raw.archivedAt:null
     });
   }
   const byId=new Map(out.map(x=>[x.id,x]));
@@ -70,7 +100,7 @@ function ensureDossiers(){
     if(!projectItems.some(item=>item.id===id)){
       projectItems.push({id,slug:d.slug,title:d.title,
         summary:d.slug==='leo-attila'?'Fuentes históricas y dramaturgia · dossier activo':d.slug==='universales-cosmicos'?'Semántica, extrapolación y xenolingüística':d.slug==='privilegio-actualidad'?'Mundos actuales, libertad y juicio escatológico':d.slug==='estados-con-aura'?'Canon histórico de ochenta formaciones políticas singulares':'Dossier disponible',
-        parentId:null,status:'active'});
+        parentId:null,status:'active',area:DOSSIER_AREAS[d.slug]||'otros',archived:false,archivedAt:null});
     }
   }
 }
@@ -131,12 +161,13 @@ function persistIndex(delay=200){
     });
   },delay);
 }
-function siblingsOf(parentId){return projectItems.filter(item=>item.parentId===parentId);}
+function siblingsOf(parentId,area=null){return projectItems.filter(item=>!item.archived && item.parentId===parentId && (parentId!==null || area===null || areaFor(item)===area));}
 function moveRelative(fromId,toId,after=false){
   const moving=projectItems.find(item=>item.id===fromId);
   const dest=projectItems.find(item=>item.id===toId);
-  if(!moving||!dest||moving.parentId!==dest.parentId||moving.id===dest.id)return false;
-  const slots=projectItems.map((item,i)=>item.parentId===moving.parentId?i:-1).filter(x=>x!==-1);
+  if(!moving||!dest||moving.archived||dest.archived||moving.parentId!==dest.parentId||moving.id===dest.id)return false;
+  if(moving.parentId===null && areaFor(moving)!==areaFor(dest))return false;
+  const slots=projectItems.map((item,i)=>!item.archived && item.parentId===moving.parentId && (moving.parentId!==null || areaFor(item)===areaFor(moving))?i:-1).filter(x=>x!==-1);
   const siblings=slots.map(i=>projectItems[i]);
   const before=siblings.map(x=>x.id).join('|');
   const moved=siblings.splice(siblings.findIndex(x=>x.id===moving.id),1)[0];
@@ -150,7 +181,7 @@ function moveRelative(fromId,toId,after=false){
 function shiftProject(id,delta){
   const item=projectItems.find(x=>x.id===id);
   if(!item)return;
-  const siblings=siblingsOf(item.parentId);
+  const siblings=siblingsOf(item.parentId,item.parentId===null?areaFor(item):null);
   const i=siblings.findIndex(x=>x.id===id);
   const target=siblings[i+delta];
   if(target)moveRelative(id,target.id,delta>0);
@@ -164,17 +195,17 @@ function linkFor(item){
 function renderIndex(){
   const root=$('project-index-list');
   root.replaceChildren();
-  const done=projectItems.filter(p=>p.status==='done').length;
-  const active=projectItems.filter(p=>p.status==='active').length;
-  $('index-count').textContent=projectItems.length+
-    (projectItems.length===1?' proyecto':' proyectos')+' · '+done+
+  const visible=projectItems.filter(p=>!p.archived);
+  const done=visible.filter(p=>p.status==='done').length;
+  $('index-count').textContent=visible.length+
+    (visible.length===1?' proyecto':' proyectos')+' · '+done+
     (done===1?' terminado':' terminados');
-  if(!projectItems.length){
+  if(!visible.length){
     root.append(el('p','index-empty','Todavía no hay proyectos. Agregá el primero desde el botón superior.'));
     return;
   }
-  function renderLevel(parentId,level){
-    const children=siblingsOf(parentId);
+  function renderLevel(parentId,level,areaFilter=null){
+    const children=siblingsOf(parentId,level===0?areaFilter:null);
     const list=el('ul','project-tree-level'+(level?' project-tree-nested':''));
     for(const item of children){
       const li=el('li','project-tree-item');
@@ -211,7 +242,7 @@ function renderIndex(){
         item.status=statusSelect.value;persistIndex();renderIndex();
       });
       actions.append(statusSelect);
-      const sib=siblingsOf(parentId);
+      const sib=siblingsOf(parentId,parentId===null?areaFor(item):null);
       const position=sib.findIndex(x=>x.id===item.id);
       for(const [delta,label,glyph] of [[-1,'Subir','↑'],[1,'Bajar','↓']]){
         const btn=el('button','project-index-move',glyph);
@@ -228,6 +259,12 @@ function renderIndex(){
         editingId=editingId===item.id?null:item.id;renderIndex();
       });
       actions.append(edit);
+      if(item.status==='done'){
+        const archive=el('button','project-index-archive','Archivar');
+        archive.type='button';archive.title='Conservar en el archivo sin borrar el proyecto';
+        archive.addEventListener('click',()=>archiveProject(item));
+        actions.append(archive);
+      }
       row.append(handle,cb,main,actions);
       li.append(row);
       if(editingId===item.id)li.append(buildEditor(item));
@@ -259,13 +296,75 @@ function renderIndex(){
     }
     return list;
   }
-  root.append(renderLevel(null,0));
+  for(const [id,label] of PROJECT_AREAS){
+    const roots=siblingsOf(null,id);
+    if(!roots.length)continue;
+    const section=el('section','project-area-section');
+    section.dataset.area=id;
+    const heading=el('div','project-area-heading');
+    heading.append(el('h3','',label),el('span','',roots.length+(roots.length===1?' proyecto':' proyectos')));
+    section.append(heading,renderLevel(null,0,id));
+    root.append(section);
+  }
+  renderArchive();
+}
+function archiveProject(item){
+  if(item.status!=='done')return;
+  const descendants=projectItems.filter(p=>isDescendant(p.id,item.id));
+  if(descendants.some(p=>p.status!=='done')){
+    setIndexMessage('Para archivar este conjunto, terminá primero sus subproyectos.');
+    return;
+  }
+  const date=new Date().toISOString();
+  for(const project of [item,...descendants]){
+    project.archived=true;project.archivedAt=date;
+  }
+  editingId=null;
+  persistIndex(0);renderIndex();showProjects(dossierRows);
+}
+function restoreProject(item){
+  for(const project of [item,...projectItems.filter(p=>isDescendant(p.id,item.id))]){
+    project.archived=false;project.archivedAt=null;
+  }
+  persistIndex(0);renderIndex();showProjects(dossierRows);
+}
+function renderArchive(){
+  const root=$('project-archive-list');
+  root.replaceChildren();
+  const projects=projectItems.filter(p=>p.archived);
+  $('project-archive-count').textContent=projects.length+(projects.length===1?' archivado':' archivados');
+  if(!projects.length){
+    root.append(el('p','index-empty','Todavía no hay proyectos archivados. Cuando termines uno, podés conservarlo acá.'));
+    return;
+  }
+  for(const [id,label] of PROJECT_AREAS){
+    const entries=projects.filter(p=>areaFor(p)===id);
+    if(!entries.length)continue;
+    const group=el('section','archive-area');
+    group.append(el('h3','',label));
+    for(const item of entries){
+      const card=el('div','archive-row');
+      const info=el('div','archive-info');
+      info.append(el('strong','',item.title));
+      const when=item.archivedAt && !Number.isNaN(Date.parse(item.archivedAt))
+        ? 'Archivado el '+new Date(item.archivedAt).toLocaleDateString('es-AR'):'En el archivo';
+      info.append(el('small','',when+(item.summary?' · '+item.summary:'')));
+      const href=linkFor(item);
+      if(href){const a=el('a','index-project-link','Consultar dossier ↗');a.href=href;info.append(a);}
+      const restore=el('button','index-secondary','Restaurar');
+      restore.type='button';restore.addEventListener('click',()=>restoreProject(item));
+      card.append(info,restore);group.append(card);
+    }
+    root.append(group);
+  }
 }
 function buildEditor(item){
   const form=el('form','project-index-editor');
   const titleLabel=el('label','','Título');
   const title=el('input');title.name='title';title.maxLength=160;title.required=true;title.value=item.title;
   titleLabel.append(title);
+  const areaLabel=el('label','','Área de investigación');
+  const area=el('select');fillAreaOptions(area,areaFor(item));areaLabel.append(area);
   const parentLabel=el('label','','Jerarquía · dentro de');
   const parent=el('select');parentOptions(parent,item);parentLabel.append(parent);
   const summaryLabel=el('label','','Nota / próximo paso');
@@ -288,7 +387,7 @@ function buildEditor(item){
     });
     buttons.append(remove);
   }
-  form.append(titleLabel,parentLabel,summaryLabel,buttons);
+  form.append(titleLabel,areaLabel,parentLabel,summaryLabel,buttons);
   form.addEventListener('submit',event=>{
     event.preventDefault();
     const value=title.value.trim();
@@ -301,6 +400,7 @@ function buildEditor(item){
     item.title=value.slice(0,160);
     item.summary=summary.value.trim().slice(0,500);
     item.parentId=parentId;
+    item.area=area.value;
     editingId=null;persistIndex();renderIndex();
   });
   return form;
@@ -310,6 +410,7 @@ function showAddForm(show){
   form.hidden=!show;
   if(show){
     parentOptions($('project-add-parent'));
+    fillAreaOptions($('project-add-area'),'otros');
     $('project-add-title').focus();
   }else form.reset();
   $('index-add').textContent=show?'Cerrar formulario':'+ Nuevo proyecto';
@@ -324,13 +425,14 @@ $('project-add-form').addEventListener('submit',event=>{
   if(parentId && projectTreeDepth(parentId)>=2)return;
   projectItems.push({id:newId(),title:title.slice(0,160),
     summary:$('project-add-summary').value.trim().slice(0,500),
-    parentId,status:'pending',slug:null});
+    parentId,status:'pending',slug:null,area:$('project-add-area').value,
+    archived:false,archivedAt:null});
   showAddForm(false);persistIndex(0);renderIndex();
 });
 
 function showProjects(rows){
   const root=$('research-projects');root.replaceChildren();
-  const entries=Array.isArray(rows)?rows:[];
+  const entries=(Array.isArray(rows)?rows:[]).filter(d=>!projectItems.some(p=>p.id==='dossier:'+d.slug && p.archived));
   $('project-count').textContent=entries.length+' '+(entries.length===1?'proyecto':'proyectos');
   for(const [index,item] of entries.entries()){
     const card=document.createElement('article');
