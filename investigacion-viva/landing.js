@@ -189,7 +189,7 @@ function shiftProject(id,delta){
 function linkFor(item){
   // Nunca abrir rutas creadas por usuarios: solo slugs permitidos por la app.
   if(!dossierRows.some(d=>d.slug===item.slug))return '';
-  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay'];
+  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia'];
   return allowed.includes(item.slug)?'./'+item.slug+'/':'';
 }
 function renderIndex(){
@@ -452,6 +452,8 @@ function showProjects(rows){
       ? 'Un atlas de 80 imperios, reinos, repúblicas, ciudades y proyectos políticos singulares.'
       : item.slug==='garay'
       ? 'La corrección de la novela, capítulo por capítulo: 117 etapas de trabajo editorial.'
+      : item.slug==='alquimia'
+      ? 'Ocho lecciones y una biblioteca de fuentes para estudiar la alquimia histórica.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
     let preview=null;
@@ -473,7 +475,7 @@ function showProjects(rows){
     }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
-    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay'].includes(item.slug)?'./'+item.slug+'/':'./';
+    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia'].includes(item.slug)?'./'+item.slug+'/':'./';
     action.append('Abrir proyecto ');
     const icon=document.createElement('span');icon.textContent='→';action.append(icon);
     if(preview)card.append(info,preview,action);
