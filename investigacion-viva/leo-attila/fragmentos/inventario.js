@@ -1,6 +1,7 @@
 // Inventario editorial de traducciones parciales del proyecto León / Atila.
 // No se confunde con el estado personal de lectura. Referencias r027–r054 del catálogo privado.
 export const inProgress = [
+  {id:'r030', title:'Hidacio · Chronicon', finished:2, remaining:'Selección inicial 451–453 incorporada. Cotejar íntegramente con Mommsen/Burgess y revisar noticias anteriores de Aecio y crisis de 454–455 antes de pasar a r031.'},
   {id:'r027', title:'Prisco de Panio · embajada a Atila', finished:13,
    remaining:'La audiencia posterior con Atila; el diálogo con los embajadores occidentales y la hipótesis de una campaña persa; los banquetes, gestos y negociaciones ulteriores de la misión.'},
   {id:'r029', title:'Próspero de Aquitania · Chronicon', finished:2,
@@ -10,7 +11,6 @@ export const inProgress = [
 ];
 export const pending = [
   {id:'r028',priority:'alta',group:'Testimonios cercanos',author:'Prisco de Panio',title:'Fragmentos adicionales (Blockley)',focus:'Contrastar fragmentos complementarios y variantes; evitar duplicar la embajada ya traducida.'},
-  {id:'r030',priority:'alta',group:'Testimonios cercanos',author:'Hidacio',title:'Chronicon',focus:'Aecio, campañas hunas, 451–453 y crisis del Occidente romano.'},
   {id:'r031',priority:'media',group:'Testimonios cercanos',author:'Anónimo',title:'Chronica Gallica a. 452',focus:'Invasiones de la Galia y noticias de la guerra de 451.'},
   {id:'r032',priority:'media',group:'Testimonios cercanos',author:'Marcelino Comes',title:'Chronicon',focus:'Entradas orientales sobre Atila, la diplomacia y los emperadores.'},
   {id:'r033',priority:'alta',group:'Testimonios cercanos',author:'Sidonio Apolinar',title:'Carmina V y VII',focus:'Aecio, Avito, Mayoriano y retórica política sobre los hunos.'},
