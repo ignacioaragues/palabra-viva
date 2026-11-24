@@ -4,10 +4,10 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#f7f6f0">
 <title>Garay · Corrección de la novela · Investigación Viva</title>
-<meta name="description" content="Cuaderno privado de corrección de Garay: 117 capítulos y cuatro etapas editoriales.">
+<meta name="description" content="Cuaderno privado de corrección de Garay: capítulos ampliables, cuatro etapas editoriales y seguimiento diario del avance.">
 <link rel="stylesheet" href="../styles.css?v=20261119-garay">
-<link rel="stylesheet" href="./garay.css?v=20261119-garay">
-<script type="module" src="./garay.js?v=20261119-garay"></script>
+<link rel="stylesheet" href="./garay.css?v=20261124-garay2">
+<script type="module" src="./garay.js?v=20261124-garay2"></script>
 <script type="module" src="../auto-reading.js?v=20261119-auto2"></script>
 </head>
 <body>
@@ -31,24 +31,43 @@
   <div class="garay-hero-text"><span class="overline">INVESTIGACIÓN VIVA / PROYECTO EDITORIAL</span>
    <h1>Garay<span class="stop">.</span></h1><p class="garay-kicker">CUADERNO DE CORRECCIÓN DE LA NOVELA</p>
    <p class="garay-intro">Un seguimiento capítulo por capítulo de las revisiones, la limpieza del texto y el cierre de la versión definitiva.</p>
-   <div class="garay-hero-actions"><a href="#capitulos" class="primary">Ver los 117 capítulos <span>→</span></a>
-   <span class="garay-hint">Cuatro estados · guardado privado</span></div>
+   <div class="garay-hero-actions"><a href="#capitulos" class="primary">Ver los <span id="hero-chapter-count">—</span> capítulos <span>→</span></a>
+   <span class="garay-hint">Cuatro estados · capítulos ampliables · guardado privado</span></div>
   </div>
   <figure class="garay-cover"><img src="../assets/garay-portada.svg?v=20261119-imagen-original" alt="Retrato del protagonista de Garay, con abrigo oscuro en un paisaje nevado" width="420" height="420">
    <figcaption>Imagen de referencia para la novela</figcaption></figure>
  </section>
  <div class="garay-stats-band"><section class="shell garay-stats" aria-label="Progreso editorial">
-  <div class="garay-feature-stat"><span>CAPÍTULOS CORREGIDOS O FINALES</span><strong id="ready-count">0 <small>/ 117</small></strong><div class="garay-meter"><div id="ready-fill"></div></div><small id="ready-percent">0 % del total</small></div>
-  <div><strong id="count-review">117</strong><span>POR REVISAR</span></div>
+  <div class="garay-feature-stat"><span>CAPÍTULOS CORREGIDOS O FINALES</span><strong id="ready-count">0 <small>/ —</small></strong><div class="garay-meter"><div id="ready-fill"></div></div><small id="ready-percent">0 % del total</small></div>
+  <div><strong id="count-review">0</strong><span>POR REVISAR</span></div>
   <div><strong id="count-clean">0</strong><span>POR LIMPIAR</span></div>
   <div><strong id="count-corrected">0</strong><span>CORREGIDO</span></div>
   <div><strong id="count-final">0</strong><span>FINAL</span></div>
  </section></div>
+ <section class="garay-activity shell" aria-labelledby="activity-title">
+  <div class="garay-activity-head"><div><span class="overline">II · RITMO DE CORRECCIÓN</span><h2 id="activity-title">Avance diario<span class="stop">.</span></h2><p>El tablero registra la primera vez que cada capítulo llega a «Corregido» y a «Final» para mostrar cuánto avanzás por día.</p></div>
+   <div class="garay-activity-summary" aria-label="Resumen de actividad">
+    <div><strong id="today-corrected">0</strong><span>CORREGIDOS HOY</span></div>
+    <div><strong id="today-final">0</strong><span>CERRADOS HOY</span></div>
+    <div><strong id="week-corrected">0</strong><span>CORREGIDOS · 7 DÍAS</span></div>
+    <div><strong id="week-final">0</strong><span>CERRADOS · 7 DÍAS</span></div>
+   </div>
+  </div>
+  <div class="garay-chart-card">
+   <div class="garay-chart-head"><div><strong>Últimos 14 días</strong><span>Actividad editorial por fecha</span></div><div class="garay-chart-legend"><span><i class="corrected"></i>Corregidos</span><span><i class="final"></i>Finales</span></div></div>
+   <div id="activity-chart" class="garay-activity-chart" aria-label="Gráfico diario de capítulos corregidos y finales"></div>
+   <p id="activity-note" class="garay-chart-note"></p>
+  </div>
+ </section>
  <section id="capitulos" class="garay-work shell">
   <div class="garay-section-head"><div><span class="overline">I · REVISIÓN DE LA NOVELA</span>
-   <h2>Los 117 capítulos<span class="stop">.</span></h2>
+   <h2>Los <span id="chapter-heading-total">—</span> capítulos<span class="stop">.</span></h2>
    <p>Marcá el estado de cada capítulo y anotá lo que queda pendiente. «Final» indica que ya no requiere nuevas correcciones.</p></div>
-   <div class="garay-secondary-progress"><strong id="final-count">0 / 117</strong><span>CAPÍTULOS FINALES</span><div class="garay-meter"><div id="final-fill"></div></div></div>
+   <div class="garay-secondary-progress"><strong id="final-count">0 / —</strong><span>CAPÍTULOS FINALES</span><div class="garay-meter"><div id="final-fill"></div></div></div>
+  </div>
+  <div class="garay-chapter-tools">
+   <div class="garay-total-box"><span>TOTAL ACTUAL</span><strong id="chapter-total-control">—</strong><small>El total ya no está fijado en 117.</small></div>
+   <form id="add-chapters-form" class="garay-add-form"><label for="add-chapters-count">Agregar capítulos<input id="add-chapters-count" type="number" min="1" max="50" value="1" inputmode="numeric"></label><button type="submit" class="garay-outline">Sumar al tablero</button></form>
   </div>
   <div class="garay-filterbar"><label>Buscar capítulo<input id="chapter-search" type="search" placeholder="Número o nota…"></label>
    <label>Filtrar por estado<select id="chapter-filter">
@@ -56,10 +75,10 @@
     <option value="por-limpiar">Por limpiar</option><option value="corregido">Corregido</option>
     <option value="final">Final</option></select></label>
    <button type="button" id="next-review" class="garay-outline">Ir al próximo por revisar</button></div>
-  <div class="garay-list-head"><span id="chapter-results">117 capítulos</span><span>Estado editable · notas por capítulo</span></div>
+  <div class="garay-list-head"><span id="chapter-results">Cargando capítulos…</span><span>Estado editable · notas por capítulo</span></div>
   <div id="chapter-list" class="garay-chapter-list" aria-live="polite"></div>
   <p id="garay-sync" class="garay-sync" role="status" aria-live="polite"></p>
-  <p class="garay-footer-note">Los estados y las notas se guardan en el archivo privado de Investigación Viva. El texto de la novela no se publica en este tablero.</p>
+  <p class="garay-footer-note">Los estados, las notas, el total de capítulos y el historial de avance se guardan en el archivo privado de Investigación Viva. El texto de la novela no se publica en este tablero.</p>
  </section>
 </main>
 <footer class="footer"><span>INVESTIGACIÓN VIVA · GARAY</span><span id="footer-state">Acceso restringido</span></footer>
