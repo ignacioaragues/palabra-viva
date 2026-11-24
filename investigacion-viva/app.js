@@ -20,7 +20,9 @@ const PARTIAL_TRANSLATIONS = {
     {href:'fragmentos/priscus-greek-merchant.html',label:'El comerciante griego'},
     {href:'fragmentos/priscus-greek-critique.html',label:'Crítica de Roma'},
     {href:'fragmentos/priscus-roman-reply.html',label:'Respuesta de Prisco'},
-    {href:'fragmentos/priscus-greek-conclusion.html',label:'El desenlace'}
+    {href:'fragmentos/priscus-greek-conclusion.html',label:'El desenlace'},
+    {href:'fragmentos/priscus-onegesius.html',label:'Negociación con Onegesio'},
+    {href:'fragmentos/priscus-kreka-justice.html',label:'Kreka y Atila como juez'}
   ],
   r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
   r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
