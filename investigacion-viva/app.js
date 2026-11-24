@@ -25,6 +25,7 @@ const PARTIAL_TRANSLATIONS = {
     {href:'fragmentos/priscus-kreka-justice.html',label:'Kreka y Atila como juez'}
   ],
   r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
+  r030: [{href:'fragmentos/hydatius-451.html',label:'451 · Galia'},{href:'fragmentos/hydatius-452-453.html',label:'452–453 · Italia'}],
   r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
 };
 
