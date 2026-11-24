@@ -245,7 +245,7 @@ function filtered() {
   return allItems().filter(item =>
     (chosen === 'all' || itemStatus(item) === chosen) &&
     (!priority || priorityFor(item) === 'alta') &&
-    (!term || norm([item.title,item.author,item.why,item.sub,...(item.tags||[])].join(' ')).includes(term))
+    (!term || norm([item.title,item.author,item.why,item.sub,...Object.values(item.theatre||{}),...(item.tags||[])].join(' ')).includes(term))
   );
 }
 function updateCategoryProgress() {
@@ -303,6 +303,55 @@ function moveOneStep(item,category,direction) {
   if(!target)return;
   reorderRelative(category,item.id,target.id,direction>0);
 }
+
+// Fichas teatrales: los textos se cargan desde el catálogo privado.
+let theatreDialog=null;
+function openTheatreSheet(item){
+  if(!item.theatre)return;
+  if(!theatreDialog){
+    theatreDialog=make('dialog','theatre-sheet');
+    theatreDialog.setAttribute('aria-labelledby','theatre-sheet-title');
+    theatreDialog.addEventListener('click',event=>{
+      if(event.target===theatreDialog){
+        const r=theatreDialog.getBoundingClientRect();
+        if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)theatreDialog.close();
+      }
+    });
+    document.body.append(theatreDialog);
+  }
+  const d=theatreDialog, info=item.theatre;
+  d.replaceChildren();
+  const head=make('div','theatre-sheet-head');
+  const label=make('span','overline','INVESTIGACIÓN VIVA / MAPA TEATRAL');
+  const close=make('button','theatre-sheet-close','Cerrar ×');close.type='button';
+  close.addEventListener('click',()=>d.close());
+  head.append(label,close);
+  const title=make('h2','',item.title);title.id='theatre-sheet-title';
+  d.append(head,title,make('p','theatre-sheet-meta',[item.author,info.meta||item.year].filter(Boolean).join(' · ')));
+  for(const [heading,key] of [['Sinopsis','synopsis'],['Escenas y pasajes para leer','scenes'],['Claves dramatúrgicas','technique'],['Aplicación a León y Atila','application']]){
+    if(!info[key])continue;
+    const section=make('section','theatre-sheet-section');
+    section.append(make('h3','',heading),make('p','',info[key]));
+    d.append(section);
+  }
+  if(safeUrl(item.url)){
+    const link=make('a','theatre-sheet-link','Consultar texto o referencia ↗');
+    link.href=safeUrl(item.url);link.target='_blank';link.rel='noopener noreferrer';
+    d.append(link);
+  }
+  d.append(make('p','theatre-sheet-disclaimer','Comentario dramatúrgico de trabajo, no fuente histórica. Las aplicaciones son sugerencias, no decisiones de escritura.'));
+  if(!d.open)d.showModal();
+  d.scrollTop=0;
+  close.focus();
+}
+function theatreSheetButton(item,label='Ver ficha ↗',cls='theatre-sheet-trigger'){
+  const b=make('button',cls,label);b.type='button';
+  b.setAttribute('aria-haspopup','dialog');
+  b.setAttribute('aria-label','Abrir ficha teatral de '+item.title);
+  b.addEventListener('click',()=>openTheatreSheet(item));
+  return b;
+}
+
 function createListRow(item,category) {
   const row=make('div','ordered-row');
   row.dataset.status=itemStatus(item);
@@ -325,7 +374,7 @@ function createListRow(item,category) {
   checkbox.checked=itemStatus(item)==='done';
   checkbox.setAttribute('aria-label','Marcar como terminada: '+item.title);
   const title=make('div','ordered-work-info');
-  title.append(make('strong','ordered-work-title',item.title),
+  title.append(item.theatre?theatreSheetButton(item,item.title,'theatre-title-trigger ordered-work-title'):make('strong','ordered-work-title',item.title),
     make('small','ordered-work-author',item.author||''));
   const controls=make('div','ordered-controls');
   const status=make('select','ordered-status');
@@ -385,6 +434,7 @@ function createListRow(item,category) {
     noteWrap.hidden=!noteWrap.hidden;
     notesToggle.textContent=noteWrap.hidden?(state.notes[item.id]?'Notas ·':'Notas'):'Cerrar';
   });
+  if(item.theatre)controls.append(theatreSheetButton(item,'Ficha'));
   controls.append(notesToggle);
   if(item.id.startsWith('custom-')){
     const remove=make('button','ordered-remove','Quitar');
@@ -514,7 +564,9 @@ function createCard(item) {
   const check = make('input','work-check'); check.type = 'checkbox';
   check.setAttribute('aria-label','Marcar como leído: '+item.title);
   const identity = make('div','');
-  identity.append(make('h4','work-title',item.title),
+  const workTitle=make('h4','work-title');
+  if(item.theatre)workTitle.append(theatreSheetButton(item,item.title,'theatre-title-trigger'));else workTitle.textContent=item.title;
+  identity.append(workTitle,
     make('p','work-author',[item.author,item.year].filter(Boolean).join(' · ')));
   titleRow.append(check, identity);
   card.append(meta,titleRow,make('p','work-why',item.why || 'Referencia personal.'));
@@ -527,6 +579,7 @@ function createCard(item) {
   select.value = itemStatus(item);
   statusBox.append(select);
   const actions = make('div','card-actions');
+  if(item.theatre)actions.append(theatreSheetButton(item));
   if (safeUrl(item.url)) {
     const link = make('a','','Fuente ↗');
     link.href = safeUrl(item.url);
