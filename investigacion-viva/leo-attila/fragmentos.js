@@ -259,7 +259,51 @@ export const passages = [
     ],
     note: 'Es la conclusión del debate, pero no una retractación simple: el comerciante separa la excelencia ideal de las leyes de su aplicación por los gobernantes de su tiempo. La descripción benévola de la esclavitud romana es parte de la defensa retórica de Prisco y no debe leerse como un juicio histórico neutral. El llanto tiene también una función dramática dentro del relato historiográfico.'
   }
-
+,
+  {
+    id: 'priscus-onegesius', reference: 'r027', period: '449 · Negociación diplomática',
+    title: 'Onegesio rechaza la propuesta de los romanos',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; entrevista de Maximino con Onegesio)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Griego · FHG IV, fr. 8 (entrevista con Onegesio)',
+    originalLang: 'grc',
+    original: [
+      'Ἐγὼ δὲ προσδραμὼν ἐπυθόμην ὅ τι πράττων Ὀνηγήσιος τυγχάνοι· ἀπαγγεῖλαι γὰρ αὐτῷ με βούλεσθαί τι παρὰ τοῦ Ῥωμαίων ἥκοντος πρεσβευτοῦ. Ὃς δὲ ἀπεκρίνατο, αὐτῷ μοι ἐντεύξεσθαι μικρὸν ἀναμείναντι· μέλλειν γὰρ αὐτὸν ὑπεξιέναι. Καὶ δὴ οὐ πολλοῦ διαγενομένου χρόνου, ὡς προϊόντα εἶδον, προσελθὼν ἔλεγον, ὡς ὁ Ῥωμαίων αὐτὸν ἀσπάζεται πρεσβευτὴς, καὶ δῶρα ἐξ αὐτοῦ ἥκω φέρων σὺν καὶ τῷ παρὰ βασιλέως πεμφθέντι χρυσίῳ· ἐσπουδακότι δὲ ἐς λόγους ἐλθεῖν, οἷ καὶ πότε βούλεται διαλέγεσθαι. Καὶ ὃς τό τε χρυσίον τά τε δῶρα ἐκέλευσε τοὺς προσήκοντας δέξασθαι, ἐμὲ δὲ ἀπαγγέλλειν Μαξιμίνῳ, ὡς ἥξοι αὐτίκα παρ ̓ αὐτόν.',
+      'Ἐμήνυον τοίνυν ἐπανελθὼν, τὸν Ὀνηγήσιον παραγίνεσθαι· καὶ εὐθὺς ἧκεν ἐς τὴν σκηνήν. Προσειπὼν δὲ τὸν Μαξιμῖνον ἔφασκε χάριν ὁμολογεῖν ὑπὲρ τῶν δώρων αὐτῷ τε καὶ βασιλεῖ, καὶ ἀνηρώτα ὅ τι λέγειν βουλόμενος αὐτὸν μετεπέμψατο. Ὁ δὲ ἔφασκεν ἥκειν καιρὸν, ὥστε Ὀνηγήσιον μεῖζον ἐν ἀνθρώποις ἕξειν κλέος, εἴπερ παρὰ βασιλέα ἐλθὼν διευκρινήσει τὰ ἀμφίβολα τῇ σφετέρᾳ συνέσει καὶ ὁμόνοιαν Ῥωμαίοις καὶ Οὔννοις καταστήσεται. Γενήσεται γὰρ ἐνθένδε οὐ μόνον τοῖς ἔθνεσιν ἀμφοτέροις συμφέρον, ἀλλὰ καὶ τῷ σφετέρῳ οἴκῳ ἀγαθὰ παρέξει πολλὰ, ἐπιτήδειος ἐσαεὶ αὐτός τε καὶ οἱ αὐτοῦ παῖδες βασιλεῖ τε καὶ τῷ ἐκείνου ἐσόμενοι γένει.',
+      'Ὁ δὲ Ὀνηγήσιος ἔφη· καὶ τί ποιοῦντες κεχαρισμένως βασιλεῖ ἢ ὅπως παρ ̓ αὐτοῦ τὰ ἀμφίβολα λυθείη; Ἀποκριναμένου δὲ, ὡς διαβὰς μὲν εἰς τὴν Ῥωμαίων βασιλεῖ τὴν χάριν καταθήσει, διευκρινήσει δὲ τὰ ἀμφίβολα τὰς αἰτίας διερευνῶν καὶ ταύτας κατὰ τὸν τῆς εἰρήνης λύων θεσμὸν, ἔφασκεν ἐκεῖνα ἐρεῖν βασιλεῖ τε καὶ τοῖς ἀμφ ̓ αὐτὸν, ἅπερ Ἀττήλας βούλεται.',
+      'Ἤ οἴεσθαι ἔφη Ῥωμαίους, τοσοῦτον ἐκλιπαρήσειν αὐτὸν, ὥστε καταπροδοῦναι δεσπότην καὶ ἀνατροφῆς τῆς παρὰ Σκύθαις καὶ γαμετῶν καὶ παίδων κατολιγωρήσειν, μὴ μείζονα δὲ ἡγεῖσθαι τὴν παρ ̓ Ἀττήλᾳ δουλείαν τοῦ παρὰ Ῥωμαίοις πλούτου; Συνοίσειν δὲ ἐπιμένοντα τῇ οἰκείᾳ τὸν τοῦ δεσπότου καταπραύνειν θυμὸν, ἐφ ̓ οἷς αὐτὸν ὀργίζεσθαι κατὰ Ῥωμαίων συμβαίνει, ἢ παρὰ σφᾶς ἐλθόντα αἰτίᾳ ὑπάγεσθαι, ἕτερα ἤπερ ἐκείνῳ δοκεῖ διαπραξάμενον.',
+      'Ταῦτα εἰρηκὼς, κἀμὲ ποιεῖσθαι τὴν πρὸς αὐτὸν ἡγησάμενος ἔντευξιν περὶ ὧν πυνθάνεσθαι αὐτοῦ βουλόμεθα (οὐ γὰρ τῷ Μαξιμίνῳ, ὡς ἐν ἀξίᾳ τελοῦντι, συνεχὴς πρόσοδος ἦν εὐπρεπής), ἀνεχώρει.'
+    ],
+    spanish: [
+      'En cuanto abrieron las puertas, me acerqué deprisa y pregunté qué estaba haciendo Onegesio: quería transmitirle un mensaje del embajador romano. Me respondieron que podría verlo si esperaba un poco, pues estaba a punto de salir. Al poco tiempo se presentó y le dije que el embajador lo saludaba y que le llevaba regalos suyos, junto con el oro enviado por el emperador. También quería saber dónde y cuándo podría entrevistarse con él. Onegesio ordenó a sus hombres que recibieran los obsequios y el oro, y me encargó comunicar a Maximino que iría enseguida a su encuentro.',
+      'Volví con la noticia, y Onegesio se presentó inmediatamente en la tienda. Saludó a Maximino, le dio las gracias por los regalos, tanto los suyos como los del emperador, y le preguntó por qué deseaba hablar con él. Maximino respondió que se le ofrecía una ocasión de ganar una gloria extraordinaria: si acudía a la corte imperial, su inteligencia le permitiría resolver los asuntos en disputa y restablecer la concordia entre romanos y hunos. Así no solo beneficiaría a ambos pueblos; también obtendría grandes ventajas para su familia, pues él y sus hijos gozarían para siempre de la amistad del emperador y de su linaje.',
+      'Onegesio preguntó qué tendría que hacer para agradar al emperador y cómo se zanjarían las controversias. Maximino le explicó que, viajando a territorio romano, prestaría un servicio al emperador y podría esclarecer los desacuerdos, investigar sus causas y resolverlas conforme a lo dispuesto en el tratado de paz. Onegesio replicó que comunicaría al emperador y a sus consejeros únicamente lo que Atila quisiera.',
+      '«¿Piensan los romanos —dijo— que me convencerán de traicionar a mi señor, despreciar la educación que recibí entre los escitas y desentenderme de mis esposas y mis hijos? ¿Que no considero la servidumbre junto a Atila superior a la riqueza entre los romanos?» Añadió que les sería más útil si permanecía en su propia tierra: allí podía apaciguar la ira de Atila cuando este se enfurecía contra los romanos. En cambio, si iba a su país, corría el riesgo de ser acusado por haber concertado acuerdos distintos de los que su señor aprobaba.',
+      'Después de decir esto, indicó que sería yo quien acudiera a consultarlo cuando surgieran nuevas preguntas, pues no habría sido apropiado que Maximino, dado su rango, tuviera que presentarse repetidamente ante él. Entonces se retiró.'
+    ],
+    note: 'Onegesio no acepta convertir la embajada en una negociación independiente de Atila. Maximino apela al prestigio, al beneficio familiar y a la concordia; Onegesio responde con lealtad personal, pertenencia familiar y cálculo político. Su «servidumbre» (δουλεία) es una autodescripción enfática que contrapone obediencia a Atila y riqueza romana, no prueba de que fuera un esclavo en sentido jurídico. Selección continua al final del debate con el comerciante griego. Se han omitido del griego las indicaciones críticas entre paréntesis de la transcripción digital, que deben cotejarse con una edición académica.'
+  },
+  {
+    id: 'priscus-kreka-justice', reference: 'r027', period: '449 · Residencia de Atila',
+    title: 'Kreka, la corte y Atila como juez',
+    author: 'Prisco de Panio', work: 'Historia, fr. 8 (FHG IV; visita a Kreka y audiencia de Atila)',
+    source: 'https://www.dfhg-project.org/DFHG/edit_fragment.php?id=8987',
+    sourceLabel: 'Griego · FHG IV, fr. 8 (residencia y juicio)',
+    originalLang: 'grc',
+    original: [
+      'Ἐγὼ δὲ τῇ ὑστεραίᾳ εἰς τὸν Ἀττήλα περίβολον ἀφικνοῦμαι, δῶρα τῇ αὐτοῦ κομίζων γαμετῇ· Κρέκα δὲ ὄνομα αὐτῇ, ἐξ ἧς αὐτῷ παῖδες ἐγεγόνεσαν τρεῖς, ὧν ὁ πρεσβύτερος ἦρχε τῶν Ἀκατίρων καὶ τῶν λοιπῶν ἐθνῶν νεμομένων τὴν πρὸς τὸν Πόντον Σκυθικήν.',
+      'Ἔνδον δὲ τοῦ περιβόλου πλεῖστα ἐτύγχανεν οἰκήματα, τὰ μὲν ἐκ σανίδων ἐγγλύφων καὶ ἡρμοσμένων εἰς εὐπρέπειαν, τὰ δὲ ἐκ δοκῶν κεκαθαρμένων καὶ πρὸς εὐθύτητα ἐπεξεσμένων, ἐμβεβλημένων δὲ ξύλοις [κύκλους] ἀποτελοῦσιν· οἱ δὲ κύκλοι ἐκ τοῦ ἐδάφους ἀρχόμενοι ἐς ὕψος ἀνέβαινον μετρίως. Ἐνταῦθα τῆς Ἀττήλα ἐνδιαιτωμένης γαμετῆς, διὰ τῶν πρὸς τῇ θύρᾳ βαρβάρων ἔτυχον εἰσόδου, καὶ αὐτὴν ἐπὶ στρώματος μαλακοῦ κειμένην κατέλαβον, τοῖς ἐκ τῆς ἐρέας πιλωτοῖς τοῦ ἐδάφους σκεπομένου, ὥστε ἐπ ̓ αὐτῶν βαδίζειν.',
+      'Περιεῖπε δὲ αὐτὴν θεραπόντων πλῆθος κύκλῳ· καὶ θεράπαιναι ἐπὶ τοῦ ἐδάφους ἀντικρὺ αὐτῆς καθήμεναι ὀθόνας χρώμασι διεποίκιλλον, ἐπίβληθησομένας πρὸς κόσμον ἐσθημάτων βαρβαρικῶν. Προσελθὼν τοίνυν καὶ τὰ δῶρα μετὰ τὸν ἀσπασμὸν δοὺς ὑπεξῄειν, καὶ ἐπὶ τὰ ἕτερα ἐβάδιζον οἰκήματα, ἐν οἷς διατρίβειν τὸν Ἀττήλαν ἐτύγχανεν, ἀπεκδεχόμενος ὁπότε ἐπεξέλθοι Ὀνηγήσιος· ἤδη γὰρ ἀπὸ τῶν αὐτοῦ οἰκημάτων ἐξεληλύθει καὶ ἔνδον ἦν.',
+      'Μεταξὺ δὲ τοῦ παντὸς ἱστάμενος πλήθους (γνώριμός τε γὰρ ὢν τοῖς Ἀττήλα φρουροῖς καὶ τοῖς παρεπομένοις αὐτῷ βαρβάροις ὑπ ̓ οὐδενὸς διεκωλυόμην), εἶδον πλῆθος πορευόμενον καὶ θροῦν καὶ θόρυβον περὶ τὸν τόπον γινόμενον, ὡς τοῦ Ἀττήλα ὑπεξιόντος. Προῄει δὲ τοῦ οἰκήματος βαδίζων σοβαρῶς, τῇδε κἀκεῖ περιβλεπόμενος. Ὡς δὲ ὑπεξελθὼν σὺν τῷ Ὀνηγησίῳ ἔστη πρὸ τοῦ οἰκήματος, πολλοὶ τῶν ἀμφισβητήσεις πρὸς ἀλλήλους ἐχόντων προσῄεσαν καὶ τὴν αὐτοῦ κρίσιν ἐδέχοντο.'
+    ],
+    spanish: [
+      'Al día siguiente me dirigí al recinto de Atila para llevar regalos a su esposa. Se llamaba Kreka y había tenido con él tres hijos. El mayor gobernaba a los acatiros y a otros pueblos escitas establecidos en las regiones próximas al Ponto.',
+      'Dentro de la empalizada había numerosos edificios. Unos estaban hechos de tablas talladas y ensambladas con esmero; otros, de vigas alisadas y enderezadas, insertas en estructuras circulares de madera que se elevaban desde el suelo hasta una altura moderada. Allí residía la esposa de Atila. Los guardias de la entrada me permitieron pasar y la encontré reclinada sobre un lecho mullido. El suelo estaba cubierto de tapices de lana afieltrada, sobre los cuales se podía caminar.',
+      'La rodeaba un gran número de servidores. Frente a ella, sentadas en el suelo, unas criadas adornaban con colores diversas telas que se utilizarían para decorar los vestidos de aquel pueblo. Me acerqué, la saludé y entregué los regalos. Después salí hacia otros edificios en los que se encontraba Atila, mientras esperaba que saliera Onegesio, que ya había abandonado su residencia para acudir allí.',
+      'Me quedé entre la multitud sin que nadie me detuviera, porque los guardias y acompañantes de Atila ya me conocían. Vi entonces que la gente comenzaba a moverse y que se levantaba un rumor: Atila estaba por salir. Apareció caminando con porte solemne y mirando de uno a otro lado. Cuando salió con Onegesio y se detuvo ante el edificio, se acercaron numerosas personas que mantenían disputas entre sí para recibir su decisión.'
+    ],
+    note: 'Este pasaje ofrece una de las raras escenas observadas directamente de la vida cortesana de Atila. Kreka (Κρέκα; también transcrita Creca) aparece como interlocutora de una visita diplomática, rodeada de personal y trabajo textil. No hay discurso atribuido a ella en el pasaje. Atila aparece aquí no como guerrero, sino como autoridad que resuelve controversias, acompañado por Onegesio. La lectura arquitectónica de ciertos detalles es incierta por las variantes textuales; se conserva entre corchetes una restitución del griego digital.'
+  }
 ];
 
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
