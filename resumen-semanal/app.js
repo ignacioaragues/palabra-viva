@@ -231,6 +231,24 @@ function setupSelector() {
   el.addEventListener('change',()=>render(Number(el.value)));
   $('reload').addEventListener('click',()=>load(true));
 }
+async function fetchSessions(table,columns,ownerColumn,startISO) {
+  // PostgREST suele limitar el tamaño de cada respuesta: paginar es imprescindible
+  // para el contador de Investigación Viva, que guarda tramos de unos 20 segundos.
+  const pageSize=500;
+  const collected=[];
+  for(let offset=0;offset<100000;offset+=pageSize) {
+    const {data,error}=await db.from(table).select(columns)
+      .eq(ownerColumn,user.id)
+      .gte('started_at',startISO)
+      .order('started_at',{ascending:true})
+      .order('id',{ascending:true})
+      .range(offset,offset+pageSize-1);
+    if(error)throw error;
+    collected.push(...(data||[]));
+    if((data||[]).length<pageSize)return collected;
+  }
+  throw new Error('Demasiadas sesiones para generar el informe completo sin paginación adicional.');
+}
 async function load(refresh=false) {
   $('status').hidden=false;
   $('status').textContent='Cargando registros privados…';
@@ -245,14 +263,14 @@ async function load(refresh=false) {
     const startISO=oldest.toISOString();
     const [ed,lv,iv]=await Promise.all([
       db.from('edition_reading_devices').select('device_id,data').eq('user_id',user.id).limit(200),
-      db.from('lingua_study_sessions').select('id,language,lesson_id,duration_seconds,started_at').eq('user_id',user.id).gte('started_at',startISO).limit(10000),
-      db.from('iv_reading_sessions').select('id,dossier_slug,source_title,source_id,duration_seconds,started_at').eq('owner_id',user.id).gte('started_at',startISO).limit(10000)
+      fetchSessions('lingua_study_sessions','id,language,lesson_id,duration_seconds,started_at','user_id',startISO),
+      fetchSessions('iv_reading_sessions','id,dossier_slug,source_title,source_id,duration_seconds,started_at','owner_id',startISO)
     ]);
-    for(const result of [ed,lv,iv])if(result.error)throw result.error;
+    if(ed.error)throw ed.error;
     activity = {
       edition:mergeReadingDevices(ed.data),
-      languages:lv.data||[],
-      research:iv.data||[]
+      languages:lv,
+      research:iv
     };
     $('status').hidden=true;
     $('report').hidden=false;
