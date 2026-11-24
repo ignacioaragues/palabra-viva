@@ -7,9 +7,26 @@
 <meta name="description" content="Acceso privado a los cuadernos de Investigación Viva.">
 <link rel="stylesheet" href="../styles.css?v=20261119-autotime">
 <link rel="stylesheet" href="../dossier.css?v=20261118-leotimer">
-<script type="module" src="../app.js?v=20261124-onegesius1"></script>
+<script type="module" src="../app.js?v=20261125-theatre-sheets"></script>
 <script type="module" src="../leo-timer.js?v=20261119-autotime"></script>
 <script type="module" src="../auto-reading.js?v=20261119-auto2"></script>
+<style>
+.theatre-sheet{box-sizing:border-box;width:min(740px,calc(100% - 32px));max-height:calc(100dvh - 48px);padding:clamp(20px,4vw,40px);border:1px solid #c9c3b7;background:#faf9f4;color:#24241f;border-radius:6px;box-shadow:0 24px 70px #0004;overflow:auto}
+.theatre-sheet::backdrop{background:rgba(25,25,20,.56)}
+.theatre-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.theatre-sheet-close,.theatre-sheet-trigger{border:1px solid #c9c3b7;border-radius:3px;background:transparent;color:inherit;padding:5px 10px;cursor:pointer;font:inherit;font-size:.85rem}
+.theatre-sheet h2{font-family:Georgia,serif;font-size:clamp(1.7rem,4vw,2.7rem);line-height:1.15;margin:0 0 6px;font-weight:normal}
+.theatre-sheet-meta{color:#6a645b;margin:0 0 24px;font-size:.95rem}
+.theatre-sheet-section{border-top:1px solid #ded9ce;padding:15px 0}
+.theatre-sheet-section h3{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#625949;margin:0 0 7px;font-weight:700}
+.theatre-sheet-section p{font-size:1rem;line-height:1.7;margin:0;max-width:none}
+.theatre-sheet-section:nth-of-type(4){background:#f0eee5;padding:15px 16px;border-left:3px solid #9b8060}
+.theatre-sheet-link{display:inline-block;margin-top:20px;text-decoration:underline}
+.theatre-sheet-disclaimer{color:#716b60;font-size:.8rem;line-height:1.5;margin:15px 0 0}
+.theatre-title-trigger{font:inherit;font-weight:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left;line-height:inherit;max-width:100%;overflow-wrap:anywhere}
+.theatre-title-trigger:hover{text-decoration:underline;text-underline-offset:3px}
+.theatre-title-trigger:focus-visible,.theatre-sheet-trigger:focus-visible,.theatre-sheet-close:focus-visible{outline:2px solid #7d6040;outline-offset:3px}
+</style>
 </head>
 <body>
 <header class="masthead">
@@ -41,7 +58,7 @@
     <figcaption>León y Atila · interpretación gráfica contemporánea</figcaption>
   </figure></section>
   <section class="summary"><div class="shell overview">
-    <div class="main-stat"><span class="overline">PROGRESO GENERAL</span><div class="fraction"><strong id="percent">0%</strong><span id="completion-fraction">0 / 62 obras</span></div><div class="meter"><div id="progress-bar"></div></div><p>Los sermones y las epístolas se registran como dos obras, una por colección.</p></div>
+    <div class="main-stat"><span class="overline">PROGRESO GENERAL</span><div class="fraction"><strong id="percent">0%</strong><span id="completion-fraction">0 / 76 obras</span></div><div class="meter"><div id="progress-bar"></div></div><p>Los sermones y las epístolas se registran como dos obras, una por colección.</p></div>
     <div><strong id="total-units">329</strong><small>OBRAS</small></div>
     <div><strong id="done-units">0</strong><small>LEÍDAS</small></div>
     <div><strong id="active-units">0</strong><small>EN CURSO</small></div>
