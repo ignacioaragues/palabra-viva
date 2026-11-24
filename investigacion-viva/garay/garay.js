@@ -12,7 +12,7 @@ const $=id=>document.getElementById(id);
 const mk=(tag,cls,txt)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node;};
 let owner=null,chapters=[],baseChapters=[],state=empty(),saveTimer=null,saveQueue=Promise.resolve(),generation=0;
 function empty(){return {version:2,chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
-function validChapterNumber(num){return /^d{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=MAX_CHAPTERS;}
+function validChapterNumber(num){return /^[0-9]{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=MAX_CHAPTERS;}
 function normalise(value,baseCount=0){
  const result=empty();
  if(!value||typeof value!=='object'){result.chapterCount=baseCount;return result;}
