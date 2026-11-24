@@ -303,7 +303,41 @@ export const passages = [
       'Me quedé entre la multitud sin que nadie me detuviera, porque los guardias y acompañantes de Atila ya me conocían. Vi entonces que la gente comenzaba a moverse y que se levantaba un rumor: Atila estaba por salir. Apareció caminando con porte solemne y mirando de uno a otro lado. Cuando salió con Onegesio y se detuvo ante el edificio, se acercaron numerosas personas que mantenían disputas entre sí para recibir su decisión.'
     ],
     note: 'Este pasaje ofrece una de las raras escenas observadas directamente de la vida cortesana de Atila. Kreka (Κρέκα; también transcrita Creca) aparece como interlocutora de una visita diplomática, rodeada de personal y trabajo textil. No hay discurso atribuido a ella en el pasaje. Atila aparece aquí no como guerrero, sino como autoridad que resuelve controversias, acompañado por Onegesio. La lectura arquitectónica de ciertos detalles es incierta por las variantes textuales; se conserva entre corchetes una restitución del griego digital.'
-  }
+  },
+{
+  "id": "hydatius-451",
+  "reference": "r030",
+  "period": "451 · Galia",
+  "title": "La ruptura de la paz y la coalición romano-goda",
+  "author": "Hidacio",
+  "work": "Chronicon, § 150 (Burgess; § 142 en la numeración alternativa), selección",
+  "source": "https://ancientlibrary.net/hydatius-chronicon/",
+  "sourceLabel": "Texto latino · tradición de Migne, PL 74",
+  "latin": [
+    "Gens Hunnorum pace rupta depraedatur prouincias Galliarum: plurimae ciuitates effractae, in campis Catalaunicis, haud longe de ciuitate quam effregerant, Mertis, Aetio duci et regi Theodori, quibus erat in pace societas, aperto marte confligens, diuino caesa superatur auxilio."
+  ],
+  "spanish": [
+    "El pueblo de los hunos, rota la paz, saquea las provincias de las Galias. Numerosas ciudades son tomadas por la fuerza. En los Campos Cataláunicos, no lejos de Metz, ciudad que habían tomado, se enfrenta en batalla abierta al general Aecio y al rey Teodorico, unidos por una alianza de paz, y es derrotado con la ayuda divina."
+  ],
+  "note": "Selección del comienzo de la entrada, no edición íntegra. El texto digital presenta Mertis; otras ediciones leen Mettis. La expresión diuino auxilio revela la interpretación providencial del obispo. Para la obra teatral interesa el contraste entre esa lectura y la explicación política de Próspero. La localización que ofrece Hidacio no debe tomarse como una identificación geográfica segura."
+},
+{
+  "id": "hydatius-452-453",
+  "reference": "r030",
+  "period": "452–453 · Italia",
+  "title": "La retirada de los hunos y la muerte de Atila",
+  "author": "Hidacio",
+  "work": "Chronicon, entradas de 452–453, desde Secundo regni anno principis Marciani",
+  "source": "https://ancientlibrary.net/hydatius-chronicon/",
+  "sourceLabel": "Texto latino · tradición de Migne, PL 74",
+  "latin": [
+    "Secundo regni anno principis Marciani, Hunni qui Italiam praedabantur, aliquantis etiam ciuitatibus irruptis, diuinitus partim fame, partim morbo quodam plagis coelestibus feriuntur: missis etiam per Marcianum principem Aetio duce caeduntur auxiliis; pariter que in sedibus suis et coelestibus plagis, et per Marciani subiguntur exercitum: et ita subacti, pace facta cum Romanis proprias uniuersi repetunt sedes, ad quas rex eorum Attila mox reuersus interiit."
+  ],
+  "spanish": [
+    "En el segundo año del reinado del emperador Marciano, los hunos que saqueaban Italia, tras haber irrumpido incluso en algunas ciudades, son castigados por disposición divina con plagas celestiales, en parte por el hambre y en parte por cierta enfermedad. También sufren pérdidas a manos de los refuerzos enviados por el emperador Marciano bajo el mando de Aecio. Asimismo, en sus propios territorios son sometidos tanto por las plagas celestiales como por el ejército de Marciano. Así doblegados, una vez concertada la paz con los romanos, todos regresan a sus territorios, adonde volvió su rey Atila, que murió poco después."
+  ],
+  "note": "Hidacio combina causas materiales, presión imperial oriental y providencia. No menciona a León en esta entrada. Aetio duce plantea un problema prosopográfico: no debe identificarse automáticamente al comandante con el patricio occidental homónimo. Se conserva la grafía pariter que de la transcripción consultada; queda pendiente el cotejo completo con Mommsen y Burgess. La ausencia de León no demuestra que la embajada no existiera."
+}
 ];
 
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
