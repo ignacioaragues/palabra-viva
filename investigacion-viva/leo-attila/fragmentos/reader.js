@@ -1,6 +1,6 @@
 import '../../auto-reading.js?v=20261119-auto2';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
-import { passages, renderPassage } from '../fragmentos.js?v=20261119-greek4';
+import { passages, renderPassage } from '../fragmentos.js?v=20261124-onegesius1';
 import {inProgress,pending} from './inventario.js?v=20261119-greek4';
 
 const dossier = '../';
