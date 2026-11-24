@@ -1,7 +1,7 @@
 import '../../auto-reading.js?v=20261119-auto2';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
-import { passages, renderPassage } from '../fragmentos.js?v=20261124-onegesius1';
-import {inProgress,pending} from './inventario.js?v=20261119-greek4';
+import { passages, renderPassage } from '../fragmentos.js?v=20261124-hydatius1';
+import {inProgress,pending} from './inventario.js?v=20261124-hydatius1';
 
 const dossier = '../';
 const listing = './';
@@ -45,10 +45,10 @@ function buildPendingInventory(){
   section.id='pendientes';
   const title=document.createElement('h2');title.textContent='Inventario de traducciones pendientes';
   const desc=document.createElement('p');desc.className='iv-pending-summary';
-  desc.textContent='26 fuentes históricas seleccionadas para traducción parcial: 3 con pasajes ya publicados y otros por completar; 23 todavía sin traducciones. Este estado editorial no modifica tus casillas de lectura.';
+  desc.textContent=`${inProgress.length+pending.length} fuentes históricas seleccionadas: ${inProgress.length} en curso y ${pending.length} por comenzar. Este estado editorial no modifica tus casillas de lectura.`;
   section.append(title,desc);
   const inProgressTitle=document.createElement('h3');
-  inProgressTitle.textContent='En curso · 3 fuentes';
+  inProgressTitle.textContent='En curso · '+inProgress.length+' fuentes';
   section.append(inProgressTitle);
   const running=document.createElement('div');running.className='iv-pending-running';
   for(const item of inProgress){
