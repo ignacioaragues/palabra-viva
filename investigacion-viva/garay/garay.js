@@ -4,28 +4,56 @@ const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
  'sb_publishable_be96IsfN-3skQErkZtOtQQ_pK0OT1Y9',
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const DOSSIER='garay';
+const MAX_CHAPTERS=999;
+const ACTIVITY_DAYS=14;
 const STATUSES=[['por-revisar','Por revisar'],['por-limpiar','Por limpiar'],['corregido','Corregido'],['final','Final']];
 const STATUS_NAMES=Object.fromEntries(STATUSES);
 const $=id=>document.getElementById(id);
 const mk=(tag,cls,txt)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node;};
-let owner=null,chapters=[],state=empty(),saveTimer=null,saveQueue=Promise.resolve(),generation=0;
-function empty(){return {version:1,chapterStatus:{},chapterNotes:{},chapterEdited:{}};}
-function normalise(value){
+let owner=null,chapters=[],baseChapters=[],state=empty(),saveTimer=null,saveQueue=Promise.resolve(),generation=0;
+function empty(){return {version:2,chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
+function validChapterNumber(num){return /^d{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=MAX_CHAPTERS;}
+function normalise(value,baseCount=0){
  const result=empty();
- if(!value||typeof value!=='object')return result;
+ if(!value||typeof value!=='object'){result.chapterCount=baseCount;return result;}
  for(const [num,status] of Object.entries(value.chapterStatus||{})){
-  if(/^\d{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=117&&STATUS_NAMES[status])result.chapterStatus[num]=status;
+  if(validChapterNumber(num)&&STATUS_NAMES[status])result.chapterStatus[num]=status;
  }
  for(const [num,note] of Object.entries(value.chapterNotes||{})){
-  if(/^\d{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=117&&typeof note==='string')result.chapterNotes[num]=note.slice(0,10000);
+  if(validChapterNumber(num)&&typeof note==='string')result.chapterNotes[num]=note.slice(0,10000);
  }
  for(const [num,date] of Object.entries(value.chapterEdited||{})){
-  if(/^\d{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=117&&typeof date==='string')result.chapterEdited[num]=date.slice(0,35);
+  if(validChapterNumber(num)&&typeof date==='string')result.chapterEdited[num]=date.slice(0,35);
  }
+ for(const [num,date] of Object.entries(value.chapterCorrectedAt||{})){
+  if(validChapterNumber(num)&&typeof date==='string')result.chapterCorrectedAt[num]=date.slice(0,35);
+ }
+ for(const [num,date] of Object.entries(value.chapterFinalAt||{})){
+  if(validChapterNumber(num)&&typeof date==='string')result.chapterFinalAt[num]=date.slice(0,35);
+ }
+ const observed=Object.keys({...result.chapterStatus,...result.chapterNotes,...result.chapterEdited,...result.chapterCorrectedAt,...result.chapterFinalAt})
+  .map(Number).filter(Number.isFinite);
+ const observedMax=observed.length?Math.max(...observed):0;
+ const requested=Number.isInteger(value.chapterCount)?value.chapterCount:0;
+ result.chapterCount=Math.min(MAX_CHAPTERS,Math.max(baseCount,observedMax,requested));
  return result;
 }
+function buildChapters(){
+ const byNumber=new Map(baseChapters.map(c=>[c.number,c]));
+ chapters=Array.from({length:state.chapterCount},(_,i)=>{
+  const number=i+1;
+  return byNumber.get(number)||{number,title:'Capítulo '+number};
+ });
+ updateChapterLabels();
+}
+function updateChapterLabels(){
+ const n=chapters.length;
+ if($('hero-chapter-count'))$('hero-chapter-count').textContent=n;
+ if($('chapter-heading-total'))$('chapter-heading-total').textContent=n;
+ if($('chapter-total-control'))$('chapter-total-control').textContent=n;
+}
 function gate(message=''){
- ++generation;clearTimeout(saveTimer);owner=null;chapters=[];state=empty();
+ ++generation;clearTimeout(saveTimer);owner=null;chapters=[];baseChapters=[];state=empty();
  $('loading-state').hidden=true;$('private-app').hidden=true;$('gate').hidden=false;
  $('chapter-list').replaceChildren();$('footer-state').textContent='Acceso restringido';
  $('login-error').textContent=message;
@@ -37,7 +65,7 @@ function countStatuses(){
  return counts;
 }
 function updateStats(){
- const n=chapters.length||117,counts=countStatuses(),ready=counts.corregido+counts.final;
+ const n=chapters.length||1,counts=countStatuses(),ready=counts.corregido+counts.final;
  $('count-review').textContent=counts['por-revisar'];
  $('count-clean').textContent=counts['por-limpiar'];
  $('count-corrected').textContent=counts.corregido;
@@ -68,7 +96,71 @@ function save(delay=350){
   });
  },delay);
 }
-function touch(num){state.chapterEdited[num]=new Date().toISOString();}
+function touch(num,iso=new Date().toISOString()){state.chapterEdited[num]=iso;}
+function registerMilestones(num,newStatus,iso=new Date().toISOString()){
+ if((newStatus==='corregido'||newStatus==='final')&&!state.chapterCorrectedAt[num])state.chapterCorrectedAt[num]=iso;
+ if(newStatus==='final'&&!state.chapterFinalAt[num])state.chapterFinalAt[num]=iso;
+}
+function migrateMilestones(){
+ let changed=false;
+ for(const c of chapters){
+  const num=c.number,current=status(num),stamp=state.chapterEdited[num];
+  if(!stamp)continue;
+  if((current==='corregido'||current==='final')&&!state.chapterCorrectedAt[num]){state.chapterCorrectedAt[num]=stamp;changed=true;}
+  if(current==='final'&&!state.chapterFinalAt[num]){state.chapterFinalAt[num]=stamp;changed=true;}
+ }
+ return changed;
+}
+function dayKey(date){
+ const d=date instanceof Date?date:new Date(date);
+ if(Number.isNaN(d.getTime()))return '';
+ return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+}
+function recentDays(count){
+ const now=new Date();now.setHours(12,0,0,0);
+ return Array.from({length:count},(_,i)=>{
+  const date=new Date(now);date.setDate(now.getDate()-(count-1-i));
+  return {key:dayKey(date),date};
+ });
+}
+function milestoneCounts(source,days){
+ const allowed=new Set(days.map(d=>d.key)),counts=Object.fromEntries(days.map(d=>[d.key,0]));
+ for(const value of Object.values(source)){
+  const key=dayKey(value);
+  if(allowed.has(key))counts[key]++;
+ }
+ return counts;
+}
+function updateActivity(){
+ const days=recentDays(ACTIVITY_DAYS);
+ const corrected=milestoneCounts(state.chapterCorrectedAt,days);
+ const finalised=milestoneCounts(state.chapterFinalAt,days);
+ const today=days.at(-1).key,last7=days.slice(-7).map(d=>d.key);
+ $('today-corrected').textContent=corrected[today]||0;
+ $('today-final').textContent=finalised[today]||0;
+ $('week-corrected').textContent=last7.reduce((sum,key)=>sum+(corrected[key]||0),0);
+ $('week-final').textContent=last7.reduce((sum,key)=>sum+(finalised[key]||0),0);
+ const max=Math.max(1,...days.flatMap(d=>[corrected[d.key]||0,finalised[d.key]||0]));
+ const chart=$('activity-chart');chart.replaceChildren();
+ const fmt=new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit'});
+ for(const {key,date} of days){
+  const group=mk('div','garay-chart-day');
+  const bars=mk('div','garay-chart-bars');
+  const a=mk('span','garay-bar garay-bar-corrected');
+  const b=mk('span','garay-bar garay-bar-final');
+  const ca=corrected[key]||0,fb=finalised[key]||0;
+  a.style.setProperty('--bar-height',(ca/max*100)+'%');
+  b.style.setProperty('--bar-height',(fb/max*100)+'%');
+  a.title=ca+' corregido'+(ca===1?'':'s')+' · '+fmt.format(date);
+  b.title=fb+' final'+(fb===1?'':'es')+' · '+fmt.format(date);
+  bars.append(a,b);
+  const values=mk('small','garay-chart-values',ca+' · '+fb);
+  const label=mk('span','garay-chart-label',fmt.format(date));
+  group.append(bars,values,label);chart.append(group);
+ }
+ const known=Object.keys(state.chapterCorrectedAt).length+Object.keys(state.chapterFinalAt).length;
+ $('activity-note').textContent=known?'Cada columna muestra corregidos · finales. Los hitos se cuentan una sola vez por capítulo.':'El historial empezará a dibujarse cuando marques capítulos como «Corregido» o «Final».';
+}
 function matches(c){
  const filter=$('chapter-filter').value;
  if(filter!=='all'&&filter!==status(c.number))return false;
@@ -97,7 +189,8 @@ function render(){
   for(const [value,label] of STATUSES){const opt=mk('option','',label);opt.value=value;select.append(opt);}
   select.value=status(num);
   select.addEventListener('change',()=>{
-   state.chapterStatus[num]=select.value;touch(num);save();updateStats();
+   const iso=new Date().toISOString();
+   state.chapterStatus[num]=select.value;touch(num,iso);registerMilestones(num,select.value,iso);save();updateStats();updateActivity();
    article.dataset.status=select.value;
    if($('chapter-filter').value!=='all')render();
   });
@@ -126,6 +219,14 @@ function render(){
   row.append(number,main,select,detail);article.append(row,notePanel);root.append(article);
  }
 }
+function addChapters(amount){
+ const count=Math.max(1,Math.min(50,Number(amount)||1));
+ if(state.chapterCount+count>MAX_CHAPTERS){$('garay-sync').textContent='El tablero admite hasta '+MAX_CHAPTERS+' capítulos.';return;}
+ state.chapterCount+=count;buildChapters();save(0);updateStats();updateActivity();render();
+ $('garay-sync').textContent='Se agregaron '+count+' capítulo'+(count===1?'':'s')+'.';
+ const first=state.chapterCount-count+1;
+ requestAnimationFrame(()=>document.getElementById('cap-'+first)?.scrollIntoView({behavior:'smooth',block:'center'}));
+}
 async function load(){
  const gen=++generation;
  $('loading-state').hidden=false;$('gate').hidden=true;$('private-app').hidden=true;
@@ -137,17 +238,20 @@ async function load(){
  if(gen!==generation)return;
  if(dossier.error||!Array.isArray(dossier.data?.catalog)){gate('No se pudo abrir el proyecto privado.');return;}
  const list=dossier.data.catalog
-  .filter(x=>Number.isInteger(x?.number)&&x.number>=1&&x.number<=117)
+  .filter(x=>Number.isInteger(x?.number)&&x.number>=1&&x.number<=MAX_CHAPTERS)
   .sort((a,b)=>a.number-b.number);
- if(list.length!==117||new Set(list.map(x=>x.number)).size!==117){gate('El catálogo de capítulos no está completo.');return;}
+ if(!list.length||new Set(list.map(x=>x.number)).size!==list.length){gate('El catálogo base de capítulos no es válido.');return;}
+ const baseCount=Math.max(...list.map(x=>x.number));
  const progress=await client.from('iv_progress').select('data').eq('owner_id',user.id).eq('dossier_slug',DOSSIER).maybeSingle();
  if(gen!==generation)return;
  if(progress.error){gate('No se pudieron cargar los estados editoriales.');return;}
- owner=user;chapters=list;state=normalise(progress.data?.data);
+ owner=user;baseChapters=list;state=normalise(progress.data?.data,baseCount);buildChapters();
+ const migrated=migrateMilestones();
  $('loading-state').hidden=true;$('gate').hidden=true;$('private-app').hidden=false;
  $('footer-state').textContent='Cuenta autorizada';
  $('garay-sync').textContent='Progreso privado sincronizado.';
- updateStats();render();
+ updateStats();updateActivity();render();
+ if(migrated)save(0);
 }
 $('chapter-search').addEventListener('input',render);
 $('chapter-filter').addEventListener('change',render);
@@ -156,6 +260,10 @@ $('next-review').addEventListener('click',()=>{
  const next=chapters.find(c=>status(c.number)==='por-revisar');
  if(next)document.getElementById('cap-'+next.number)?.scrollIntoView({behavior:'smooth',block:'center'});
  else $('garay-sync').textContent='No quedan capítulos en «Por revisar».';
+});
+$('add-chapters-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const input=$('add-chapters-count');addChapters(input.value);input.value='1';
 });
 $('login-form').addEventListener('submit',async event=>{
  event.preventDefault();
