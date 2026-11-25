@@ -731,3 +731,10 @@
   .project-area-heading{align-items:flex-start;flex-direction:column;gap:5px}
   .archive-row{align-items:flex-start;flex-direction:column;gap:12px;padding:15px}
 }
+
+/* Serie editorial de portadas: un mismo campo visual y papel neutro. */
+.research-project-card.research-project-with-art{grid-template-columns:minmax(0,1fr) minmax(120px,.82fr);grid-template-rows:1fr auto;min-height:280px}
+.research-project-with-art .project-engraving{width:100%;height:auto;aspect-ratio:4/3;max-height:220px;object-fit:contain;object-position:center;filter:grayscale(1) brightness(1.09) contrast(1.10);mix-blend-mode:multiply;background:transparent;opacity:1;}
+.research-project-with-art .project-engraving[data-cover="garay"]{mask-image:linear-gradient(to right,transparent,black 7%,black 93%,transparent),linear-gradient(to bottom,transparent,black 4%,black 92%,transparent);mask-composite:intersect;}
+.research-project-with-art .project-engraving[data-cover="el-carpintero"],.research-project-with-art .project-engraving[data-cover="alquimia"]{filter:grayscale(1) contrast(1.07);}
+@media(max-width:440px){.research-project-card.research-project-with-art{grid-template-columns:minmax(0,1fr) minmax(85px,35%);min-height:230px;gap:12px}.research-project-with-art .project-engraving{max-height:160px}}
