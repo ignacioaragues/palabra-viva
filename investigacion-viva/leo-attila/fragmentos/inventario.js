@@ -1,7 +1,9 @@
 // Inventario editorial de traducciones parciales del proyecto León / Atila.
 // No se confunde con el estado personal de lectura. Referencias r027–r054 del catálogo privado.
+export const completed = [
+  {id:'r030', title:'Hidacio · Chronicon', finished:15, coverage:'Selección pertinente cerrada en primera versión: prólogo 5 y 7; §§ 92–96, 98–101, 103, 107–108, 110–112, 116–117, 128, 133, 135, 145–154, 156–157, 159–167, 169–170, 173, 183–185, 216 (numeración CODOLGA). Incluye todas las menciones directas de Atila en el tramo central, contexto de Aecio y León, providencia, diplomacia y crisis imperial. Se excluyen noticias locales sin conexión directa. §§ 150 y 154 completos y unificados con CODOLGA. Queda la revisión crítica de las quince lecturas con Mommsen (1894) y Burgess (1993). Siguiente fuente: r031, Chronica Gallica a. 452.'}
+];
 export const inProgress = [
-  {id:'r030', title:'Hidacio · Chronicon', finished:10, remaining:'Diez lecturas: §§ 92–96, 98–101, 103, 107–108, 110–112, 116–117, 128, 133, 135, 145–148, 150 (parcial), 154, 160–166 (162 parcial). Siguiente: §§ 149–153 (presagios, muerte de Teodorico, sucesión y campaña italiana), segunda parte de § 162 y § 167 (Máximo y saqueo vándalo), y evaluar §§ 157, 169–170 y 183–185 para contexto final. Revisar las lecturas 451–453 frente a CODOLGA y numeración crítica. Luego cerrar selección r030 y pasar a r031.'},
   {id:'r027', title:'Prisco de Panio · embajada a Atila', finished:13,
    remaining:'La audiencia posterior con Atila; el diálogo con los embajadores occidentales y la hipótesis de una campaña persa; los banquetes, gestos y negociaciones ulteriores de la misión.'},
   {id:'r029', title:'Próspero de Aquitania · Chronicon', finished:2,
