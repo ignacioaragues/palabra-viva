@@ -6,12 +6,13 @@ const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
 const DOSSIER='garay';
 const MAX_CHAPTERS=999;
 const ACTIVITY_DAYS=14;
+const PARTS=['I','II','III','IV','V'];
 const STATUSES=[['por-revisar','Por revisar'],['por-limpiar','Por limpiar'],['corregido','Corregido'],['final','Final']];
 const STATUS_NAMES=Object.fromEntries(STATUSES);
 const $=id=>document.getElementById(id);
 const mk=(tag,cls,txt)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node;};
 let owner=null,chapters=[],baseChapters=[],state=empty(),saveTimer=null,saveQueue=Promise.resolve(),generation=0;
-function empty(){return {version:2,chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
+function empty(){return {version:3,partRanges:{},chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
 function validChapterNumber(num){return /^[0-9]{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=MAX_CHAPTERS;}
 function normalise(value,baseCount=0){
  const result=empty();
@@ -36,7 +37,22 @@ function normalise(value,baseCount=0){
  const observedMax=observed.length?Math.max(...observed):0;
  const requested=Number.isInteger(value.chapterCount)?value.chapterCount:0;
  result.chapterCount=Math.min(MAX_CHAPTERS,Math.max(baseCount,observedMax,requested));
+ // Preserve old progress and accept only valid, ordered, non-overlapping ranges.
+ result.partRanges=normaliseRanges(value.partRanges,result.chapterCount);
  return result;
+}
+function normaliseRanges(raw,total){
+ const out={};let last=0;
+ for(const part of PARTS){
+  const r=raw?.[part];
+  if(r&&Number.isInteger(r.start)&&Number.isInteger(r.end)&&r.start>last&&r.end>=r.start&&r.end<=total){
+   out[part]={start:r.start,end:r.end};last=r.end;
+  }
+ }
+ return out;
+}
+function partOf(num){
+ return PARTS.find(p=>{const r=state.partRanges[p];return r&&num>=r.start&&num<=r.end;})||'none';
 }
 function buildChapters(){
  const byNumber=new Map(baseChapters.map(c=>[c.number,c]));
@@ -45,6 +61,7 @@ function buildChapters(){
   return byNumber.get(number)||{number,title:'Capítulo '+number};
  });
  updateChapterLabels();
+ for(const input of document.querySelectorAll('#garay-parts input'))input.max=state.chapterCount;
 }
 function updateChapterLabels(){
  const n=chapters.length;
@@ -75,6 +92,7 @@ function updateStats(){
  $('ready-percent').textContent=(ready/n*100).toFixed(1).replace('.',',')+' % del total';
  $('final-count').textContent=counts.final+' / '+n;
  $('final-fill').style.width=(counts.final/n*100)+'%';
+ updatePartStats();
 }
 function save(delay=350){
  if(!owner)return;
@@ -162,6 +180,8 @@ function updateActivity(){
  $('activity-note').textContent=known?'Cada columna muestra corregidos · finales. Los hitos se cuentan una sola vez por capítulo.':'El historial empezará a dibujarse cuando marques capítulos como «Corregido» o «Final».';
 }
 function matches(c){
+ const partFilter=$('chapter-part-filter').value;
+ if(partFilter!=='all'&&partFilter!==partOf(c.number))return false;
  const filter=$('chapter-filter').value;
  if(filter!=='all'&&filter!==status(c.number))return false;
  const q=$('chapter-search').value.toLowerCase().trim();
@@ -172,10 +192,16 @@ function matches(c){
 function render(){
  const root=$('chapter-list');root.replaceChildren();
  const list=chapters.filter(matches);
+ for(const p of [...PARTS,'none'])$('part-stat-'+p)?.setAttribute('aria-pressed',String($('chapter-part-filter').value===p));
  $('chapter-results').textContent=list.length+' de '+chapters.length+' capítulos';
  if(!list.length){root.append(mk('p','garay-empty','No hay capítulos que coincidan con este filtro.'));return;}
+ let previous=null;
  for(const c of list){
-  const num=c.number;
+  const num=c.number,part=partOf(num);
+  if(part!==previous){
+   const heading=mk('h3','garay-part-heading',part==='none'?'Sin asignar':'Parte '+part);
+   root.append(heading);previous=part;
+  }
   const article=mk('article','garay-chapter');article.id='cap-'+num;article.dataset.status=status(num);
   const row=mk('div','garay-chapter-row');
   const number=mk('span','garay-number',String(num).padStart(3,'0'));
@@ -222,7 +248,7 @@ function render(){
 function addChapters(amount){
  const count=Math.max(1,Math.min(50,Number(amount)||1));
  if(state.chapterCount+count>MAX_CHAPTERS){$('garay-sync').textContent='El tablero admite hasta '+MAX_CHAPTERS+' capítulos.';return;}
- state.chapterCount+=count;buildChapters();save(0);updateStats();updateActivity();render();
+ state.chapterCount+=count;$('chapter-part-filter').value='all';$('chapter-filter').value='all';$('chapter-search').value='';buildChapters();save(0);updateStats();updateActivity();render();
  $('garay-sync').textContent='Se agregaron '+count+' capítulo'+(count===1?'':'s')+'.';
  const first=state.chapterCount-count+1;
  requestAnimationFrame(()=>document.getElementById('cap-'+first)?.scrollIntoView({behavior:'smooth',block:'center'}));
@@ -250,13 +276,82 @@ async function load(){
  $('loading-state').hidden=true;$('gate').hidden=true;$('private-app').hidden=false;
  $('footer-state').textContent='Cuenta autorizada';
  $('garay-sync').textContent='Progreso privado sincronizado.';
- updateStats();updateActivity();render();
+ fillPartForm();$('chapter-part-filter').value='all';updateStats();updateActivity();render();
  if(migrated)save(0);
 }
+function updatePartStats(){
+ for(const part of [...PARTS,'none']){
+  const list=chapters.filter(c=>partOf(c.number)===part);
+  const ready=list.filter(c=>['corregido','final'].includes(status(c.number))).length;
+  const final=list.filter(c=>status(c.number)==='final').length;
+  const el=$('part-stat-'+part);
+  if(!el)continue;
+  el.querySelector('small').textContent=list.length?ready+' / '+list.length+' corregidos o finales · '+final+' finales':(part==='none'?'Ningún capítulo':'Sin definir');
+  el.querySelector('.garay-meter>div').style.width=(list.length?100*ready/list.length:0)+'%';
+ }
+}
+function fillPartForm(){
+ for(const p of PARTS){
+  const r=state.partRanges[p];
+  $('part-start-'+p).value=r?.start??'';
+  $('part-end-'+p).value=r?.end??'';
+ }
+ $('part-error').textContent='';
+}
+function installParts(){
+ const style=mk('style');style.textContent=
+ '#garay-parts{margin:20px 0;padding:20px;border:1px solid var(--line);background:var(--white)}.garay-part-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0 16px}.garay-part-card{display:grid;gap:8px;text-align:left;background:transparent;border:1px solid var(--line);padding:10px;color:var(--deep);cursor:pointer}.garay-part-card strong{font:18px var(--serif)}.garay-part-card small{font:10px/1.4 var(--sans);color:var(--muted)}.garay-part-card[aria-pressed=true]{border-color:var(--sage);background:#eef1e9}.garay-part-heading{font:400 22px var(--serif);margin:18px 0 4px;color:var(--deep);border-bottom:1px solid var(--line);padding-bottom:6px}.garay-part-range{display:grid;grid-template-columns:90px minmax(80px,150px) minmax(80px,150px);align-items:end;gap:10px;margin:8px 0}.garay-part-range label{font:10px var(--sans);color:var(--muted)}.garay-part-range input{display:block;width:100%;margin-top:4px}.garay-part-config summary{cursor:pointer;color:var(--deep);font:600 12px var(--sans)}.garay-part-config p{font:12px/1.5 var(--sans);color:var(--muted)}.garay-part-config form{margin-top:12px}.garay-part-config .garay-outline{margin-top:8px}.garay-filterbar{grid-template-columns:minmax(120px,1fr) minmax(115px,170px) minmax(115px,170px) auto}@media(max-width:950px){.garay-filterbar{grid-template-columns:1fr 1fr}}@media(max-width:640px){.garay-filterbar{grid-template-columns:1fr}.garay-part-range{grid-template-columns:70px 1fr 1fr}}';
+ document.head.append(style);
+ const box=mk('section');box.id='garay-parts';box.setAttribute('aria-label','Partes de la novela');
+ box.append(mk('h3','garay-part-heading','Las cinco partes'));
+ const summary=mk('div','garay-part-summary');
+ const filter=mk('select');filter.id='chapter-part-filter';
+ for(const p of ['all',...PARTS,'none']){
+  const label=p==='all'?'Todas las partes':p==='none'?'Sin asignar':'Parte '+p;
+  const opt=mk('option','',label);opt.value=p;filter.append(opt);
+  if(p==='all')continue;
+  const btn=mk('button','garay-part-card');btn.type='button';btn.id='part-stat-'+p;btn.setAttribute('aria-pressed','false');
+  const meter=mk('div','garay-meter');meter.append(mk('div'));
+  btn.append(mk('strong','',label),mk('small','','—'),meter);
+  btn.addEventListener('click',()=>{filter.value=filter.value===p?'all':p;render();});
+  summary.append(btn);
+ }
+ const details=mk('details','garay-part-config');
+ details.append(mk('summary','','Configurar los capítulos de cada parte'),mk('p','','Indicá el primer y el último capítulo de cada parte. Dejá ambos vacíos si todavía no conocés el rango. Los rangos deben seguir el orden de la novela y no superponerse.'));
+ const form=mk('form');
+ for(const p of PARTS){
+  const row=mk('div','garay-part-range');row.append(mk('strong','','Parte '+p));
+  for(const [key,label] of [['start','Desde'],['end','Hasta']]){
+   const l=mk('label','',label),input=mk('input');input.type='number';input.min=1;input.step=1;input.max=MAX_CHAPTERS;input.id='part-'+key+'-'+p;l.append(input);row.append(l);
+  }
+  form.append(row);
+ }
+ const submit=mk('button','garay-outline','Guardar división');submit.type='submit';
+ const error=mk('p','error');error.id='part-error';error.setAttribute('role','status');
+ form.append(submit,error);details.append(form);box.append(summary,details);
+ const bar=document.querySelector('.garay-filterbar');bar.before(box);
+ const label=mk('label','','Filtrar por parte');label.append(filter);bar.insertBefore(label,$('next-review'));
+ filter.addEventListener('change',render);
+ form.addEventListener('submit',event=>{
+  event.preventDefault();const ranges={};let last=0;
+  for(const p of PARTS){
+   const a=$('part-start-'+p).value,b=$('part-end-'+p).value;
+   if(!a&&!b)continue;
+   const start=Number(a),end=Number(b);
+   if(!a||!b||!Number.isInteger(start)||!Number.isInteger(end)||start<=last||end<start||end>state.chapterCount){
+    error.textContent='Revisá el rango de la parte '+p+': debe ser completo, estar ordenado y quedar dentro del total de capítulos.';return;
+   }
+   ranges[p]={start,end};last=end;
+  }
+  state.partRanges=ranges;save(0);updatePartStats();render();error.textContent='División actualizada.';
+ });
+}
+installParts();
 $('chapter-search').addEventListener('input',render);
 $('chapter-filter').addEventListener('change',render);
 $('next-review').addEventListener('click',()=>{
  $('chapter-search').value='';$('chapter-filter').value='all';render();
+ $('chapter-part-filter').value='all';render();
  const next=chapters.find(c=>status(c.number)==='por-revisar');
  if(next)document.getElementById('cap-'+next.number)?.scrollIntoView({behavior:'smooth',block:'center'});
  else $('garay-sync').textContent='No quedan capítulos en «Por revisar».';
