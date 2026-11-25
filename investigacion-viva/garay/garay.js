@@ -6,13 +6,14 @@ const client=createClient('https://nzjdlqanbclsfwwstkwi.supabase.co',
 const DOSSIER='garay';
 const MAX_CHAPTERS=999;
 const ACTIVITY_DAYS=14;
-const PARTS=['I','II','III','IV','V'];
+const PARTS=['I','II','III','IV','V','VI'];
+const partLabel=p=>p==='VI'?'Epílogo':p==='none'?'Sin asignar':'Parte '+p;
 const STATUSES=[['por-revisar','Por revisar'],['por-limpiar','Por limpiar'],['corregido','Corregido'],['final','Final']];
 const STATUS_NAMES=Object.fromEntries(STATUSES);
 const $=id=>document.getElementById(id);
 const mk=(tag,cls,txt)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node;};
 let owner=null,chapters=[],baseChapters=[],state=empty(),saveTimer=null,saveQueue=Promise.resolve(),generation=0;
-function empty(){return {version:3,partRanges:{},chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
+function empty(){return {version:4,partRanges:{},chapterCount:0,chapterStatus:{},chapterNotes:{},chapterEdited:{},chapterCorrectedAt:{},chapterFinalAt:{}};}
 function validChapterNumber(num){return /^[0-9]{1,3}$/.test(num)&&Number(num)>=1&&Number(num)<=MAX_CHAPTERS;}
 function normalise(value,baseCount=0){
  const result=empty();
@@ -88,9 +89,10 @@ function updateStats(){
  $('count-corrected').textContent=counts.corregido;
  $('count-final').textContent=counts.final;
  $('ready-count').replaceChildren(document.createTextNode(ready+' '),mk('small','','/ '+n));
- $('ready-fill').style.width=(ready/n*100)+'%';
+ paintMeter($('ready-fill').parentElement,counts.corregido,counts.final,chapters.length);
  $('ready-percent').textContent=(ready/n*100).toFixed(1).replace('.',',')+' % del total';
  $('final-count').textContent=counts.final+' / '+n;
+ $('final-fill').className='garay-segment-final';
  $('final-fill').style.width=(counts.final/n*100)+'%';
  updatePartStats();
 }
@@ -199,7 +201,7 @@ function render(){
  for(const c of list){
   const num=c.number,part=partOf(num);
   if(part!==previous){
-   const heading=mk('h3','garay-part-heading',part==='none'?'Sin asignar':'Parte '+part);
+   const heading=mk('h3','garay-part-heading',partLabel(part));
    root.append(heading);previous=part;
   }
   const article=mk('article','garay-chapter');article.id='cap-'+num;article.dataset.status=status(num);
@@ -279,15 +281,36 @@ async function load(){
  fillPartForm();$('chapter-part-filter').value='all';updateStats();updateActivity();render();
  if(migrated)save(0);
 }
+function meterWidths(corrected,final,total){
+ return {corrected:total?100*corrected/total:0,final:total?100*final/total:0};
+}
+function paintMeter(meter,corrected,final,total){
+ let correctedBar=meter.querySelector('.garay-segment-corrected');
+ if(!correctedBar){correctedBar=meter.querySelector('div')||mk('div');correctedBar.className='garay-segment-corrected';if(!correctedBar.parentElement)meter.append(correctedBar);}
+ let finalBar=meter.querySelector('.garay-segment-final');
+ if(!finalBar){finalBar=mk('div','garay-segment-final');meter.prepend(finalBar);}
+ const w=meterWidths(corrected,final,total);
+ correctedBar.style.width=w.corrected+'%';finalBar.style.width=w.final+'%';
+ meter.setAttribute('role','img');
+ meter.setAttribute('aria-label',final+' finales, '+corrected+' corregidos, '+Math.max(0,total-final-corrected)+' pendientes de '+total);
+ meter.title=final+' finales · '+corrected+' corregidos · '+Math.max(0,total-final-corrected)+' pendientes';
+}
+function meterLegend(){
+ const legend=mk('div','garay-meter-legend');
+ for(const [cls,label] of [['garay-segment-final','Finales'],['garay-segment-corrected','Corregidos'],['garay-segment-pending','Pendientes']]){
+  const item=mk('span');item.append(mk('i',cls),document.createTextNode(label));legend.append(item);
+ }
+ return legend;
+}
 function updatePartStats(){
  for(const part of [...PARTS,'none']){
   const list=chapters.filter(c=>partOf(c.number)===part);
-  const ready=list.filter(c=>['corregido','final'].includes(status(c.number))).length;
+  const corrected=list.filter(c=>status(c.number)==='corregido').length;
   const final=list.filter(c=>status(c.number)==='final').length;
   const el=$('part-stat-'+part);
   if(!el)continue;
-  el.querySelector('small').textContent=list.length?ready+' / '+list.length+' corregidos o finales · '+final+' finales':(part==='none'?'Ningún capítulo':'Sin definir');
-  el.querySelector('.garay-meter>div').style.width=(list.length?100*ready/list.length:0)+'%';
+  el.querySelector('small').textContent=list.length?corrected+' corregidos · '+final+' finales / '+list.length:(part==='none'?'Ningún capítulo':'Sin definir');
+  paintMeter(el.querySelector('.garay-meter'),corrected,final,list.length);
  }
 }
 function fillPartForm(){
@@ -301,13 +324,15 @@ function fillPartForm(){
 function installParts(){
  const style=mk('style');style.textContent=
  '#garay-parts{margin:20px 0;padding:20px;border:1px solid var(--line);background:var(--white)}.garay-part-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0 16px}.garay-part-card{display:grid;gap:8px;text-align:left;background:transparent;border:1px solid var(--line);padding:10px;color:var(--deep);cursor:pointer}.garay-part-card strong{font:18px var(--serif)}.garay-part-card small{font:10px/1.4 var(--sans);color:var(--muted)}.garay-part-card[aria-pressed=true]{border-color:var(--sage);background:#eef1e9}.garay-part-heading{font:400 22px var(--serif);margin:18px 0 4px;color:var(--deep);border-bottom:1px solid var(--line);padding-bottom:6px}.garay-part-range{display:grid;grid-template-columns:90px minmax(80px,150px) minmax(80px,150px);align-items:end;gap:10px;margin:8px 0}.garay-part-range label{font:10px var(--sans);color:var(--muted)}.garay-part-range input{display:block;width:100%;margin-top:4px}.garay-part-config summary{cursor:pointer;color:var(--deep);font:600 12px var(--sans)}.garay-part-config p{font:12px/1.5 var(--sans);color:var(--muted)}.garay-part-config form{margin-top:12px}.garay-part-config .garay-outline{margin-top:8px}.garay-filterbar{grid-template-columns:minmax(120px,1fr) minmax(115px,170px) minmax(115px,170px) auto}@media(max-width:950px){.garay-filterbar{grid-template-columns:1fr 1fr}}@media(max-width:640px){.garay-filterbar{grid-template-columns:1fr}.garay-part-range{grid-template-columns:70px 1fr 1fr}}';
+ style.textContent+='.garay-meter{display:flex}.garay-meter>div{flex:0 0 auto}.garay-meter>div.garay-segment-corrected,.garay-meter-legend i.garay-segment-corrected{background:#668b75}.garay-meter>div.garay-segment-final,.garay-meter-legend i.garay-segment-final{background:#a56d4c}.garay-meter-legend i.garay-segment-pending{background:#e5e9e2}.garay-meter-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:7px;color:var(--muted)}.garay-meter-legend span{display:inline-flex;gap:5px;align-items:center;font:10px var(--sans);letter-spacing:0}.garay-meter-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;flex:none}.garay-part-summary{grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}';
  document.head.append(style);
+ $('ready-percent').after(meterLegend());
  const box=mk('section');box.id='garay-parts';box.setAttribute('aria-label','Partes de la novela');
- box.append(mk('h3','garay-part-heading','Las cinco partes'));
+ box.append(mk('h3','garay-part-heading','Las cinco partes y el epílogo'));
  const summary=mk('div','garay-part-summary');
  const filter=mk('select');filter.id='chapter-part-filter';
  for(const p of ['all',...PARTS,'none']){
-  const label=p==='all'?'Todas las partes':p==='none'?'Sin asignar':'Parte '+p;
+  const label=p==='all'?'Todas las partes':partLabel(p);
   const opt=mk('option','',label);opt.value=p;filter.append(opt);
   if(p==='all')continue;
   const btn=mk('button','garay-part-card');btn.type='button';btn.id='part-stat-'+p;btn.setAttribute('aria-pressed','false');
@@ -320,7 +345,7 @@ function installParts(){
  details.append(mk('summary','','Configurar los capítulos de cada parte'),mk('p','','Indicá el primer y el último capítulo de cada parte. Dejá ambos vacíos si todavía no conocés el rango. Los rangos deben seguir el orden de la novela y no superponerse.'));
  const form=mk('form');
  for(const p of PARTS){
-  const row=mk('div','garay-part-range');row.append(mk('strong','','Parte '+p));
+  const row=mk('div','garay-part-range');row.append(mk('strong','',partLabel(p)));
   for(const [key,label] of [['start','Desde'],['end','Hasta']]){
    const l=mk('label','',label),input=mk('input');input.type='number';input.min=1;input.step=1;input.max=MAX_CHAPTERS;input.id='part-'+key+'-'+p;l.append(input);row.append(l);
   }
@@ -328,7 +353,7 @@ function installParts(){
  }
  const submit=mk('button','garay-outline','Guardar división');submit.type='submit';
  const error=mk('p','error');error.id='part-error';error.setAttribute('role','status');
- form.append(submit,error);details.append(form);box.append(summary,details);
+ form.append(submit,error);details.append(form);box.append(summary,meterLegend(),details);
  const bar=document.querySelector('.garay-filterbar');bar.before(box);
  const label=mk('label','','Filtrar por parte');label.append(filter);bar.insertBefore(label,$('next-review'));
  filter.addEventListener('change',render);
@@ -339,7 +364,7 @@ function installParts(){
    if(!a&&!b)continue;
    const start=Number(a),end=Number(b);
    if(!a||!b||!Number.isInteger(start)||!Number.isInteger(end)||start<=last||end<start||end>state.chapterCount){
-    error.textContent='Revisá el rango de la parte '+p+': debe ser completo, estar ordenado y quedar dentro del total de capítulos.';return;
+    error.textContent='Revisá el rango de '+partLabel(p)+': debe ser completo, estar ordenado y quedar dentro del total de capítulos.';return;
    }
    ranges[p]={start,end};last=end;
   }
