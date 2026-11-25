@@ -1,7 +1,7 @@
 import '../../auto-reading.js?v=20261119-auto2';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
-import { passages, renderPassage } from '../fragmentos.js?v=20261125-hydatius3';
-import {inProgress,pending} from './inventario.js?v=20261125-hydatius3';
+import { passages, renderPassage } from '../fragmentos.js?v=20261125-hydatius4';
+import {completed,inProgress,pending} from './inventario.js?v=20261125-hydatius4';
 
 const dossier = '../';
 const listing = './';
@@ -45,8 +45,21 @@ function buildPendingInventory(){
   section.id='pendientes';
   const title=document.createElement('h2');title.textContent='Inventario de traducciones pendientes';
   const desc=document.createElement('p');desc.className='iv-pending-summary';
-  desc.textContent=`${inProgress.length+pending.length} fuentes históricas seleccionadas: ${inProgress.length} en curso y ${pending.length} por comenzar. ${passages.length} pasajes traducidos en total. Este estado editorial no modifica tus casillas de lectura.`;
+  desc.textContent=`${completed.length+inProgress.length+pending.length} fuentes históricas seleccionadas: ${completed.length} con selección cerrada, ${inProgress.length} en curso y ${pending.length} por comenzar. ${passages.length} pasajes traducidos en total. Este estado editorial no modifica tus casillas de lectura.`;
   section.append(title,desc);
+  if(completed.length){
+    const heading=document.createElement('h3');heading.textContent='Selección cerrada · '+completed.length+' fuentes';
+    section.append(heading);
+    const finished=document.createElement('div');finished.className='iv-pending-running';
+    for(const item of completed){
+      const entry=document.createElement('article');entry.className='iv-pending-entry';
+      const h=document.createElement('h4');h.textContent=item.title;
+      const detail=document.createElement('p');detail.textContent=item.coverage;
+      const meta=document.createElement('small');meta.textContent=item.id+' · '+passages.filter(p=>p.reference===item.id).length+' lecturas · primera versión completa';
+      entry.append(h,meta,detail);finished.append(entry);
+    }
+    section.append(finished);
+  }
   const inProgressTitle=document.createElement('h3');
   inProgressTitle.textContent='En curso · '+inProgress.length+' fuentes';
   section.append(inProgressTitle);
@@ -55,7 +68,7 @@ function buildPendingInventory(){
     const entry=document.createElement('article');entry.className='iv-pending-entry';
     const h=document.createElement('h4');h.textContent=item.title;
     const detail=document.createElement('p');detail.textContent=item.remaining;
-    const meta=document.createElement('small');meta.textContent=item.id+' · '+item.finished+' fragmentos publicados · faltan otros pasajes';
+    const meta=document.createElement('small');meta.textContent=item.id+' · '+passages.filter(p=>p.reference===item.id).length+' fragmentos publicados · faltan otros pasajes';
     entry.append(h,meta,detail);running.append(entry);
   }
   section.append(running);
