@@ -1,7 +1,7 @@
 import '../../auto-reading.js?v=20261119-auto2';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
-import { passages, renderPassage } from '../fragmentos.js?v=20261125-hydatius2';
-import {inProgress,pending} from './inventario.js?v=20261125-hydatius2';
+import { passages, renderPassage } from '../fragmentos.js?v=20261125-hydatius3';
+import {inProgress,pending} from './inventario.js?v=20261125-hydatius3';
 
 const dossier = '../';
 const listing = './';
