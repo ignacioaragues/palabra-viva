@@ -310,16 +310,16 @@ export const passages = [
   "period": "451 · Galia",
   "title": "La ruptura de la paz y la coalición romano-goda",
   "author": "Hidacio",
-  "work": "Chronicon, § 150 (Burgess; § 142 en la numeración alternativa), selección",
-  "source": "https://ancientlibrary.net/hydatius-chronicon/",
-  "sourceLabel": "Texto latino · tradición de Migne, PL 74",
+  "work": "Chronicon, § 150 (entrada completa) (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
   "latin": [
-    "Gens Hunnorum pace rupta depraedatur prouincias Galliarum: plurimae ciuitates effractae, in campis Catalaunicis, haud longe de ciuitate quam effregerant, Mertis, Aetio duci et regi Theodori, quibus erat in pace societas, aperto marte confligens, diuino caesa superatur auxilio."
+    "Gens Hunorum pace rupta depraedatur prouincias Galliarum. plurimae ciuitates effractae: in campis Catalaunicis haud longe de ciuitate, quam effregerant, Mettis, Aetio duci et regi Theodori, quibus erat in pace societas, aperto Marte confligens diuino caesa superatur auxilio: bellum nox intempesta diremit. rex illic Theodorus prostratus occubuit: CCC ferme milia hominum in eo certamine cecidisse memorantur."
   ],
   "spanish": [
-    "El pueblo de los hunos, rota la paz, saquea las provincias de las Galias. Numerosas ciudades son tomadas por la fuerza. En los Campos Cataláunicos, no lejos de Metz, ciudad que habían tomado, se enfrenta en batalla abierta al general Aecio y al rey Teodorico, unidos por una alianza de paz, y es derrotado con la ayuda divina."
+    "El pueblo de los hunos, rota la paz, saquea las provincias de las Galias. Numerosas ciudades son tomadas por la fuerza. En los Campos Cataláunicos, no lejos de Metz, ciudad que habían tomado, se enfrenta en batalla abierta al general Aecio y al rey Teodorico, unidos por una alianza de paz, y, tras sufrir pérdidas, es derrotado con la ayuda divina. La noche cerrada puso fin al combate. Allí cayó muerto el rey Teodorico. Se recuerda que en aquel enfrentamiento perecieron cerca de trescientos mil hombres."
   ],
-  "note": "Selección del comienzo de la entrada, no edición íntegra. El texto digital presenta Mertis; otras ediciones leen Mettis. La expresión diuino auxilio revela la interpretación providencial del obispo. Para la obra teatral interesa el contraste entre esa lectura y la explicación política de Próspero. La localización que ofrece Hidacio no debe tomarse como una identificación geográfica segura."
+  "note": "Se completa la lectura antes truncada y se adopta la grafía Mettis de CODOLGA frente a Mertis de la anterior transcripción. La localización no es geográficamente segura; la cifra transmitida es extraordinariamente elevada y no constituye un recuento fiable. Diuino auxilio revela la interpretación providencial del obispo. Se elimina la equivalencia de numeraciones críticas no comprobada. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
 },
 {
   "id": "hydatius-452-453",
@@ -327,16 +327,16 @@ export const passages = [
   "period": "452–453 · Italia",
   "title": "La retirada de los hunos y la muerte de Atila",
   "author": "Hidacio",
-  "work": "Chronicon, entradas de 452–453, desde Secundo regni anno principis Marciani",
-  "source": "https://ancientlibrary.net/hydatius-chronicon/",
-  "sourceLabel": "Texto latino · tradición de Migne, PL 74",
+  "work": "Chronicon, § 154 (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
   "latin": [
-    "Secundo regni anno principis Marciani, Hunni qui Italiam praedabantur, aliquantis etiam ciuitatibus irruptis, diuinitus partim fame, partim morbo quodam plagis coelestibus feriuntur: missis etiam per Marcianum principem Aetio duce caeduntur auxiliis; pariter que in sedibus suis et coelestibus plagis, et per Marciani subiguntur exercitum: et ita subacti, pace facta cum Romanis proprias uniuersi repetunt sedes, ad quas rex eorum Attila mox reuersus interiit."
+    "Secundo regni anno principis Marciani Huni, qui Italiam praedabantur, aliquantis etiam ciuitatibus inruptis, diuinitus partim fame, partim morbo quodam plagis caelestibus feriuntur: missis etiam per Marcianum principem Aetio duce caeduntur auxiliis pariterque in sedibus suis et caelestibus plagis et per Marciani subiguntur exercitum et ita subacti pace facta cum Romanis proprias uniuersi repetunt sedes, ad quas rex eorum Attila mox reuersus interiit."
   ],
   "spanish": [
-    "En el segundo año del reinado del emperador Marciano, los hunos que saqueaban Italia, tras haber irrumpido incluso en algunas ciudades, son castigados por disposición divina con plagas celestiales, en parte por el hambre y en parte por cierta enfermedad. También sufren pérdidas a manos de los refuerzos enviados por el emperador Marciano bajo el mando de Aecio. Asimismo, en sus propios territorios son sometidos tanto por las plagas celestiales como por el ejército de Marciano. Así doblegados, una vez concertada la paz con los romanos, todos regresan a sus territorios, adonde volvió su rey Atila, que murió poco después."
+    "En el segundo año del reinado del emperador Marciano, los hunos que saqueaban Italia, tras haber tomado por la fuerza algunas ciudades, son castigados por disposición divina con plagas celestiales, en parte por el hambre y en parte por cierta enfermedad. También sufren pérdidas a manos de los refuerzos enviados por el emperador Marciano bajo el mando de Aecio. Al mismo tiempo, en sus propios territorios son sometidos por las plagas celestiales y por el ejército de Marciano. Así doblegados, una vez concertada la paz con los romanos, todos regresan a sus territorios, adonde volvió su rey Atila, que murió poco después."
   ],
-  "note": "Hidacio combina causas materiales, presión imperial oriental y providencia. No menciona a León en esta entrada. Aetio duce plantea un problema prosopográfico: no debe identificarse automáticamente al comandante con el patricio occidental homónimo. Se conserva la grafía pariter que de la transcripción consultada; queda pendiente el cotejo completo con Mommsen y Burgess. La ausencia de León no demuestra que la embajada no existiera."
+  "note": "Texto unificado con la transcripción de CODOLGA: Huni, inruptis, caelestibus, pariterque. Hidacio combina providencia, hambre, enfermedad y presión imperial oriental. Aetio duce plantea una dificultad prosopográfica; no debe identificarse automáticamente con el patricio occidental homónimo. No menciona a León: su silencio no prueba que no existiera la embajada. La muerte de Atila se recoge dentro de esta entrada, no como un relato separado. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
 },
 {
   "id": "hydatius-aetius-embassy",
@@ -519,6 +519,117 @@ export const passages = [
   "author": "Hidacio",
   "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
   "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-prodigies",
+  "reference": "r030",
+  "period": "451–453 · Gallaecia y Galia",
+  "title": "El cielo como anuncio de la catástrofe",
+  "author": "Hidacio",
+  "work": "Chronicon, §§ 149, 151, 159 (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
+  "latin": [
+    "In Gallaecia terrae motus assidui, signa in caelo plurima ostenduntur. nam pridie non. Aprilis tertia feria post solis occasum ab aquilonis plaga caelum rubens sicut ignis aut sanguis efficitur intermixtis per igneum ruborem lineis clarioribus in speciem hastarum rutilantium deformatis. a die clauso usque in horam noctis fere tertiam signi durat ostensio, quae mox ingenti exitu perdocetur.",
+    "Muta anno signa procedunt. V kal. Octobris a parte Orientis luna fuscatur. in diebus insequentis paschae uisa quaedam in caelo regionibus Galliarum epistola de his Eufroni Augustodunensis episcopi ad Agrippinum comitem facta euidenter ostendit. stella cometes a XIIII. kal. Iulias apparere incipit, quae tertio ka. diluculo ab oriente uisa post occasum solis ab occidua parte mox cernitur. kal. Aug. a parte occidentis apparet.",
+    "In Gallaecia terraemotus et in sole signum in ortu quasi altero secum concertante monstratur."
+  ],
+  "spanish": [
+    "En Gallaecia se suceden los terremotos y aparecen numerosas señales en el cielo. En efecto, el día anterior a las nonas de abril, martes, después de la puesta del sol, el cielo por el norte adquiere un color rojo como el fuego o la sangre; en medio de aquel resplandor ígneo aparecen líneas más claras, con forma de lanzas brillantes. La manifestación de la señal dura desde el anochecer hasta casi la tercera hora de la noche; poco después, un acontecimiento de enormes proporciones revela su sentido.",
+    "Durante el año aparecen señales [lectura inicial dudosa]. Cinco días antes de las calendas de octubre, la luna se oscurece por oriente. Una carta que sobre estos hechos dirigió Eufronio, obispo de Autun, al conde Agripino atestigua claramente que durante los días de la Pascua siguiente se vieron ciertos fenómenos celestes en las regiones de las Galias. Un cometa empieza a aparecer catorce días antes de las calendas de julio; visto por oriente al amanecer del tercer día antes de las calendas, se distingue poco después, tras la puesta del sol, por occidente. En las calendas de agosto aparece por occidente.",
+    "En Gallaecia se producen terremotos y al salir el sol aparece en él una señal, como si otro sol contendiera con él."
+  ],
+  "note": "La lectura Muta anno signa de la transcripción es problemática; no se enmienda silenciosamente. El rojo celeste se interpreta retrospectivamente como presagio, sin que ello pruebe una relación causal. La carta episcopal es un testimonio de circulación de noticias entre provincias. Para la puesta en escena, las lanzas luminosas constituyen una imagen documentada del imaginario cristiano contemporáneo, no un fenómeno necesariamente observado por León o Atila. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
+},
+{
+  "id": "hydatius-gothic-succession",
+  "reference": "r030",
+  "period": "451–453 · Galia, Italia y Oriente",
+  "title": "Los sucesores de Teodorico y el fin de Pulqueria",
+  "author": "Hidacio",
+  "work": "Chronicon, §§ 152–153, 156–157 (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
+  "latin": [
+    "Occiso Theodore Thurismo filius eius succedit in regno.",
+    "Huni cum rege suo Attila relictis Galliis post certamen Italiam petunt.",
+    "Thurismo rex Gothorum spirans hostilia a Theoderico et Frederico fratribus iugulatur: cui Theodericus succedit in regno.",
+    "Tertio regni anno principis Marciani regina moritur Pulcheria, mense Iulio."
+  ],
+  "spanish": [
+    "Muerto Teodorico, su hijo Turismundo le sucede en el reino.",
+    "Los hunos, con su rey Atila, abandonan las Galias después de la batalla y se dirigen a Italia.",
+    "Turismundo, rey de los godos, que alienta propósitos hostiles, es degollado por sus hermanos Teodorico y Federico. Teodorico le sucede en el reino.",
+    "En el tercer año del reinado del emperador Marciano muere la emperatriz Pulqueria, en el mes de julio."
+  ],
+  "note": "La brevedad de § 153 enlaza ambas campañas sin describir el intervalo cronológico. No debe deducirse que la marcha a Italia ocurrió inmediatamente después de la batalla. Spirans hostilia expresa una imputación de hostilidad sin precisar aquí el objeto. La sucesión goda y la muerte de Pulqueria muestran la transformación del entorno político de Atila. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
+},
+{
+  "id": "hydatius-maximus-vandals",
+  "reference": "r030",
+  "period": "455–462 · Roma, Cartago y Constantinopla",
+  "title": "Petronio Máximo, Genserico y la familia imperial",
+  "author": "Hidacio",
+  "work": "Chronicon, § 162, segunda parte; §§ 167, 216 (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
+  "latin": [
+    "post quem mox MAXIMVS ex consulibus XLIII Romae Augustus appellatur, qui cum imperator factus relictam Valentiniani sibi duxisset uxorem et filio suo ex priori coniuge Palladio, quem Caesarem fecerat, Valentiniani filiam in coniugium tradidisset, magnorum motuum, quos uerebatur, perturbatione distortus et quia in occisorum per Valentinianum et in ipsius interitum Valentiniani ambitu regni consilia scelesta patrata contulerat, cum imperium deserere uellet et Romam, uix quattuor regni sui mensibus expletis in ipsa urbe tumultu populi et seditione occiditur militari.",
+    "Gaisericus sollicitatus a relicta Valentiniani, ut mala fama dispergit, priusquam Auitus Augustus fieret, Romam ingreditur direptisque opibus Romanorum Carthaginem redit, relictam Valentiniani et filias duas et Aetii filium Gaudentium nomine secum ducens.",
+    "Gaisericus Valentiniani relictam Constantinopolim remittit. filiae ipsius una Gentoni Gaiserici filio, alia Olybrio senatori urbis Romae iure matrimonii copulantur."
+  ],
+  "spanish": [
+    "Poco después de él, Máximo, de entre los antiguos cónsules, es proclamado Augusto en Roma, el cuadragésimo tercero. Una vez emperador, toma por esposa a la viuda de Valentiniano y da en matrimonio a una hija de este a Paladio, hijo de su matrimonio anterior, al que había nombrado César. Desconcertado por la agitación que teme y porque, en su ambición de reinar, había contribuido a los criminales planes contra quienes Valentiniano había hecho matar y contra el propio Valentiniano, quiere abandonar el poder y Roma. Apenas cumplidos cuatro meses de reinado, muere en la propia ciudad en medio de un tumulto popular y una sedición militar.",
+    "Genserico, instigado por la viuda de Valentiniano, según difunde un rumor desfavorable, entra en Roma antes de que Avito sea proclamado Augusto. Tras apoderarse de las riquezas romanas, vuelve a Cartago llevando consigo a la viuda de Valentiniano, a sus dos hijas y a un hijo de Aecio llamado Gaudencio.",
+    "Genserico devuelve a la viuda de Valentiniano a Constantinopla. De sus hijas, una se une en matrimonio a Gentón, hijo de Genserico, y la otra a Olibrio, senador de la ciudad de Roma."
+  ],
+  "note": "El enunciado ut mala fama dispergit atribuye la iniciativa de la viuda a un rumor, no a un hecho comprobado. Gentoni es la forma transmitida para Hunerico. Los cuatro meses de Máximo son el cómputo de Hidacio, no una duración exacta confirmada. El relato no menciona la intercesión de León durante el saqueo de 455; conviene contrastarlo con Próspero. Las uniones dinásticas muestran la continuidad de la política matrimonial más allá del reinado de Atila. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
+},
+{
+  "id": "hydatius-after-attila",
+  "reference": "r030",
+  "period": "455–457 · Occidente y Oriente",
+  "title": "La concordia imperial y sus límites después de Atila",
+  "author": "Hidacio",
+  "work": "Chronicon, §§ 169–170, 173, 183–185 (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
+  "latin": [
+    "Marcianus et Auitus concordes principatu Romani utuntur imperii.",
+    "Per Augustum Auitum Fronto comes legatus mittitur ad Sueuos. similiter et a rege Gothorum Theuderico, quia fidus Romano esset imperio, legati ad eosdem mittuntur, ut tam secum quam cum Romano imperio, quia uno essent pacis foedere copulati, iurati foederis promissa seruarent. remissis legatis utriusque partis atque omni iuratione uiolata Sueui Terraconensem prouinciam, quae Romano imperio deseruiebat, inuadunt.",
+    "Mox VI anno Marciani, aera CCCCXCIV Hispanias rex Gothorum Theodoricus cum ingenti exercitu suo et cum uoluntate et ordinatione Auiti imperatoris ingreditur. cui cum multitudine Sueuorum rex Rechiarius occurrens duodecimo de Asturicensi urbe miliario ad fluuium nomine Vrbicum III non. Octobris die, VI feria inito mox certamine superatur: caesis suorum agminibus, aliquantis captis plurimisque fugatis ipse ad extremas sedes Gallaeciae plagatus uix euadit ac profugus.",
+    "Auitus tertio anno, posteaquam a Gallis et a Gothis factus fuerat imperator, caret imperio Gothorum promisso destitutus auxilio, caret et uita.",
+    "In Orientis partibus septimo anno imperii sui moritur Marcianus.",
+    "Romanorum XLIIII MAIORIANVS in Italia et Constantinopoli LEO Augusti appellantur."
+  ],
+  "spanish": [
+    "Marciano y Avito, de común acuerdo, ejercen el gobierno del Imperio romano.",
+    "El Augusto Avito envía al conde Frontón como embajador ante los suevos. Igualmente, el rey de los godos Teodorico, por ser fiel al Imperio romano, les envía embajadores para que guarden tanto con él como con el Imperio romano las promesas del tratado jurado, pues estaban vinculados por un mismo pacto de paz. Devueltos los embajadores de ambas partes y quebrantados todos los juramentos, los suevos invaden la provincia Tarraconense, que obedecía al Imperio romano.",
+    "Poco después, en el sexto año de Marciano, era 494, el rey de los godos Teodorico entra en Hispania con un ejército numeroso, por voluntad y mandato del emperador Avito. El rey Requiario le sale al encuentro con una multitud de suevos junto al río llamado Órbigo, a doce millas de Astorga; trabado el combate el tercer día antes de las nonas de octubre, viernes, es derrotado. Deshechas sus filas, capturados algunos de los suyos y puestos en fuga muchísimos, él mismo, herido, apenas logra escapar como fugitivo a los confines de Gallaecia.",
+    "Avito, en el tercer año desde que galos y godos lo habían hecho emperador, pierde el poder, privado de la ayuda prometida por los godos, y pierde también la vida.",
+    "En las regiones de Oriente muere Marciano en el séptimo año de su gobierno.",
+    "Como cuadragésimos cuartos emperadores de los romanos, son proclamados Augustos Mayoriano en Italia y León en Constantinopla."
+  ],
+  "note": "El León de § 185 es el emperador León I, no el obispo de Roma. Foedus e iuratio permiten comparar los vínculos político-jurídicos de romanos y pueblos aliados con la paz mencionada en § 154. Era 494 corresponde a 456 d. C. en la era hispánica. La cronología regnal de Hidacio presenta dificultades y se conserva como testimonio, sin identificarla automáticamente con los años exactos de reinado. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
+},
+{
+  "id": "hydatius-preface",
+  "reference": "r030",
+  "period": "Prólogo · hacia 468–469",
+  "title": "La voz de Hidacio y los límites de su testimonio",
+  "author": "Hidacio",
+  "work": "Chronicon, Praefatio, §§ 5 y 7, selección (numeración CODOLGA)",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Hidatii Chronicon · CODOLGA",
+  "latin": [
+    "Tamen quia ad nostri temporis cursum, ut superior lectio docet, descriptio defluxit annorum, cum membrana huius historiae cura contigisset expertis, mentem monuit inperiti, ut de cognitis, etsi in omnibus inpari gressu, uel uestigiis se substerneret praecessorum. quae fideli suscipiens cordis intuitu, partim ex studio scriptorum, partim ex certo aliquantorum relatu, partim ex cognitione quam iam lacrimabile propriae uitae tempus offendit, quae subsequuntur adiecimus.",
+    "Exim inmerito adlectus ad episcopatus officium, non ignarus omnium miserabilis temporis aerumnarum et conclusi in angustias imperii Romani, metas subdidimus ruituras: et, quod est luctuosius, intra extremam uniuersi orbis Gallaeciam, deformem ecclesiastici ordinis statum creationibus indiscretis, honestae libertatis interitum et uniuersae propemodum in diuina disciplina religionis occasum ex furentium dominanti permixta iniquarum perturbatione nationum haec iam quidem inserta: sed posteris in temporibus quibus offenderint, reliquimus consummanda."
+  ],
+  "spanish": [
+    "Sin embargo, puesto que el relato de los años ha llegado hasta el curso de nuestro tiempo, como muestra la lectura precedente, y el cuidado de consignar esta historia en pergamino había correspondido a hombres expertos, ello movió el ánimo de un inexperto a seguir, aunque con paso desigual en todo, al menos las huellas de sus predecesores en lo que conocía. Acogiendo estos hechos con mirada fiel del corazón, añadimos cuanto sigue: en parte a partir del estudio de los escritores, en parte del relato seguro de algunas personas y en parte del conocimiento que nos deparó la ya lamentable época de nuestra propia vida.",
+    "Desde entonces, elegido sin merecerlo para el oficio episcopal, no ignorante de las tribulaciones de estos tiempos miserables ni de las estrecheces en que se halla encerrado el Imperio romano, añadimos los últimos términos de su ruina. Y, lo que resulta más doloroso, en Gallaecia, extremo del mundo entero, consignamos ya el estado deforme del orden eclesiástico por nombramientos indiscriminados, la desaparición de la libertad honrada y el ocaso de casi toda la religión en cuanto a la disciplina divina, en medio de la confusión de pueblos injustos que dominan con furor. Dejamos a la posteridad completar estos hechos según los tiempos en que se encuentre."
+  ],
+  "note": "La sintaxis de metas subdidimus ruituras y del período final es difícil; la versión conserva el sentido general sin pretender resolver todas las dificultades textuales. El autor distingue lectura, información transmitida y experiencia propia. La autodepreciación episcopal y la interpretación moral de la crisis pertenecen a su voz, no necesariamente a la de León. Es un pasaje metodológico para calibrar el valor de las noticias remotas sobre Italia. Traducción propia revisable; pendiente de cotejo con el aparato crítico de Burgess (1993)."
 }
 ];
 
