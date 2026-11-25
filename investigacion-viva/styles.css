@@ -738,3 +738,7 @@
 .research-project-with-art .project-engraving[data-cover="garay"]{mask-image:linear-gradient(to right,transparent,black 7%,black 93%,transparent),linear-gradient(to bottom,transparent,black 4%,black 92%,transparent);mask-composite:intersect;}
 .research-project-with-art .project-engraving[data-cover="el-carpintero"],.research-project-with-art .project-engraving[data-cover="alquimia"]{filter:grayscale(1) contrast(1.07);}
 @media(max-width:440px){.research-project-card.research-project-with-art{grid-template-columns:minmax(0,1fr) minmax(85px,35%);min-height:230px;gap:12px}.research-project-with-art .project-engraving{max-height:160px}}
+
+/* Portadas de tinta transparente: sin fondo de papel ni recorte del dibujo. */
+.research-project-with-art .project-engraving{filter:none;mix-blend-mode:normal;mask-image:none;opacity:1;}
+.research-project-with-art .project-engraving[data-cover="garay"],.research-project-with-art .project-engraving[data-cover="el-carpintero"],.research-project-with-art .project-engraving[data-cover="alquimia"]{filter:none;mask-image:none;}
