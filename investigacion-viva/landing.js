@@ -462,8 +462,8 @@ function showProjects(rows){
     let preview=null;
     const artwork={
       'leo-attila':['leo-attila-encuentro.svg','Encuentro de León I y Atila'],
-      'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
-      'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles'],
+      'universales-cosmicos':['universales-cosmicos-tinta.svg','Dos estudiosos contemplan una esfera celeste'],
+      'privilegio-actualidad':['privilegio-actualidad-tinta.svg','Un filósofo contempla una balanza con dos mundos posibles'],
       'estados-con-aura':['estados-con-aura-grabado.webp','Grabado de una ciudad amurallada de inspiración histórica'],
       'alquimia':['alquimia-portada.svg','Horno alquímico, crisol y recipientes de vidrio'],
       'el-carpintero':['el-carpintero.svg','Grabado de una mesa y dos sillas'],
@@ -472,7 +472,7 @@ function showProjects(rows){
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v='+'20261126-serie-grabados';
+      preview.src='./assets/'+artwork[item.slug][0]+'?v='+'20261126-tinta-v2';
       preview.alt=artwork[item.slug][1];
       preview.dataset.cover=item.slug;
       preview.width=860;preview.height=645;
