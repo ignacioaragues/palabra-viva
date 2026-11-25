@@ -417,6 +417,108 @@ export const passages = [
   "author": "Hidacio",
   "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
   "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-aetius-power",
+  "period": "430–433 · Occidente",
+  "title": "La consolidación del poder de Aecio",
+  "work": "Chronicon, §§ 92–95, 99, 103 (CODOLGA)",
+  "latin": [
+    "Per Aetium comitem haud procul de Arelate quaedam Gothorum manus extinguitur Anaolso optimate eorum capto.",
+    "Iuthungi per eum similiter debellantur et Nori.",
+    "Felix qui dicebatur patricius Rauenna tumultu occiditur militari.",
+    "Aetius dux utriusque militiae, Noros edomat rebellantes.",
+    "Bonifatius in aemulationem Aetii de Africa per Placidiam euocatus in Italiam ad palatium redit. qui depulso Aetio in locum eius succedens paucis post mensibus inito aduersum Aetium conflictu de uulnere, quo fuerat percussus, interiit. cui Sebastianus gener substitutus per Aetium de palatio superatus expellitur.",
+    "Aetius dux utriusque militiae patricius appellatur."
+  ],
+  "spanish": [
+    "El conde Aecio aniquila no lejos de Arlés un contingente de godos y captura a Anaolso, uno de sus nobles.",
+    "Los jutungos y los nóricos son igualmente sometidos por él.",
+    "Félix, que ostentaba el título de patricio, muere en Rávena durante un motín militar.",
+    "Aecio, jefe de ambas milicias, somete a los nóricos sublevados.",
+    "Bonifacio, llamado de África por Placidia para contrarrestar a Aecio, regresa a Italia, a la corte. Tras desplazar a Aecio y sucederlo en su cargo, pocos meses después entra en conflicto con él y muere a consecuencia de una herida recibida. Su yerno Sebastián, puesto en su lugar, es vencido por Aecio y expulsado de la corte.",
+    "Aecio, jefe de ambas milicias, recibe el título de patricio."
+  ],
+  "note": "Selección discontinua. Dux utriusque militiae alude al mando de las dos ramas militares, infantería y caballería; patricius es una dignidad cortesana, no una descripción de origen social. In aemulationem señala la rivalidad política que Placidia aprovecha. Para la obra importa que la autoridad de Aecio no deriva únicamente de sus victorias exteriores, sino de una competencia por el favor imperial. Hidacio no explica aquí todos los apoyos que hicieron posible su retorno. Primera traducción revisable: queda pendiente el cotejo crítico secundario.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-aetius-gaul",
+  "period": "436–438 · Galia",
+  "title": "Aecio, Narbona y los reinos de la Galia",
+  "work": "Chronicon, §§ 107–108, 110–112 (CODOLGA)",
+  "latin": [
+    "Narbona obsideri coepta per Gothos.",
+    "Burgundiones, qui rebellauerant, a Romanis duce Aetio debellantur.",
+    "Narbona obsidione liberatur Aetio duce et magistro militum. Burgundionum caesa XX millia.",
+    "Rursus Censorius et Fretimundus legati mittuntur ad Sueuos.",
+    "Gothorum caesa VIII millia, sub Aetio duce."
+  ],
+  "spanish": [
+    "Los godos comienzan a sitiar Narbona.",
+    "Los burgundios, que se habían rebelado, son vencidos por los romanos bajo el mando de Aecio.",
+    "Narbona es liberada del asedio bajo el mando de Aecio, maestre de los soldados. Son muertos veinte mil burgundios.",
+    "Censorio y Fretimundo son enviados nuevamente como embajadores ante los suevos.",
+    "Ocho mil godos son muertos por las fuerzas bajo el mando de Aecio."
+  ],
+  "note": "Las cifras son las transmitidas por el cronista y no recuentos verificables. La última frase es elíptica: sub Aetio duce se refiere al mando romano, no a que los godos muertos sirvieran a Aecio. El texto no atribuye expresamente a los hunos la derrota burgundia; esa relación requiere testimonios independientes. La alternancia entre guerra y embajadas ayuda a entender el carácter contingente de las alianzas de 451. Primera traducción revisable: queda pendiente el cotejo crítico secundario.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-marcian-placidia",
+  "period": "450 · Constantinopla y Roma",
+  "title": "Marciano, Pulqueria y la muerte de Placidia",
+  "work": "Chronicon, §§ 146–148 (CODOLGA)",
+  "latin": [
+    "Theodosius imperator moritur Constantinopoli anno aetatis suae XLVIII.",
+    "Post quem XLII statim apud Constantinopolim MARCIANVS a militibus et ab exercitu instante etiam sorore Theodosii Pulcheria regina efficitur imperator. qua sibi in coniugium adsumpta regnat in partibus Orientis.",
+    "Valentiniani imperatoris mater Placidia moritur apud Romam."
+  ],
+  "spanish": [
+    "El emperador Teodosio muere en Constantinopla a los cuarenta y ocho años de edad.",
+    "Después de él, inmediatamente, Marciano es proclamado emperador en Constantinopla por los soldados y el ejército, por instancias también de la emperatriz Pulqueria, hermana de Teodosio. Es el cuadragésimo segundo emperador; tras tomarla por esposa, reina en las regiones de Oriente.",
+    "Placidia, madre del emperador Valentiniano, muere en Roma."
+  ],
+  "note": "Regina designa aquí a una mujer de la casa imperial, no a una reina de un reino independiente. El ordinal XLII pertenece a la sucesión de emperadores enumerada por Hidacio. La muerte de Teodosio II y la elevación de Marciano preceden al cambio de relación con Atila; la crónica no establece aquí una relación causal explícita. La muerte de Gala Placidia modifica asimismo el contexto de la corte occidental. Primera traducción revisable: queda pendiente el cotejo crítico secundario.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-imperial-crisis",
+  "period": "454–455 · Roma y Occidente",
+  "title": "La caída de Aecio y la crisis de Valentiniano III",
+  "work": "Chronicon, §§ 160–166 (CODOLGA), selección de entradas",
+  "latin": [
+    "Aetius dux et patricius fraudulenter singularis accitus intra palatium manu ipsius Valentiniani imperatoris occiditur, et cum ipso per spatharium eius aliqui singulariter intromissi iugulantur honorati.",
+    "His gestis legatos Valentinianus mittit ad gentes, ex quibus ad Sueuos uenit Iustinianus.",
+    "Quarto regni anno principis Marciani per duos barbaros Aetii familiares Valentinianus Romae imperator occiditur in campo exercitu circumstante anno aetatis suae XXXVI et regni XXXI.",
+    "Ipso anno in Galliis Auitus Gallus ciuis ab exercitu Galicano et ab honoratis primum Tolosa, dehinc apud Arelatum Augustus appellatus Romam pergit et suscipitur.",
+    "Vsque ad Valentinianum Theodosi generatio tenuit principatum.",
+    "Marcianus quarto iam regni sui anno obtinet monarchiam.",
+    "Per Auitum, qui a Romanis et euocatus et susceptus fuerat imperator, legati ad Marcianum pro unanimitate mittuntur imperii."
+  ],
+  "spanish": [
+    "Aecio, general y patricio, convocado a solas mediante engaño, muere dentro del palacio a manos del propio emperador Valentiniano. Junto con él son degollados por el espatario imperial algunos dignatarios admitidos individualmente.",
+    "Después de estos hechos, Valentiniano envía embajadores a distintos pueblos; uno de ellos, Justiniano, llega ante los suevos.",
+    "En el cuarto año del reinado del emperador Marciano, el emperador Valentiniano es muerto en Roma por dos bárbaros del círculo íntimo de Aecio, en el campo y rodeado por el ejército, a los treinta y seis años de edad y treinta y uno de reinado.",
+    "Ese mismo año, Avito, ciudadano galo, es proclamado Augusto en las Galias por el ejército de la región y los dignatarios, primero en Tolosa y luego en Arlés. Se dirige a Roma y es recibido.",
+    "Hasta Valentiniano, la descendencia de Teodosio había conservado el principado.",
+    "Marciano, ya en el cuarto año de su reinado, obtiene la autoridad imperial única.",
+    "Avito, a quien los romanos habían llamado y aceptado como emperador, envía embajadores a Marciano para procurar la concordia del Imperio."
+  ],
+  "note": "Se omite por ahora la extensa segunda parte de § 162 sobre Petronio Máximo, que deberá integrarse con § 167. Spatharius designa un oficial palatino vinculado a la custodia imperial; familiares indica allegados, no necesariamente parientes. El cronista registra el fin de la dinastía teodosiana en Occidente y la búsqueda de concordia entre ambas cortes. Para la dramaturgia, son hechos posteriores al encuentro de 452, útiles como contraste retrospectivo, nunca como conocimiento anticipado de León o Atila. Primera traducción revisable: queda pendiente el cotejo crítico secundario.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
 }
 ];
 
