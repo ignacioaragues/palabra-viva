@@ -337,6 +337,86 @@ export const passages = [
     "En el segundo año del reinado del emperador Marciano, los hunos que saqueaban Italia, tras haber irrumpido incluso en algunas ciudades, son castigados por disposición divina con plagas celestiales, en parte por el hambre y en parte por cierta enfermedad. También sufren pérdidas a manos de los refuerzos enviados por el emperador Marciano bajo el mando de Aecio. Asimismo, en sus propios territorios son sometidos tanto por las plagas celestiales como por el ejército de Marciano. Así doblegados, una vez concertada la paz con los romanos, todos regresan a sus territorios, adonde volvió su rey Atila, que murió poco después."
   ],
   "note": "Hidacio combina causas materiales, presión imperial oriental y providencia. No menciona a León en esta entrada. Aetio duce plantea un problema prosopográfico: no debe identificarse automáticamente al comandante con el patricio occidental homónimo. Se conserva la grafía pariter que de la transcripción consultada; queda pendiente el cotejo completo con Mommsen y Burgess. La ausencia de León no demuestra que la embajada no existiera."
+},
+{
+  "id": "hydatius-aetius-embassy",
+  "period": "431–433 · Galia e Hispania",
+  "title": "Hidacio, Aecio y la mediación episcopal",
+  "work": "Chronicon, §§ 96, 98, 100–101 (CODOLGA)",
+  "latin": [
+    "Rursum Sueui initam cum Callaecis pacem libata sibi occasione conturbant. ob quorum depraedationem Hydatius episcopus ad Aetium ducem, qui expeditionem agebat in Gallis, suscipit legationem.",
+    "Superatis per Aetium in certamine Francis et in pace susceptis Censorius comes legatus mittitur ad Sueuos supradicto secum Hydatio redeunte.",
+    "Regresso Censorio ad palatium Hermericus pacem cum Gallaecis, quos praedabatur assidue, sub interuentu episcopali datis sibi reformat obsidibus.",
+    "Symphosius episcopus per eum ad comitatum legatus missus rebus in cassum frustratur arreptis."
+  ],
+  "spanish": [
+    "De nuevo los suevos, aprovechando una ocasión favorable, quebrantan la paz concertada con los galaicos. A causa de sus saqueos, el obispo Hidacio emprende una misión diplomática ante el general Aecio, que estaba en campaña en las Galias.",
+    "Después de que Aecio venciera a los francos en combate y los admitiera a la paz, el conde Censorio es enviado como embajador ante los suevos; el mencionado Hidacio regresa con él.",
+    "Una vez que Censorio regresó a palacio, Hermerico restablece, mediante la intervención episcopal y tras recibir rehenes, la paz con los galaicos, a quienes saqueaba constantemente.",
+    "El obispo Sinfosio, enviado por él como embajador a la corte, ve frustrada en vano la empresa que había acometido."
+  ],
+  "note": "Selección discontinua; el cronista se menciona a sí mismo. Legatio e interuentus episcopalis documentan la participación episcopal en negociaciones seculares, sin implicar que el obispo tuviera plenos poderes. El antecedente de per eum en § 101 es susceptible de discusión. Para la escena del Mincio, ofrece un precedente de mediación, intercambio de garantías y posibles fracasos, no un modelo probado del encuentro de 452. Primera traducción revisable; falta el cotejo crítico secundario con Mommsen y Burgess.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-litorius",
+  "period": "439 · Tolosa",
+  "title": "Litorio y los auxiliares hunos de Roma",
+  "work": "Chronicon, §§ 116–117 (CODOLGA)",
+  "latin": [
+    "Bello Gothico sub Theoderico rege apud Tolosam Litorius Romanus dux inconsultius cum auxiliari Hunorum manu inruens caesis his ipse uulneratus capitur et post dies paucos occiditur.",
+    "Inter Romanos et Gothos pax efficitur."
+  ],
+  "spanish": [
+    "Durante la guerra contra los godos bajo el rey Teodorico, el general romano Litorio se lanza imprudentemente al combate cerca de Tolosa con un contingente auxiliar de hunos. Derrotados estos, él mismo cae herido y prisionero, y pocos días después es muerto.",
+    "Se establece la paz entre romanos y godos."
+  ],
+  "note": "Inconsultius expresa una valoración negativa de la decisión de Litorio. Manus significa aquí contingente armado; auxiliari indica su función al servicio de Roma. El pasaje muestra que la oposición entre Roma y los hunos no era permanente: el uso de auxiliares precede a la guerra de 451. No identifica a Atila como jefe de este contingente. Primera traducción revisable; falta el cotejo crítico secundario con Mommsen y Burgess.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-merobaudes",
+  "period": "443 · Hispania y Roma",
+  "title": "Merobaudes: el militar, el poeta y la corte",
+  "work": "Chronicon, § 128 (CODOLGA)",
+  "latin": [
+    "Asturio magistro utriusque militiae gener ipsius successor ipsi mittitur Merobaudis, natu nobilis et eloquentiae merito uel maxime in poematis studio ueteribus conparandus: testimonio etiam prouehitur statuarum. breui tempore potestatis suae Aracelitanorum frangit insolentiam Bacaudarum. mox nonnullorum inuidia perurguente ad urbem Romam sacra praeceptione reuocatur."
+  ],
+  "spanish": [
+    "Merobaudes, yerno del maestre de ambas milicias Asturio, es enviado para sucederlo. Noble de nacimiento y comparable a los antiguos por el mérito de su elocuencia, especialmente por su dedicación a la poesía, recibe además el reconocimiento que atestiguan las estatuas. En el breve tiempo de su mando quebranta la insolencia de los bagaudas de Araceli. Poco después, por la presión de la envidia de algunos, es llamado de nuevo a Roma mediante una orden imperial."
+  ],
+  "note": "Sacra praeceptio designa una orden del emperador, no una disposición religiosa. La insolentia atribuida a los bagaudas refleja la perspectiva de Hidacio. El testimonio contextualiza al panegirista de Aecio: la poesía y el mando militar podían coexistir en una misma carrera, sometida a la rivalidad cortesana. Primera traducción revisable; falta el cotejo crítico secundario con Mommsen y Burgess.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
+},
+{
+  "id": "hydatius-leo-letters",
+  "period": "445–450 · Roma e Hispania",
+  "title": "La circulación de los escritos doctrinales de León",
+  "work": "Chronicon, §§ 133, 135, 145 (CODOLGA)",
+  "latin": [
+    "Per episcopum Romae tunc praesidentem gesta de Manichaeis per prouincias diriguntur.",
+    "Romanae ecclesiae XLII. praesidet episcopus Leo: huius scripta per episcopi Thoribi diaconem Peruincum contra Priscillianistas ad Hispanienses episcopos deferuntur. inter quae ad episcopum Thoribium de obseruatione catholicae fidei et de haeresum blasphemiis disputatio plena dirigitur, quae ab aliquibus Gallaecis subdolo probatur arbitrio.",
+    "De Gallis epistolae deferuntur Flauiani episcopi ad Leonem episcopum missae cum scriptis Cyrilli episcopi Alexandrini ad Nestorium Constantinopolitanum de Eutychete Hebionita haeretico et Leonis episcopi ad eundem responsa: quae cum aliorum episcoporum et gestis et scriptis per ecclesias diriguntur."
+  ],
+  "spanish": [
+    "Por disposición del obispo que entonces presidía Roma se remiten a las provincias las actas relativas a los maniqueos.",
+    "El obispo León preside la Iglesia romana como su cuadragésimo segundo obispo. Sus escritos contra los priscilianistas son llevados a los obispos hispanos por Pervinco, diácono del obispo Toribio. Entre ellos se dirige al obispo Toribio una exposición completa sobre la observancia de la fe católica y las blasfemias de las herejías, que algunos galaicos aprueban con juicio insincero.",
+    "Desde las Galias llegan cartas que el obispo Flaviano había enviado al obispo León, junto con escritos de Cirilo, obispo de Alejandría, a Nestorio de Constantinopla, relativos al hereje ebionita Eutiques, y las respuestas del obispo León al mismo. Estos documentos se distribuyen por las iglesias junto con las actas y los escritos de otros obispos."
+  ],
+  "note": "La descripción de las herejías y la acusación de insinceridad pertenecen al cronista. La sintaxis de § 145 agrupa documentos de distintas controversias: Cirilo murió antes de la controversia eutiquiana, por lo que no debe inferirse que escribió a Nestorio sobre Eutiques. El pasaje permite estudiar la circulación material de cartas, actas y respuestas, y una autoridad episcopal que se ejerce mediante redes de mensajeros y lectura. Primera traducción revisable; falta el cotejo crítico secundario con Mommsen y Burgess.",
+  "reference": "r030",
+  "author": "Hidacio",
+  "source": "https://corpus.cirp.gal/codolga/fontes/2009_hidatii_chronicon",
+  "sourceLabel": "Texto latino · CODOLGA, numeración de la edición digital"
 }
 ];
 
