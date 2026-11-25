@@ -25,7 +25,7 @@ const PARTIAL_TRANSLATIONS = {
     {href:'fragmentos/priscus-kreka-justice.html',label:'Kreka y Atila como juez'}
   ],
   r029: [{href:'fragmentos/prosper-451.html',label:'451'},{href:'fragmentos/prosper-452.html',label:'452'}],
-  r030: [{href:'fragmentos/hydatius-451.html',label:'451 · Galia'},{href:'fragmentos/hydatius-452-453.html',label:'452–453 · Italia'},{href:'fragmentos/hydatius-aetius-embassy.html',label:'431–433 · Mediación episcopal'},{href:'fragmentos/hydatius-litorius.html',label:'439 · Litorio'},{href:'fragmentos/hydatius-merobaudes.html',label:'443 · Merobaudes'},{href:'fragmentos/hydatius-leo-letters.html',label:'445–450 · León'}],
+  r030: [{href:'fragmentos/hydatius-451.html',label:'451 · Galia'},{href:'fragmentos/hydatius-452-453.html',label:'452–453 · Italia'},{href:'fragmentos/hydatius-aetius-embassy.html',label:'431–433 · Mediación episcopal'},{href:'fragmentos/hydatius-litorius.html',label:'439 · Litorio'},{href:'fragmentos/hydatius-merobaudes.html',label:'443 · Merobaudes'},{href:'fragmentos/hydatius-leo-letters.html',label:'445–450 · León'},{href:'fragmentos/hydatius-aetius-power.html',label:'430–433 · Ascenso de Aecio'},{href:'fragmentos/hydatius-aetius-gaul.html',label:'436–438 · Galia'},{href:'fragmentos/hydatius-marcian-placidia.html',label:'450 · Marciano y Placidia'},{href:'fragmentos/hydatius-imperial-crisis.html',label:'454–455 · Crisis imperial'}],
   r041: [{href:'fragmentos/getica-222-223.html',label:'§§ 222–223'},{href:'fragmentos/getica-224.html',label:'§ 224'}]
 };
 
