@@ -27,3 +27,5 @@
 .source-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
 .source-links a{font:700 11px var(--sans);color:var(--deep)}
 @media(max-width:620px){.source-gallery{grid-template-columns:1fr}}
+
+.course-inner-illustrated .course-cover{float:right;width:min(32%,280px);margin:0 0 0 30px;}.course-inner-illustrated .course-cover img{width:100%;height:auto;display:block;mix-blend-mode:multiply;filter:grayscale(1);}.course-inner-illustrated::after{content:"";display:block;clear:both;}@media(max-width:600px){.course-inner-illustrated .course-cover{float:none;width:145px;margin:0 auto 12px;}}
