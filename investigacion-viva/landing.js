@@ -43,7 +43,8 @@ const DOSSIER_AREAS={
   'universales-cosmicos':'ciencia',
   'privilegio-actualidad':'pensamiento',
   'estados-con-aura':'historia',
-  'garay':'literatura'
+  'garay':'literatura',
+  'el-carpintero':'literatura'
 };
 const areaFor=item=>PROJECT_AREAS.some(([id])=>id===item.area)?item.area:(DOSSIER_AREAS[item.slug]||'otros');
 function fillAreaOptions(select,value='otros'){
@@ -189,7 +190,7 @@ function shiftProject(id,delta){
 function linkFor(item){
   // Nunca abrir rutas creadas por usuarios: solo slugs permitidos por la app.
   if(!dossierRows.some(d=>d.slug===item.slug))return '';
-  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia'];
+  const allowed=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia','el-carpintero'];
   return allowed.includes(item.slug)?'./'+item.slug+'/':'';
 }
 function renderIndex(){
@@ -462,6 +463,7 @@ function showProjects(rows){
       'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
       'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles'],
       'estados-con-aura':['estados-con-aura-grabado.webp','Grabado de una ciudad amurallada de inspiración histórica'],
+      'el-carpintero':['el-carpintero.svg','Grabado de una mesa y dos sillas'],
       'garay':['garay-portada.svg','Retrato del protagonista de Garay en un paisaje nevado']
     };
     if (artwork[item.slug]) {
@@ -475,7 +477,7 @@ function showProjects(rows){
     }
     const action=document.createElement('a');action.className='primary';
     // No cargar rutas arbitrarias desde la base de datos.
-    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia'].includes(item.slug)?'./'+item.slug+'/':'./';
+    action.href=['leo-attila','universales-cosmicos','privilegio-actualidad','estados-con-aura','garay','alquimia','el-carpintero'].includes(item.slug)?'./'+item.slug+'/':'./';
     action.append('Abrir proyecto ');
     const icon=document.createElement('span');icon.textContent='→';action.append(icon);
     if(preview)card.append(info,preview,action);
