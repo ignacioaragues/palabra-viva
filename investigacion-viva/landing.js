@@ -455,6 +455,8 @@ function showProjects(rows){
       ? 'La corrección de la novela, capítulo por capítulo: 117 etapas de trabajo editorial.'
       : item.slug==='alquimia'
       ? 'Ocho lecciones y una biblioteca de fuentes para estudiar la alquimia histórica.'
+      : item.slug==='el-carpintero'
+      ? 'Georg Elser, conciencia individual y dramaturgia del interrogatorio.'
       : 'Cuaderno de investigación privado.';
     info.append(count,title,caption);
     let preview=null;
@@ -463,14 +465,16 @@ function showProjects(rows){
       'universales-cosmicos':['universales-cosmicos.webp','Dos estudiosos contemplan una esfera celeste'],
       'privilegio-actualidad':['privilegio-actualidad.webp','Un filósofo contempla una balanza con dos mundos posibles'],
       'estados-con-aura':['estados-con-aura-grabado.webp','Grabado de una ciudad amurallada de inspiración histórica'],
+      'alquimia':['alquimia-portada.svg','Horno alquímico, crisol y recipientes de vidrio'],
       'el-carpintero':['el-carpintero.svg','Grabado de una mesa y dos sillas'],
       'garay':['garay-portada.svg','Retrato del protagonista de Garay en un paisaje nevado']
     };
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v='+(item.slug==='garay'?'20261119-imagen-original':'20261119-grabado-atlas');
+      preview.src='./assets/'+artwork[item.slug][0]+'?v='+'20261126-serie-grabados';
       preview.alt=artwork[item.slug][1];
+      preview.dataset.cover=item.slug;
       preview.width=860;preview.height=645;
       preview.loading='lazy';
       card.classList.add('research-project-with-art');
