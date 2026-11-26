@@ -9,7 +9,15 @@ const headingSets={
  'privilegio-actualidad':['Resumen','Referencias','1 Introducción','2 Salvabilidad individual y elección divina','El amor perfecto y las posibilidades de salvación','Mundos posibles y mundos factibles','La decisión de crear a quien se perdería necesariamente','La selección providencial de circunstancias','El mejor mundo y el bien de cada criatura','3 Los sentidos del privilegio de la actualidad','Actualidad indicial y realidad efectiva','Responsabilidad por los actos y exclusividad del juicio','4 La hipótesis de varios mundos actuales completos','Mundos independientes y universos dentro de un mundo','La respuesta de las múltiples actualidades','La pluralidad actual y la relevancia salvífica','5 Identidad personal y juicio entre mundos actuales','El problema: identidad modal e identidad de una persona efectivamente creada','Tres modelos de identidad y su alcance escatológico','De la identidad numérica a la unidad del sujeto moral','Dos historias efectivas: conflicto aparente y conflicto genuino','Un juicio global: jurisdicción, verdad y reparación','La prioridad de la reconciliación como presunción, no como regla demostrada','El juicio puede considerar posibilidades sin hacerlas actuales','Alcance de la prueba y resultado condicional','6 Prioridad temporal y suerte de las circunstancias','El orden de las actualizaciones y la autoridad del juicio','Muerte y posibilidad de arrepentimiento','Cercanía modal y suerte salvífica','7 Objeciones al juicio transmundano','La imputación de acciones ajenas o contrafácticas','La elección divina y la responsabilidad de la criatura','Las restricciones de realizabilidad conjunta','La libertad de un resultado universal','El problema del mal y los bienes de las víctimas','8 Conclusiones']
 };
 
-const INVENTORY_CATEGORIES=[
+const INVENTORY_CATEGORIES=slug==='el-carpintero'?[
+ ['manuscritos','Cuaderno de dramaturgia','Documentos de trabajo propios.'],
+ ['fuentes','Fuentes primarias y archivos','Testimonios, documentos y catálogos de archivo.'],
+ ['estudios','Estudios sobre Georg Elser','Biografía, memoria e investigación histórica.'],
+ ['policia','Policía, burocracia y sociedad','Contexto institucional y social de la Alemania de 1939.'],
+ ['etica','Ética, obediencia y lenguaje','Lecturas críticas y filosóficas.'],
+ ['teatro','Biblioteca teatral','Fichas de lectura dramatúrgica: sinopsis, escenas, técnica y aplicación.'],
+ ['cine','Cine y recepción','Adaptaciones y representaciones; no son fuentes primarias.']
+]:[
  ['manuscritos','Manuscritos y versiones','Versiones propias del artículo, separadas de la bibliografía.'],
  ['araxes-fundamentos','Araxes I · Fundamentos y debates','Primitivos, hipótesis de contenido, bases semánticas y problemas de identidad.'],
  ['araxes-cognicion','Araxes II · Atribución semántica y cognición','Reconocimiento, aprendizaje, metacognición y pruebas comparativas.'],
@@ -21,7 +29,7 @@ const INVENTORY_CATEGORIES=[
  ['recursos','Informes, preprints y recursos','Documentos institucionales y trabajos con otros formatos.']
 ];
 const categoryMeta=new Map(INVENTORY_CATEGORIES.map(([id,title,description])=>[id,{title,description}]));
-const openInventoryGroups=new Set(['manuscritos','araxes-fundamentos']);
+const openInventoryGroups=new Set(slug==='el-carpintero'?['manuscritos','fuentes','teatro']:['manuscritos','araxes-fundamentos']);
 const openDocumentGroups=new Set(['manuscritos']);
 const PRIORITIES=[['baja','Baja'],['media','Media'],['alta','Alta']];
 function categoryOf(item){
@@ -34,7 +42,7 @@ function categoryOf(item){
  if(/(?:University Press|North-Holland|Blackwell|John Benjamins|Routledge|Springer|Cambridge University|Oxford University|MIT Press|Cornell University|Clarendon Press)\b/i.test(t) && !/\b\d+\s*\(\d+\)\s*,?\s*\d/.test(t))return 'libros';
  return 'articulos';
 }
-function priorityFor(item){const raw=progress.priority?.[item.id];return raw===true?'alta':PRIORITIES.some(p=>p[0]===raw)?raw:'media'}
+function priorityFor(item){const raw=progress.priority?.[item.id];return raw===true?'alta':PRIORITIES.some(p=>p[0]===raw)?raw:(slug==='el-carpintero'&&PRIORITIES.some(p=>p[0]===item.priority)?item.priority:'media')}
 function priorityScore(item){return {alta:3,media:2,baja:1}[priorityFor(item)]||2}
 
 let user=null, catalog=[], docs=[], axes=[],progress={version:1,status:{},notes:{},priority:{}},sessions=[],timer=null,chosenDoc=null;
@@ -126,11 +134,18 @@ function createItem(entry){
  card.dataset.status=currentStatus(entry);
  card.dataset.itemId=entry.id;
  const top=element('div','study-item-top');
- const label=entry.kind==='texto-propio'?'MANUSCRITO · VERSIÓN WEB':entry.kind==='dossier-araxes'?'PROTOCOLO ARAXES':'LECTURA BIBLIOGRÁFICA';
+ const label=entry.kind==='texto-propio'?'MANUSCRITO · VERSIÓN WEB':entry.kind==='dossier-araxes'?'PROTOCOLO ARAXES':slug==='el-carpintero'&&entry.sub?entry.sub.toUpperCase():'LECTURA BIBLIOGRÁFICA';
  top.append(element('span','study-inventory-kind',label),priorityButtons(entry));card.append(top);
  const heading=element('h3','',itemTitle(entry));card.append(heading);
  if(entry.kind==='referencia')card.append(element('p','',entry.label||''));
  else card.append(element('p','',entry.description||''));
+ if(slug==='el-carpintero'&&entry.kind!=='texto-propio'){
+  const byline=[entry.author,entry.year].filter(Boolean).join(' · ');
+  if(byline)heading.after(element('p','study-reference-byline',byline));
+  const detail=entry.theatre;
+  if(detail||entry.why||entry.access){const box=element('details','study-reference-details');box.append(element('summary','','Ver ficha de lectura ↓'));
+   for(const [label,value] of [['Sinopsis',detail?.synopsis],['Pasajes o escenas',detail?.scenes],['Técnica',detail?.technique],['Aplicación a El carpintero',detail?.application||entry.why],['Acceso / estado de verificación',entry.access]]){if(!value)continue;box.append(element('strong','',label),element('p','',value));}card.append(box);}
+ }
  const controls=element('div','study-inventory-actions');
  const status=element('select');status.setAttribute('aria-label','Estado de lectura de '+itemTitle(entry));
  for(const [value,label] of [['pending','Pendiente'],['reading','En curso'],['done','Leído']]){
