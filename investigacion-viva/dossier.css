@@ -166,3 +166,6 @@
 .study-history-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px}
 .study-history-head label{display:flex;align-items:center;gap:8px;color:#748879;font:700 10px var(--sans)}
 .study-history-head select{border:1px solid #d3dfd3;padding:8px 10px;background:#fff;color:#405d47;font:12px var(--sans)}
+
+/* El carpintero · fichas de lectura desplegables */
+.study-reference-byline{font-weight:600;color:var(--muted);margin:2px 0 6px}.study-reference-details{margin:10px 0;border-top:1px solid var(--line);padding:9px 0 3px}.study-reference-details summary{cursor:pointer;font:600 12px/1.6 var(--sans);color:var(--deep)}.study-reference-details strong{display:block;margin-top:9px;font:600 11px/1.5 var(--sans);color:var(--deep)}.study-reference-details p{margin:4px 0 8px;line-height:1.7}
