@@ -432,6 +432,25 @@ $('project-add-form').addEventListener('submit',event=>{
   showAddForm(false);persistIndex(0);renderIndex();
 });
 
+// Estimate ink density excluding the paper and blank margins.
+function balanceProjectEngraving(img){
+  try{
+    const canvas=document.createElement('canvas');canvas.width=128;canvas.height=96;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    if(!ctx||!img.naturalWidth||!img.naturalHeight)return;
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,128,96);
+    const scale=Math.min(128/img.naturalWidth,96/img.naturalHeight);
+    const w=img.naturalWidth*scale,h=img.naturalHeight*scale;
+    ctx.drawImage(img,(128-w)/2,(96-h)/2,w,h);
+    const d=ctx.getImageData(0,0,128,96).data;let sum=0,count=0;
+    for(let k=0;k<d.length;k+=4){const ink=1-(.2126*d[k]+.7152*d[k+1]+.0722*d[k+2])/255;if(ink>.10){sum+=ink;count++;}}
+    if(count<20)return;
+    const rest=Math.max(.48,Math.min(.88,.38/(sum/count)));
+    const hover=Math.min(1,rest+Math.max(.12,rest*.24));
+    img.style.setProperty('--ink-rest',rest.toFixed(3));img.style.setProperty('--ink-hover',hover.toFixed(3));
+  }catch(e){/* neutral CSS fallback */}
+}
+
 function showProjects(rows){
   const root=$('research-projects');root.replaceChildren();
   const entries=(Array.isArray(rows)?rows:[]).filter(d=>!projectItems.some(p=>p.id==='dossier:'+d.slug && p.archived));
@@ -472,7 +491,8 @@ function showProjects(rows){
     if (artwork[item.slug]) {
       preview=document.createElement('img');
       preview.className='project-engraving';
-      preview.src='./assets/'+artwork[item.slug][0]+'?v='+'20261126-tinta-v2';
+      preview.addEventListener('load',()=>balanceProjectEngraving(preview),{once:true});
+      preview.src='./assets/'+artwork[item.slug][0]+'?v='+'20261126-hover-v3';
       preview.alt=artwork[item.slug][1];
       preview.dataset.cover=item.slug;
       preview.width=860;preview.height=645;
